@@ -1,0 +1,33 @@
+painted_galaxy_setup_parent_child_flags = {
+	event_target:painted_galaxy_child = {
+		set_country_flag = parent_system_spawned
+	}
+	event_target:painted_galaxy_parent = {
+		set_country_flag = lost_child_parent
+		set_country_flag = lost_child_parent_of@event_target:painted_galaxy_child
+		set_country_flag = special_intro_for@event_target:painted_galaxy_child
+	}
+}
+
+painted_galaxy_setup_parent_child_species = {
+	if = {
+		# don't do anything if they're already the same species
+		limit = {
+			NOT = {
+				event_target:painted_galaxy_child_species = { is_same_value = event_target:painted_galaxy_parent_species }
+			}
+		}
+		event_target:painted_galaxy_child_species = {
+			set_species_identity = event_target:painted_galaxy_parent_species
+			set_species_homeworld = event_target:painted_galaxy_parent_species.homeworld
+		}
+		event_target:painted_galaxy_child = {
+			if = {
+				limit = { is_gestalt = yes }
+				capital_scope = { add_modifier = { modifier = colonial_spirit_gestalt_mod } }
+			} else = {
+				capital_scope = { add_modifier = { modifier = colonial_spirit_mod } }
+			}
+		}
+	}
+}

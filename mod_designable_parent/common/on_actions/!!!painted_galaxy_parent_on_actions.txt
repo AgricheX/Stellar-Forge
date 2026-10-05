@@ -1,0 +1,12 @@
+# happens before solar systems are initialized
+on_ruler_created = {
+	events = {
+		painted_galaxy_parent.1
+	}
+}
+
+on_game_start = {
+	events = {
+		painted_galaxy_parent.2
+	}
+}

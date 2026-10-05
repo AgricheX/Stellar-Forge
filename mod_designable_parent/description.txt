@@ -1,0 +1,23 @@
+Custom design the parent empire of Lost Colonies (and other origins)
+
+[h1]Instructions[/h1]
+[list]
+  [*] Create 1 custom empire design with a Parent Empire trait
+  [*] Create 1 or more custom empire designs with the matching Lost Colony trait (eg Lost Colony 1 to match Parent Empire 1) trait
+  [*] Repeat for up to 8 sets of species
+  [*] Either play as your designs or set them to force spawn
+  [list]
+    [*] [b]IMPORTANT[/b]: make sure exactly 1 matching Parent Empire is in play (you're playing them, or you set them to force spawn)
+  [/list]
+  [*] Start a game!
+  [list]
+    [*] Each Lost Colony colony will be considered a subspecies of its matching Parent Empire regardless of traits or portrait, and are effectively a lost colony regardless of origin (homeworld is set to the parent species' homeworld, and your capital gets the Colonial Spirit modifier)
+    [*] If any use the Lost Colony origin, the typical random parent will be prevented from spawning
+    [*] The Lost Colony / Parent Empire traits are cleaned up (removed) from all species
+  [/list]
+[/list]
+
+Optionally use this alongside [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3532904115]Paint a Galaxy[/url] and [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3762808682]Reserved Spawns[/url] to create your own map and choose where exactly where each parent / lost colony spawns!
+
+[url=https://discord.gg/bHVez2C][img]https://i.imgur.com/4Und3QN.png[/img][/url]
+Come chat in #oatmeal-mods

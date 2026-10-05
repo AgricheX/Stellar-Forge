@@ -1,0 +1,67 @@
+namespace = painted_galaxy_parent
+
+country_event = {
+	id = painted_galaxy_parent.1
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		# not all countries have been created yet, so we need parents to check for children and vice versa
+		# note: assume there's always 1 parent; that's the player's resposibility
+		if = {
+			limit = { painted_galaxy_is_parent = yes }
+			save_event_target_as = painted_galaxy_parent
+			every_country = {
+				limit = { prev = { painted_galaxy_is_parent_of = { CHILD = prev } } }
+				save_event_target_as = painted_galaxy_child
+				painted_galaxy_setup_parent_child_flags = yes
+			}
+		}
+		if = {
+			limit = { painted_galaxy_is_child = yes }
+			save_event_target_as = painted_galaxy_child
+			random_country = {
+				limit = { painted_galaxy_is_parent_of = { CHILD = prev } }
+				save_event_target_as = painted_galaxy_parent
+				painted_galaxy_setup_parent_child_flags = yes
+			}
+		}
+	}
+}
+
+event = {
+	id = painted_galaxy_parent.2
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		every_country = {
+			limit = { painted_galaxy_is_child = yes }
+			save_event_target_as = painted_galaxy_child
+			species = { save_event_target_as = painted_galaxy_child_species }
+			random_country = {
+				limit = { painted_galaxy_is_parent_of = { CHILD = prev } }
+				save_event_target_as = painted_galaxy_parent
+				species = { save_event_target_as = painted_galaxy_parent_species }
+				painted_galaxy_setup_parent_child_species = yes
+			}
+		}
+		every_galaxy_species = {
+			if = { limit = { has_trait = trait_painted_galaxy_reserved_spawn_hide } change_species_characteristics = { remove_trait = trait_painted_galaxy_reserved_spawn_hide } }
+			if = { limit = { has_trait = trait_painted_galaxy_child_1 } change_species_characteristics = { remove_trait = trait_painted_galaxy_child_1 } }
+			if = { limit = { has_trait = trait_painted_galaxy_parent_1 } change_species_characteristics = { remove_trait = trait_painted_galaxy_parent_1 } }
+			if = { limit = { has_trait = trait_painted_galaxy_child_2 } change_species_characteristics = { remove_trait = trait_painted_galaxy_child_2 } }
+			if = { limit = { has_trait = trait_painted_galaxy_parent_2 } change_species_characteristics = { remove_trait = trait_painted_galaxy_parent_2 } }
+			if = { limit = { has_trait = trait_painted_galaxy_child_3 } change_species_characteristics = { remove_trait = trait_painted_galaxy_child_3 } }
+			if = { limit = { has_trait = trait_painted_galaxy_parent_3 } change_species_characteristics = { remove_trait = trait_painted_galaxy_parent_3 } }
+			if = { limit = { has_trait = trait_painted_galaxy_child_4 } change_species_characteristics = { remove_trait = trait_painted_galaxy_child_4 } }
+			if = { limit = { has_trait = trait_painted_galaxy_parent_4 } change_species_characteristics = { remove_trait = trait_painted_galaxy_parent_4 } }
+			if = { limit = { has_trait = trait_painted_galaxy_child_5 } change_species_characteristics = { remove_trait = trait_painted_galaxy_child_5 } }
+			if = { limit = { has_trait = trait_painted_galaxy_parent_5 } change_species_characteristics = { remove_trait = trait_painted_galaxy_parent_5 } }
+			if = { limit = { has_trait = trait_painted_galaxy_child_6 } change_species_characteristics = { remove_trait = trait_painted_galaxy_child_6 } }
+			if = { limit = { has_trait = trait_painted_galaxy_parent_6 } change_species_characteristics = { remove_trait = trait_painted_galaxy_parent_6 } }
+			if = { limit = { has_trait = trait_painted_galaxy_child_7 } change_species_characteristics = { remove_trait = trait_painted_galaxy_child_7 } }
+			if = { limit = { has_trait = trait_painted_galaxy_parent_7 } change_species_characteristics = { remove_trait = trait_painted_galaxy_parent_7 } }
+			if = { limit = { has_trait = trait_painted_galaxy_child_8 } change_species_characteristics = { remove_trait = trait_painted_galaxy_child_8 } }
+			if = { limit = { has_trait = trait_painted_galaxy_parent_8 } change_species_characteristics = { remove_trait = trait_painted_galaxy_parent_8 } }
+		}
+	}
+}

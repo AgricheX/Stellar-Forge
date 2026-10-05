@@ -1,0 +1,62 @@
+painted_galaxy_is_parent = {
+	OR = {
+		has_trait = trait_painted_galaxy_parent_1
+		has_trait = trait_painted_galaxy_parent_2
+		has_trait = trait_painted_galaxy_parent_3
+		has_trait = trait_painted_galaxy_parent_4
+		has_trait = trait_painted_galaxy_parent_5
+		has_trait = trait_painted_galaxy_parent_6
+		has_trait = trait_painted_galaxy_parent_7
+		has_trait = trait_painted_galaxy_parent_8
+	}
+}
+
+painted_galaxy_is_child = {
+	OR = {
+		has_trait = trait_painted_galaxy_child_1
+		has_trait = trait_painted_galaxy_child_2
+		has_trait = trait_painted_galaxy_child_3
+		has_trait = trait_painted_galaxy_child_4
+		has_trait = trait_painted_galaxy_child_5
+		has_trait = trait_painted_galaxy_child_6
+		has_trait = trait_painted_galaxy_child_7
+		has_trait = trait_painted_galaxy_child_8
+	}
+}
+
+painted_galaxy_is_parent_of = {
+	OR = {
+		AND = {
+			has_trait = trait_painted_galaxy_parent_1
+			$CHILD$ = { has_trait = trait_painted_galaxy_child_1 }
+		}
+		AND = {
+			has_trait = trait_painted_galaxy_parent_2
+			$CHILD$ = { has_trait = trait_painted_galaxy_child_2 }
+		}
+		AND = {
+			has_trait = trait_painted_galaxy_parent_3
+			$CHILD$ = { has_trait = trait_painted_galaxy_child_3 }
+		}
+		AND = {
+			has_trait = trait_painted_galaxy_parent_4
+			$CHILD$ = { has_trait = trait_painted_galaxy_child_4 }
+		}
+		AND = {
+			has_trait = trait_painted_galaxy_parent_5
+			$CHILD$ = { has_trait = trait_painted_galaxy_child_5 }
+		}
+		AND = {
+			has_trait = trait_painted_galaxy_parent_6
+			$CHILD$ = { has_trait = trait_painted_galaxy_child_6 }
+		}
+		AND = {
+			has_trait = trait_painted_galaxy_parent_7
+			$CHILD$ = { has_trait = trait_painted_galaxy_child_7 }
+		}
+		AND = {
+			has_trait = trait_painted_galaxy_parent_8
+			$CHILD$ = { has_trait = trait_painted_galaxy_child_8 }
+		}
+	}
+}
