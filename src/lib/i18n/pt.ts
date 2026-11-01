@@ -339,7 +339,7 @@ export const pt: Record<string, string> = {
 	Outline: 'Contorno',
 	'Outline Width': 'Espessura do Contorno',
 	'Overlapping FE Zones': 'Zonas de IC Sobrepostas',
-	'Owner and founder of Stellar Forge': 'Fundação e direção do Stellar Forge',
+	'Owner and founder of Stellar Forge': 'Dona e fundadora do Stellar Forge',
 	Paint: 'Pintar',
 	'Paint a Galaxy (Steam Workshop)': 'Paint a Galaxy (Steam Workshop)',
 	'Paint where you want stars. The brighter you paint, the more stars spawn there. Use shapes, templates, text or emoji.':
@@ -741,7 +741,7 @@ export const pt: Record<string, string> = {
 	'Map picture': 'Imagem do mapa',
 	'Mod opened': 'Mod aberto',
 	'More mods and tools by Agriche: WorldBox, RimWorld and more.':
-		'Mais mods e ferramentas do Agriche: WorldBox, RimWorld e mais.',
+		'Mais mods e ferramentas da Agriche: WorldBox, RimWorld e mais.',
 	'Next version': 'Próxima versão',
 	'Open a mod you exported to change the map and release a new version.':
 		'Abra um mod que você exportou pra mudar o mapa e lançar uma versão nova.',
