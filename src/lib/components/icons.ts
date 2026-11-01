@@ -33,6 +33,7 @@ import Sun from '@lucide/svelte/icons/sun';
 import TriangleAlert from '@lucide/svelte/icons/triangle-alert';
 import Waypoints from '@lucide/svelte/icons/waypoints';
 import X from '@lucide/svelte/icons/x';
+import Gamepad2 from '@lucide/svelte/icons/gamepad-2';
 import Hexagon from '@lucide/svelte/icons/hexagon';
 import Star from '@lucide/svelte/icons/star';
 import CircleDot from '@lucide/svelte/icons/circle-dot';
@@ -106,6 +107,7 @@ export const Icons = {
 	TriangleAlert,
 	Waypoints,
 	X,
+	Gamepad2,
 	Hexagon,
 	Star,
 	CircleDot,
