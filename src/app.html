@@ -4,23 +4,33 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="theme-color" content="#0d0d0f" />
+		<title>Stellar Forge · Stellaris Map Editor and Galaxy Generator</title>
 		<meta
 			name="description"
-			content="Stellar Forge: paint, generate and fine-tune custom Stellaris galaxies in your browser, then export a ready-to-use mod."
+			content="Free Stellaris map editor and galaxy generator. Paint a custom galaxy, generate star systems, hyperlanes and spawns, and export a ready-to-play Stellaris mod right in your browser."
 		/>
+		<meta
+			name="keywords"
+			content="Stellaris map editor, Stellaris galaxy editor, Stellaris galaxy generator, custom galaxy, Stellaris custom map, Stellaris mod, Paint a Galaxy, editor de mapas Stellaris"
+		/>
+		<meta name="author" content="Agriche" />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href="https://agrichex.github.io/Stellar-Forge/" />
 		<meta property="og:type" content="website" />
-		<meta property="og:site_name" content="Agriche · Stellar Forge" />
+		<meta property="og:site_name" content="Stellar Forge" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:locale:alternate" content="pt_BR" />
 		<meta
 			property="og:url"
 			content="https://agrichex.github.io/Stellar-Forge/"
 		/>
 		<meta
 			property="og:title"
-			content="Stellar Forge · Stellaris galaxy maker"
+			content="Stellar Forge · Stellaris Map Editor and Galaxy Generator"
 		/>
 		<meta
 			property="og:description"
-			content="Paint, type or roll a Stellaris galaxy: shapes, text and emoji, layers, fiction presets and a ready-to-play mod. Free, in your browser."
+			content="Free Stellaris map editor and galaxy generator. Paint a custom galaxy, generate star systems, hyperlanes and spawns, and export a ready-to-play Stellaris mod right in your browser."
 		/>
 		<meta
 			property="og:image"
@@ -28,11 +38,56 @@
 		/>
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
+		<meta
+			property="og:image:alt"
+			content="Stellar Forge, Stellaris map editor"
+		/>
 		<meta name="twitter:card" content="summary_large_image" />
+		<meta
+			name="twitter:title"
+			content="Stellar Forge · Stellaris Map Editor and Galaxy Generator"
+		/>
+		<meta
+			name="twitter:description"
+			content="Free Stellaris map editor and galaxy generator. Paint a custom galaxy, generate star systems, hyperlanes and spawns, and export a ready-to-play Stellaris mod right in your browser."
+		/>
 		<meta
 			name="twitter:image"
 			content="https://agrichex.github.io/Stellar-Forge/og.png"
 		/>
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "WebApplication",
+				"name": "Stellar Forge",
+				"alternateName": "Stellar Forge · Stellaris Map Editor",
+				"url": "https://agrichex.github.io/Stellar-Forge/",
+				"description": "Free Stellaris map editor and galaxy generator in the browser. Paint a custom galaxy, generate star systems, hyperlanes, spawns and nebulas, and export a ready-to-play Stellaris mod.",
+				"applicationCategory": "GameApplication",
+				"operatingSystem": "Any (web browser)",
+				"browserRequirements": "Requires JavaScript",
+				"inLanguage": ["en", "pt-BR"],
+				"image": "https://agrichex.github.io/Stellar-Forge/og.png",
+				"offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+				"creator": {
+					"@type": "Person",
+					"name": "Agriche",
+					"url": "https://agrichex.github.io/Nexus/"
+				},
+				"isBasedOn": {
+					"@type": "SoftwareSourceCode",
+					"name": "Paint a Galaxy",
+					"author": { "@type": "Person", "name": "Michael Moore" },
+					"codeRepository": "https://github.com/oatmealproblem/paint-a-galaxy",
+					"license": "https://opensource.org/licenses/MIT"
+				},
+				"sameAs": [
+					"https://steamcommunity.com/sharedfiles/filedetails/?id=3831829510",
+					"https://github.com/AgricheX/Stellar-Forge"
+				],
+				"keywords": "Stellaris map editor, Stellaris galaxy editor, Stellaris galaxy generator, custom galaxy, Stellaris custom map, Paint a Galaxy, Stellaris mod maker"
+			}
+		</script>
 		<link rel="icon" href="%sveltekit.assets%/favicon.ico" sizes="any" />
 		<link rel="icon" type="image/svg+xml" href="%sveltekit.assets%/logo.svg" />
 		<link
@@ -64,6 +119,39 @@
 		data-theme="nexus"
 		class="h-screen w-screen"
 	>
+		<noscript>
+			<h1>Stellar Forge · Stellaris Map Editor and Galaxy Generator</h1>
+			<p>
+				Stellar Forge is my free Stellaris map editor. Paint a custom galaxy,
+				generate star systems, hyperlanes, spawns and nebulas, design your own
+				star systems and export a ready-to-play Stellaris mod. Several maps can
+				live in one project and ship together as one mod. Based on Paint a
+				Galaxy by Michael Moore (MIT). Stellar Forge needs JavaScript to run.
+			</p>
+			<ul>
+				<li>
+					<a
+						href="https://steamcommunity.com/sharedfiles/filedetails/?id=3831829510"
+					>
+						Stellar Forge on the Steam Workshop
+					</a>
+				</li>
+				<li>
+					<a href="https://github.com/AgricheX/Stellar-Forge">
+						Source code on GitHub
+					</a>
+				</li>
+				<li>
+					<a href="https://agrichex.github.io/Nexus/">
+						Agriche Nexus: all my mods and tools
+					</a>
+				</li>
+				<li>
+					<a href="https://agrichex.github.io/Neo-Mod-Maker/">Neo Mod Maker</a>
+				</li>
+				<li><a href="https://discord.gg/s3EbgNSsJW">Discord</a></li>
+			</ul>
+		</noscript>
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>

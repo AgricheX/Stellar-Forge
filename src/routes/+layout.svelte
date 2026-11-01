@@ -26,7 +26,9 @@
 </script>
 
 <svelte:head>
-	<title>Stellar Forge · {t('Stellaris galaxy maker')}</title>
+	<title>
+		Stellar Forge · {t('Stellaris Map Editor and Galaxy Generator')}
+	</title>
 </svelte:head>
 
 <svelte:window

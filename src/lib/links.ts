@@ -3,6 +3,7 @@ export const LINKS = {
 	github: 'https://github.com/AgricheX/Stellar-Forge',
 	issues: 'https://github.com/AgricheX/Stellar-Forge/issues',
 	nexus: 'https://agrichex.github.io/Nexus/',
+	neo_mod_maker: 'https://agrichex.github.io/Neo-Mod-Maker/',
 	workshop: 'https://steamcommunity.com/sharedfiles/filedetails/?id=3532904115',
 	steam: 'https://steamcommunity.com/sharedfiles/filedetails/?id=3831829510',
 	paint_a_galaxy: 'https://github.com/oatmealproblem/paint-a-galaxy',

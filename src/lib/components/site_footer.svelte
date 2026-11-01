@@ -54,6 +54,14 @@
 			>
 				Agriche Nexus
 			</a>
+			<a
+				class="hover:text-primary-500"
+				{...{ href: LINKS.neo_mod_maker }}
+				target="_blank"
+				rel="noreferrer"
+			>
+				Neo Mod Maker
+			</a>
 		</nav>
 	</div>
 </footer>
