@@ -339,7 +339,7 @@ export const pt: Record<string, string> = {
 	Outline: 'Contorno',
 	'Outline Width': 'Espessura do Contorno',
 	'Overlapping FE Zones': 'Zonas de IC Sobrepostas',
-	'Owner and founder of Stellar Forge': 'Fundação e direção do Stellar Forge',
+	'Owner and founder of Stellar Forge': 'Dona e fundadora do Stellar Forge',
 	Paint: 'Pintar',
 	'Paint a Galaxy (Steam Workshop)': 'Paint a Galaxy (Steam Workshop)',
 	'Paint where you want stars. The brighter you paint, the more stars spawn there. Use shapes, templates, text or emoji.':

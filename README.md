@@ -210,7 +210,7 @@ Aperte `?` dentro do app pra ver todos os atalhos de teclado.
 
 ### ❤️ Créditos
 
-- **Agriche**: fundação e direção do Stellar Forge.
+- **Agriche**: dona e fundadora do Stellar Forge.
 - **Claude**: co-criador.
 - **Michael Moore** ([oatmealproblem](https://github.com/oatmealproblem)): criador do [Paint a Galaxy](https://github.com/oatmealproblem/paint-a-galaxy) original, licença MIT.
 - **KillyBlame**: criador do [Stellaris Solar System Editor](https://github.com/KillyBlame/Stellaris_Solarsystem_Editor) (MIT), inspiração do System Forge.
