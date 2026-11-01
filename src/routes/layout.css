@@ -267,3 +267,16 @@ dialog.card[open] {
 		transition-duration: 0.01ms !important;
 	}
 }
+
+.sf-loading-bar {
+	animation: sf-loading 1.1s ease-in-out infinite;
+}
+
+@keyframes sf-loading {
+	from {
+		transform: translateX(-100%);
+	}
+	to {
+		transform: translateX(300%);
+	}
+}

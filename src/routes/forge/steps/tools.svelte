@@ -15,6 +15,8 @@
 	import SectionHeader from '$lib/components/section_header.svelte';
 	import { Record } from 'effect';
 	import { is_canvas_filter_supported } from '$lib/canvas';
+	import { ui } from '$lib/ui.svelte';
+	import AdvancedHint from './advanced_hint.svelte';
 
 	type Props = {
 		step: Step;
@@ -33,31 +35,33 @@
 	}
 </script>
 
-<div class="flex flex-wrap gap-1">
-	{#each tool_pairs.filter((tool_pair) => tool_pair.step === step) as tool_pair (tool_pair.id)}
-		{@const Icon = Icons[tool_pair.icon]}
-		{@const active =
-			tool_pair.primary.id === editor().primary_tool_id ||
-			tool_pair.secondary.id === editor().primary_tool_id}
-		<button
-			type="button"
-			class={[
-				'flex items-center gap-1.5 h-8 px-2 rounded-md border text-xs transition-all',
-				active ?
-					'border-primary-500 bg-primary-500/12 text-primary-500 shadow-[0_0_14px_-6px_rgba(229,50,45,0.9)]'
-				:	'border-surface-200-800 text-surface-700-300 hover:border-surface-400-600',
-			]}
-			title="{t(tool_pair.name)} ({tool_pair.key})"
-			onclick={() => {
-				editor().primary_tool_id = tool_pair.primary.id;
-				editor().secondary_tool_id = tool_pair.secondary.id;
-			}}
-		>
-			<Icon class="size-3.5" />
-			<span class="font-mono text-[0.6rem] opacity-60">{tool_pair.key}</span>
-		</button>
-	{/each}
-</div>
+{#if ui.advanced}
+	<div class="flex flex-wrap gap-1">
+		{#each tool_pairs.filter((tool_pair) => tool_pair.step === step) as tool_pair (tool_pair.id)}
+			{@const Icon = Icons[tool_pair.icon]}
+			{@const active =
+				tool_pair.primary.id === editor().primary_tool_id ||
+				tool_pair.secondary.id === editor().primary_tool_id}
+			<button
+				type="button"
+				class={[
+					'flex items-center gap-1.5 h-8 px-2 rounded-md border text-xs transition-all',
+					active ?
+						'border-primary-500 bg-primary-500/12 text-primary-500 shadow-[0_0_14px_-6px_rgba(229,50,45,0.9)]'
+					:	'border-surface-200-800 text-surface-700-300 hover:border-surface-400-600',
+				]}
+				title="{t(tool_pair.name)} ({tool_pair.key})"
+				onclick={() => {
+					editor().primary_tool_id = tool_pair.primary.id;
+					editor().secondary_tool_id = tool_pair.secondary.id;
+				}}
+			>
+				<Icon class="size-3.5" />
+				<span class="font-mono text-[0.6rem] opacity-60">{tool_pair.key}</span>
+			</button>
+		{/each}
+	</div>
+{/if}
 
 {#snippet settings(tool: Tool)}
 	<header class="flex gap-2 items-baseline">
@@ -257,8 +261,17 @@
 	{/if}
 {/snippet}
 
-<SectionHeader>{t('Primary')}</SectionHeader>
-{@render settings(editor().primary_tool)}
+{#if ui.advanced}
+	<SectionHeader>{t('Primary')}</SectionHeader>
+	{@render settings(editor().primary_tool)}
 
-<SectionHeader>{t('Secondary')}</SectionHeader>
-{@render settings(editor().secondary_tool)}
+	<SectionHeader>{t('Secondary')}</SectionHeader>
+	{@render settings(editor().secondary_tool)}
+{:else}
+	{@render settings(editor().primary_tool)}
+	<p class="text-xs text-surface-500 flex items-center gap-1.5">
+		<span class="sf-kbd">Shift</span>
+		{t('click')}: {t(editor().secondary_tool.name)}
+	</p>
+{/if}
+<AdvancedHint />

@@ -100,7 +100,14 @@
 					{t('Text & Emoji')}
 				</button>
 			</div>
-			<p class="text-xs text-surface-500 mt-4">
+			<button
+				class="mt-4 text-sm text-surface-600-400 hover:text-primary-500 inline-flex items-center gap-1.5"
+				onclick={() => ui.open('mod')}
+			>
+				<Icons.FolderOpen class="size-4" />
+				{t('Already made a mod? Open it to update')}
+			</button>
+			<p class="text-xs text-surface-500 mt-2">
 				{t('Tip: press ? to see every keyboard shortcut.')}
 			</p>
 		</div>

@@ -42,3 +42,7 @@ export function t(
 	}
 	return result;
 }
+
+export function tr(en: string, pt: string): string {
+	return i18n.locale === 'pt' ? pt : en;
+}

@@ -5,6 +5,7 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from './constants';
 import { generate_stellaris_galaxy } from './generate_galaxy_txt';
 import type { Project } from './models/project';
 import { version } from '../../package.json';
+import { convert_data_url_to_blob } from './blob';
 
 export const PAINT_A_GALAXY_WORKSHOP_URL =
 	'https://steamcommunity.com/sharedfiles/filedetails/?id=3532904115';
@@ -178,7 +179,7 @@ export async function render_map_image(
 		const pad = size * 0.03;
 		ctx.fillStyle = 'rgba(13,13,15,0.75)';
 		ctx.font = `700 ${size * 0.032}px Inter, sans-serif`;
-		const title = project.name;
+		const title = project.mod_info.name.trim() || project.name;
 		const width = ctx.measureText(title).width;
 		ctx.fillRect(
 			pad,
@@ -202,37 +203,41 @@ export async function render_map_image(
 	return canvas.convertToBlob({ type: 'image/png' });
 }
 
-type ModOptions = {
-	mod_name: string;
-	include_thumbnail: boolean;
-};
+export const PROJECT_FILE = 'stellar_forge.json';
 
-export async function build_mod_zip(
-	project: Project,
-	options: ModOptions,
-): Promise<Blob> {
-	const slug = slugify(options.mod_name || project.name);
-	const folder = `stellar_forge_${slug}`;
+export function mod_display_name(project: Project) {
+	return (project.mod_info.name.trim() || project.name).replaceAll('"', "'");
+}
+
+export function mod_folder(project: Project) {
+	return `stellar_forge_${slugify(mod_display_name(project))}`;
+}
+
+export async function build_mod_zip(project: Project): Promise<Blob> {
+	const info = project.mod_info;
+	const name = mod_display_name(project);
+	const slug = slugify(name);
+	const folder = mod_folder(project);
 	const galaxy_txt = generate_stellaris_galaxy(project);
-	const name = (options.mod_name || project.name).replaceAll('"', "'");
+	const tags = info.tags.length > 0 ? info.tags : ['Galaxy Generation'];
 	const descriptor_lines = [
-		`version="${version}"`,
+		`version="${info.version.trim().replaceAll('"', '') || '1.0.0'}"`,
 		'tags={',
-		'\t"Galaxy Generation"',
+		...tags.map((tag) => `\t"${tag}"`),
 		'}',
 		`name="${name}"`,
-		'supported_version="v4.*"',
+		`supported_version="${info.supported_version.trim().replaceAll('"', '') || 'v4.*'}"`,
 		'dependencies={',
 		'\t"Paint a Galaxy"',
 		'}',
 	];
-	if (options.include_thumbnail)
-		descriptor_lines.push('picture="thumbnail.png"');
+	if (info.thumbnail) descriptor_lines.push('picture="thumbnail.png"');
 	const descriptor = descriptor_lines.join('\n') + '\n';
 	const outer_mod = descriptor + `path="mod/${folder}"\n`;
 	const readme = [
-		`${name}`,
+		`${name} · v${info.version}`,
 		'',
+		...(info.description.trim() ? [info.description.trim(), ''] : []),
 		'Made with Stellar Forge: https://agrichex.github.io/Stellar-Forge/',
 		'',
 		'HOW TO INSTALL',
@@ -262,6 +267,12 @@ export async function build_mod_zip(
 		[`${folder}.mod`]: strToU8(outer_mod),
 		[`${folder}/descriptor.mod`]: strToU8(descriptor),
 		[`${folder}/map/setup_scenarios/${slug}.txt`]: strToU8(galaxy_txt),
+		[`${folder}/${PROJECT_FILE}`]: strToU8(
+			JSON.stringify({
+				stellar_forge: version,
+				project: await project.to_json(),
+			}),
+		),
 		'README.txt': strToU8(readme),
 	};
 	if (project.custom_systems.length > 0) {
@@ -273,11 +284,11 @@ export async function build_mod_zip(
 				),
 			);
 	}
-	if (options.include_thumbnail) {
-		const thumbnail = await render_map_image(project, {
-			...DEFAULT_IMAGE_STYLE,
-			size: 512,
-		});
+	if (info.thumbnail) {
+		const thumbnail =
+			info.icon ?
+				await convert_data_url_to_blob(info.icon)
+			:	await render_map_image(project, { ...DEFAULT_IMAGE_STYLE, size: 512 });
 		files[`${folder}/thumbnail.png`] = new Uint8Array(
 			await thumbnail.arrayBuffer(),
 		);
