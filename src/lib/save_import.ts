@@ -287,7 +287,7 @@ export async function parse_save(
 		});
 	}
 	if (systems.length === 0)
-		throw new Error('No solar systems found in this save.');
+		throw new Error('No star systems found in this save.');
 	const system_ids = new Set(systems.map((system) => system.id));
 	const system_by_id = new Map(systems.map((system) => [system.id, system]));
 

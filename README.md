@@ -44,7 +44,7 @@ It is an improved fork of [Paint a Galaxy](https://github.com/oatmealproblem/pai
 
 1. Open **[agrichex.github.io/Stellar-Forge](https://agrichex.github.io/Stellar-Forge/)**.
 2. **Paint**: draw with the tools, place a template, type text or press the dice for a random galaxy.
-3. **Generate**: turn the painting into solar systems, hyperlanes, spawns and nebulas.
+3. **Generate**: turn the painting into star systems, hyperlanes, spawns and nebulas.
 4. **Tweak**: add, move, delete or lock systems and lanes by hand.
 5. **Export**: press `Ctrl E` and download the mod.
 
@@ -62,7 +62,7 @@ It is an improved fork of [Paint a Galaxy](https://github.com/oatmealproblem/pai
     <td><img src="docs/screenshots/save_import.png" alt="Import from a save"></td>
   </tr>
   <tr>
-    <td align="center"><sub>System Forge: design your own solar systems</sub></td>
+    <td align="center"><sub>System Forge: design your own star systems</sub></td>
     <td align="center"><sub>Import the galaxy of a save</sub></td>
   </tr>
   <tr>
@@ -180,7 +180,7 @@ Stellaris is a trademark of Paradox Interactive. Stellar Forge is a fan project 
 - **🌌 Modelos**: Via Láctea, Andrômeda, Rodamoinho, Roda de Carro e galáxias inspiradas em universos famosos da ficção (Star Wars, Star Trek, Warhammer 40k, Mass Effect, Halo, Duna...).
 - **🎲 100% aleatória**: um clique forja uma galáxia nova a partir de uma semente. A mesma semente sempre gera o mesmo mapa, então dá pra compartilhar.
 - **💻 Barra de comandos**: `Ctrl K` e digite coisas como `espiral bracos=3 torcao=1.2 estrelas=800` ou `texto "OLÁ" estrelas=600`.
-- **🪐 System Forge**: monte sistemas solares planeta por planeta, com estrela, planetas, luas, anéis, cinturões de asteroides, estrelas companheiras e mundo natal. Arraste os planetas nas órbitas, sorteie sistemas aleatórios e use qualquer projeto em qualquer sistema do mapa. Importa arquivos `.txt` do Stellaris Solar System Editor.
+- **🪐 System Forge**: monte sistemas estelares planeta por planeta, com estrela, planetas, luas, anéis, cinturões de asteroides, estrelas companheiras e mundo natal. Arraste os planetas nas órbitas, sorteie sistemas aleatórios e use qualquer projeto em qualquer sistema do mapa. Importa arquivos `.txt` do Stellaris Solar System Editor.
 - **💾 Importar de um save**: abra o `.sav` de uma campanha que você jogou e transforme a galáxia num projeto editável, com sistemas, hiperpistas, wormholes, nebulosas e as capitais dos impérios como spawns. Tudo é lido no seu navegador.
 - **📦 Mod em um clique**: baixe um zip com descriptor, arquivo do mapa e miniatura já nas pastas certas. Defina nome, versão, descrição, tags e ícone do mod (sua própria imagem ou a imagem do mapa). Também exporta `.txt`, `.json` do projeto e PNG no estilo StellarMaps.
 - **🔁 Atualize seu mod**: todo mod exportado leva o projeto dentro. Use **Projeto → Abrir mod (.zip)** pra trazer de volta, mudar o mapa e lançar a próxima versão. Outros mods de galáxia são refeitos a partir do arquivo do mapa.
@@ -192,7 +192,7 @@ Stellaris is a trademark of Paradox Interactive. Stellar Forge is a fan project 
 
 1. Abra **[agrichex.github.io/Stellar-Forge](https://agrichex.github.io/Stellar-Forge/)**.
 2. **Pintar**: desenhe com as ferramentas, coloque um modelo, digite um texto ou clique no dado pra uma galáxia aleatória.
-3. **Gerar**: transforme a pintura em sistemas solares, hiperpistas, spawns e nebulosas.
+3. **Gerar**: transforme a pintura em sistemas estelares, hiperpistas, spawns e nebulosas.
 4. **Ajustar**: adicione, mova, apague ou trave sistemas e pistas à mão.
 5. **Exportar**: aperte `Ctrl E` e baixe o mod.
 

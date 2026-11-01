@@ -30,8 +30,8 @@
 			icon: Icons.Orbit,
 			title: 'System Forge',
 			text: tr(
-				'Design solar systems planet by planet and drop them anywhere on your map.',
-				'Monte sistemas solares planeta por planeta e coloque onde quiser no mapa.',
+				'Design star systems planet by planet and drop them anywhere on your map.',
+				'Monte sistemas estelares planeta por planeta e coloque onde quiser no mapa.',
 			),
 			image: 'system_forge',
 		},
@@ -147,8 +147,8 @@
 				</h1>
 				<p class="text-lg text-surface-700-300 max-w-xl leading-relaxed">
 					{tr(
-						'Paint, type or roll a galaxy, design your own solar systems and export a ready-to-play Stellaris mod. Free, right in your browser.',
-						'Pinte, digite ou sorteie uma galáxia, monte seus próprios sistemas solares e exporte um mod de Stellaris pronto pra jogar. Grátis, direto no navegador.',
+						'Paint, type or roll a galaxy, design your own star systems and export a ready-to-play Stellaris mod. Free, right in your browser.',
+						'Pinte, digite ou sorteie uma galáxia, monte seus próprios sistemas estelares e exporte um mod de Stellaris pronto pra jogar. Grátis, direto no navegador.',
 					)}
 				</p>
 				<div class="flex flex-wrap gap-3 mt-1">

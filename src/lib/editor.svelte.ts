@@ -233,7 +233,7 @@ export class Editor {
 					title: t('Not Enough Room'),
 					description:
 						t(
-							'Generated {generated} of {requested} solar systems; no more valid locations.',
+							'Generated {generated} of {requested} star systems; no more valid locations.',
 							{
 								generated: generated_count,
 								requested: requested_count,

@@ -27,7 +27,7 @@
 			name: 'Generate',
 			content: Generate,
 			description:
-				'Turn your painting into solar systems, hyperlanes, spawns and nebulas. Tweak the settings and generate again until you like it.',
+				'Turn your painting into star systems, hyperlanes, spawns and nebulas. Tweak the settings and generate again until you like it.',
 		},
 		{
 			id: 'tweak',

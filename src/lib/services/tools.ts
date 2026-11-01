@@ -703,7 +703,7 @@ export class Tools extends Context.Tag('Tools')<
 						);
 						if (connections.length === 0) {
 							return Effect.succeed(
-								ApplyToolResult.noop('Both endpoints must be solar systems.'),
+								ApplyToolResult.noop('Both endpoints must be star systems.'),
 							);
 						}
 						return Effect.succeed(
@@ -805,7 +805,7 @@ export class Tools extends Context.Tag('Tools')<
 						if (solar_systems.length === 0) {
 							return Effect.succeed(
 								ApplyToolResult.noop(
-									'A solar system already exists at this location.',
+									'A star system already exists at this location.',
 								),
 							);
 						}
@@ -840,7 +840,7 @@ export class Tools extends Context.Tag('Tools')<
 						if (solar_systems.length === 0) {
 							return Effect.succeed(
 								ApplyToolResult.noop(
-									'No unlocked solar systems at this location.',
+									'No unlocked star systems at this location.',
 								),
 							);
 						}
@@ -862,7 +862,7 @@ export class Tools extends Context.Tag('Tools')<
 						// fallen empire zones whose origin is deleted are re-homed to
 						// a new origin that best preserves their location; if no valid
 						// new origin exists, they are deleted; connections to deleted
-						// solar systems are removed
+						// star systems are removed
 						const fallen_empire_zone_actions: Action[] = [];
 						const denied_origin_ids = new Set<SolarSystemId>(solar_system_ids);
 						for (const zone of project.fallen_empire_zones) {
@@ -954,7 +954,7 @@ export class Tools extends Context.Tag('Tools')<
 						if (solar_systems.length === 0) {
 							return Effect.succeed(
 								ApplyToolResult.noop(
-									'No unlocked solar systems at this location.',
+									'No unlocked star systems at this location.',
 								),
 							);
 						}
@@ -1001,7 +1001,7 @@ export class Tools extends Context.Tag('Tools')<
 						if (solar_systems.length === 0) {
 							return Effect.succeed(
 								ApplyToolResult.noop(
-									'No locked solar systems at this location.',
+									'No locked star systems at this location.',
 								),
 							);
 						}
@@ -1041,7 +1041,7 @@ export class Tools extends Context.Tag('Tools')<
 						);
 						if (solar_systems.length === 0) {
 							return Effect.succeed(
-								ApplyToolResult.noop('No solar system at this location.'),
+								ApplyToolResult.noop('No star system at this location.'),
 							);
 						}
 						return Effect.succeed(
@@ -1077,7 +1077,7 @@ export class Tools extends Context.Tag('Tools')<
 						);
 						if (solar_systems.length === 0) {
 							return Effect.succeed(
-								ApplyToolResult.noop('No solar system at this location.'),
+								ApplyToolResult.noop('No star system at this location.'),
 							);
 						}
 						return Effect.succeed(
@@ -1112,7 +1112,7 @@ export class Tools extends Context.Tag('Tools')<
 						);
 						if (connections.length === 0) {
 							return Effect.succeed(
-								ApplyToolResult.noop('Both endpoints must be solar systems.'),
+								ApplyToolResult.noop('Both endpoints must be star systems.'),
 							);
 						}
 						const to_delete = connections.filter((connection) =>
@@ -1207,7 +1207,7 @@ export class Tools extends Context.Tag('Tools')<
 						if (created.length === 0) {
 							return Effect.succeed(
 								ApplyToolResult.noop(
-									'No solar system available to anchor a Fallen Empire zone.',
+									'No star system available to anchor a Fallen Empire zone.',
 								),
 							);
 						}
@@ -1293,7 +1293,7 @@ export class Tools extends Context.Tag('Tools')<
 								if (!Equal.equals(existing, new_coordinate)) {
 									return Effect.succeed(
 										ApplyToolResult.noop(
-											'The solar system would be moved in conflicting directions.',
+											'The star system would be moved in conflicting directions.',
 										),
 									);
 								}
@@ -1311,14 +1311,14 @@ export class Tools extends Context.Tag('Tools')<
 						}));
 						if (moves.length === 0) {
 							return Effect.succeed(
-								ApplyToolResult.noop('No solar system at this location.'),
+								ApplyToolResult.noop('No star system at this location.'),
 							);
 						}
 
 						// noop if any of the moved systems is locked
 						if (moves.some((move) => move.solar_system.locked)) {
 							return Effect.succeed(
-								ApplyToolResult.noop('This solar system is locked.'),
+								ApplyToolResult.noop('This star system is locked.'),
 							);
 						}
 
@@ -1333,7 +1333,7 @@ export class Tools extends Context.Tag('Tools')<
 						if (actual_moves.length === 0) {
 							return Effect.succeed(
 								ApplyToolResult.noop(
-									'Solar system is already at this location.',
+									'Star system is already at this location.',
 								),
 							);
 						}
@@ -1352,7 +1352,7 @@ export class Tools extends Context.Tag('Tools')<
 							if (occupied) {
 								return Effect.succeed(
 									ApplyToolResult.noop(
-										'Another solar system is already at this location.',
+										'Another star system is already at this location.',
 									),
 								);
 							}
@@ -1365,7 +1365,7 @@ export class Tools extends Context.Tag('Tools')<
 						if (destination_keys.size !== actual_moves.length) {
 							return Effect.succeed(
 								ApplyToolResult.noop(
-									'Another solar system is already at this location.',
+									'Another star system is already at this location.',
 								),
 							);
 						}
@@ -1455,7 +1455,7 @@ export class Tools extends Context.Tag('Tools')<
 							}
 							if (start_system.locked) {
 								return Effect.succeed(
-									ApplyToolResult.noop('This solar system is locked.'),
+									ApplyToolResult.noop('This star system is locked.'),
 								);
 							}
 
@@ -1530,7 +1530,7 @@ export class Tools extends Context.Tag('Tools')<
 						const moved_ids = new Set(delta_by_id.keys());
 						if (moved_ids.size === 0)
 							return Effect.succeed(
-								ApplyToolResult.noop('No solar system at this location.'),
+								ApplyToolResult.noop('No star system at this location.'),
 							);
 						// noop if any moved system is locked
 						if (
@@ -1538,7 +1538,7 @@ export class Tools extends Context.Tag('Tools')<
 						)
 							return Effect.succeed(
 								ApplyToolResult.noop(
-									'This cluster contains a locked solar system.',
+									'This cluster contains a locked star system.',
 								),
 							);
 
@@ -1567,7 +1567,7 @@ export class Tools extends Context.Tag('Tools')<
 							if (HashSet.has(occupied_coordinates, coordinate))
 								return Effect.succeed(
 									ApplyToolResult.noop(
-										'The cluster would collide with another solar system.',
+										'The cluster would collide with another star system.',
 									),
 								);
 						}
@@ -1579,7 +1579,7 @@ export class Tools extends Context.Tag('Tools')<
 						if (destination_keys.size !== new_coordinate_by_id.size)
 							return Effect.succeed(
 								ApplyToolResult.noop(
-									'The cluster would collide with another solar system.',
+									'The cluster would collide with another star system.',
 								),
 							);
 

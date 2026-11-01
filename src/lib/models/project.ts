@@ -113,7 +113,7 @@ export class Project extends Schema.Class<Project>('Project')({
 }) {
 	#delaunay: Option.Option<Delaunay<unknown>> = Option.none();
 
-	// triangulation of the solar systems, computed lazily and cached
+	// triangulation of the star systems, computed lazily and cached
 	// (Project is immutable, so a new instance always starts with a fresh cache)
 	// TODO cache by solar_systems?
 	get delaunay(): Delaunay<unknown> {
@@ -169,7 +169,7 @@ export class Project extends Schema.Class<Project>('Project')({
 		return Option.getOrThrow(this.get_fallen_empire_zone_coordinate(zone));
 	}
 
-	// finds the solar system nearest to a coordinate, if within max_distance
+	// finds the star system nearest to a coordinate, if within max_distance
 	find_closest_solar_system(
 		coordinate: Coordinate,
 		options: { max_distance?: number } = {},

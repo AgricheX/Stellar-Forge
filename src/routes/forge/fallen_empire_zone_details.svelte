@@ -121,7 +121,7 @@
 								{t('Generate Random Systems if Unused')}
 								<Info>
 									{t(
-										'If checked, if this Fallen Empire zone is not used, a cluster of random solar systems will be generated here.',
+										'If checked, if this Fallen Empire zone is not used, a cluster of random star systems will be generated here.',
 									)}
 								</Info>
 							</Switch.Label>
@@ -140,7 +140,7 @@
 							</dl>
 							<span class="text-surface-800-200">
 								{t(
-									'Right-click solar systems on the map to manage their connections to Fallen Empire zones. If you do not set any connections, they will be randomly generated.',
+									'Right-click star systems on the map to manage their connections to Fallen Empire zones. If you do not set any connections, they will be randomly generated.',
 								)}
 							</span>
 						</div>

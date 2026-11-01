@@ -88,13 +88,13 @@
 			</Portal>
 		</Menu>
 	</div>
-	<SectionHeader>{t('Solar Systems')}</SectionHeader>
+	<SectionHeader>{t('Star Systems')}</SectionHeader>
 	<label class="label">
 		<span class="label-text flex gap-1">
 			{t('Number of Systems')}
 			<Info>
 				{t(
-					'Target number of solar systems. There might not be enough room for all them depending other settings.',
+					'Target number of star systems. There might not be enough room for all them depending other settings.',
 				)}
 			</Info>
 		</span>
@@ -133,7 +133,7 @@
 				{t('Min Distance')}
 				<Info>
 					{t(
-						'Minimum distance between solar systems. Decrease for denser galaxies, increase for looser.',
+						'Minimum distance between star systems. Decrease for denser galaxies, increase for looser.',
 					)}
 				</Info>
 			{/snippet}
@@ -151,7 +151,7 @@
 				{t('Max Cluster Size')}
 				<Info>
 					{t(
-						'Maximum number of solar systems per cluster. Systems within a cluster will be more densely connected than systems in different clusters. Set to 1 to disable clustering.',
+						'Maximum number of star systems per cluster. Systems within a cluster will be more densely connected than systems in different clusters. Set to 1 to disable clustering.',
 					)}
 				</Info>
 			{/snippet}
@@ -238,7 +238,7 @@
 			{t('Spawns per 100 Systems')}
 			<Info>
 				{t(
-					'Target number of potential empire home systems, per 100 solar systems.',
+					'Target number of potential empire home systems, per 100 star systems.',
 				)}
 			</Info>
 		</span>

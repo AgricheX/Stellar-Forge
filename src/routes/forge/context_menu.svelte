@@ -164,7 +164,7 @@
 							solar_system.coordinate.to_stellaris_coordinate()}
 						<Menu.ItemGroup>
 							<Menu.ItemGroupLabel class="text-surface-800-200">
-								{t('Solar system at')}
+								{t('Star system at')}
 								{stellaris_coordinate.x}, {stellaris_coordinate.y}
 								{#if Option.isSome(solar_system.resolve_name())}
 									<em class="block">
@@ -320,7 +320,7 @@
 								{coordinate.x}, {coordinate.y}
 							</Menu.ItemGroupLabel>
 							<Menu.Item value="create_solar_system">
-								<Menu.ItemText>{t('Create Solar System')}</Menu.ItemText>
+								<Menu.ItemText>{t('Create Star System')}</Menu.ItemText>
 							</Menu.Item>
 						</Menu.ItemGroup>
 					{/if}

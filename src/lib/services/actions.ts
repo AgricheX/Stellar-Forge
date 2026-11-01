@@ -57,7 +57,7 @@ function validate_unique_solar_system_ids(
 		Iterable.map(project.solar_systems, (solar_system) =>
 			String(solar_system.id),
 		),
-		(id) => `Multiple solar systems cannot share the ID (${id}).`,
+		(id) => `Multiple star systems cannot share the ID (${id}).`,
 	);
 }
 
@@ -70,7 +70,7 @@ function validate_unique_coordinates(
 			(solar_system) => solar_system.coordinate.key,
 		),
 		(coordinate) =>
-			`Multiple solar systems cannot share the coordinate (${coordinate}).`,
+			`Multiple star systems cannot share the coordinate (${coordinate}).`,
 	);
 }
 
@@ -84,7 +84,7 @@ function validate_wormhole_uniqueness(
 			Iterable.map((solar_system_id) => String(solar_system_id)),
 		),
 		(id, count) =>
-			`Solar system (id ${id}) can be an endpoint of at most 1 wormhole, but is an endpoint of ${count}.`,
+			`Star system (id ${id}) can be an endpoint of at most 1 wormhole, but is an endpoint of ${count}.`,
 	);
 }
 
@@ -103,7 +103,7 @@ function validate_zone_origin_uniqueness(
 	return validate_uniqueness(
 		Iterable.map(project.fallen_empire_zones, (zone) => String(zone.origin)),
 		(id, count) =>
-			`Solar system (id ${id}) can be the origin of at most 1 Fallen Empire zone, but is the origin of ${count}.`,
+			`Star system (id ${id}) can be the origin of at most 1 Fallen Empire zone, but is the origin of ${count}.`,
 	);
 }
 
@@ -123,7 +123,7 @@ function validate_references(
 			onSome: (id) =>
 				Effect.fail(
 					InvalidActionError.make({
-						message: `${label} references non-existent solar system (id ${id}).`,
+						message: `${label} references non-existent star system (id ${id}).`,
 					}),
 				),
 		}),
@@ -240,14 +240,14 @@ export class Actions extends Context.Tag('Actions')<
 						if (action.old_value.locked && action.new_value.locked) {
 							return Effect.fail(
 								InvalidActionError.make({
-									message: `Locked solar system (id ${action.old_value.id}) can only be updated to unlock it.`,
+									message: `Locked star system (id ${action.old_value.id}) can only be updated to unlock it.`,
 								}),
 							);
 						}
 						if (action.old_value.id !== action.new_value.id) {
 							return Effect.fail(
 								InvalidActionError.make({
-									message: `Solar system update cannot change its ID (${action.old_value.id} -> ${action.new_value.id}).`,
+									message: `Star system update cannot change its ID (${action.old_value.id} -> ${action.new_value.id}).`,
 								}),
 							);
 						}

@@ -432,7 +432,7 @@
 	<table class="table">
 		<tbody>
 			<StatItem
-				label={t('Solar Systems')}
+				label={t('Star Systems')}
 				value={num_solar_systems}
 				warning={num_solar_systems === 0}
 			/>
@@ -592,14 +592,14 @@
 				>
 					{#snippet info()}
 						{t(
-							'Fallen Empire zones should be empty. Solar systems inside a zone may overlap with Fallen Empire systems spawned at game start.',
+							'Fallen Empire zones should be empty. Star systems inside a zone may overlap with Fallen Empire systems spawned at game start.',
 						)}
 					{/snippet}
 				</StatItem>
 			{/if}
 			{#if out_of_bounds_system_ids.length > 0}
 				<StatItem
-					label={t('Out-of-Bounds Solar Systems')}
+					label={t('Out-of-Bounds Star Systems')}
 					value={out_of_bounds_system_ids.length}
 					warning
 					solar_system_ids={out_of_bounds_system_ids}

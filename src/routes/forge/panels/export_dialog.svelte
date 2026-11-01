@@ -168,7 +168,7 @@
 						class="size-4 text-warning-500 shrink-0 mt-0.5"
 					/>
 					<span>
-						{t('Your galaxy has no solar systems yet. Go to Generate first.')}
+						{t('Your galaxy has no star systems yet. Go to Generate first.')}
 					</span>
 				</div>
 			{/if}

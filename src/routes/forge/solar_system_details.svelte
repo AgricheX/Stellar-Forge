@@ -40,7 +40,7 @@
 		),
 	);
 
-	// close the details if the solar system ever
+	// close the details if the star system ever
 	$effect(() => {
 		if (Option.isNone(solar_system)) on_close_requested();
 	});
@@ -98,7 +98,7 @@
 					<FloatingPanel.Header>
 						<FloatingPanel.Title>
 							<Icons.GripVertical class="size-4" />
-							{t('Solar System Details')}
+							{t('Star System Details')}
 						</FloatingPanel.Title>
 						<FloatingPanel.Control>
 							<FloatingPanel.StageTrigger stage="minimized">
