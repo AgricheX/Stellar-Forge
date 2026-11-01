@@ -837,4 +837,6 @@ export const pt: Record<string, string> = {
 		'Nova variante com outra quantidade de estrelas',
 	'Variant created': 'Variante criada',
 	optional: 'opcional',
+	'Stellaris Map Editor and Galaxy Generator':
+		'Editor de Mapas e Gerador de Galáxias para Stellaris',
 };
