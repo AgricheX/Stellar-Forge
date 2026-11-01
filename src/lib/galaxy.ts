@@ -3,7 +3,7 @@ import { make_rng } from './random';
 
 type Ctx = OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D;
 
-export type SpiralShape = {
+type SpiralShape = {
 	kind: 'spiral';
 	arms: number;
 	twist: number;
@@ -18,7 +18,7 @@ export type SpiralShape = {
 	haze: number;
 };
 
-export type EllipticalShape = {
+type EllipticalShape = {
 	kind: 'elliptical';
 	radius: number;
 	squash: number;
@@ -27,7 +27,7 @@ export type EllipticalShape = {
 	clumps: number;
 };
 
-export type RingShape = {
+type RingShape = {
 	kind: 'ring';
 	radius: number;
 	thickness: number;
@@ -37,7 +37,7 @@ export type RingShape = {
 	clumps: number;
 };
 
-export type ClustersShape = {
+type ClustersShape = {
 	kind: 'clusters';
 	count: number;
 	cluster_radius: number;
@@ -45,18 +45,26 @@ export type ClustersShape = {
 	lanes: number;
 };
 
-export type IrregularShape = {
+type IrregularShape = {
 	kind: 'irregular';
 	blobs: number;
 	radius: number;
 };
 
-export type GalaxyShape =
+export type SingleShape =
 	| SpiralShape
 	| EllipticalShape
 	| RingShape
 	| ClustersShape
 	| IrregularShape;
+
+export type MultiShape = {
+	kind: 'multi';
+	galaxies: { shape: SingleShape; x: number; y: number; scale: number }[];
+	streams: number;
+};
+
+export type GalaxyShape = SingleShape | MultiShape;
 
 export type GalaxyExtras = {
 	rift?: { angle: number; width: number; offset: number };
@@ -312,6 +320,78 @@ function draw_irregular(
 	}
 }
 
+function draw_single(
+	ctx: Ctx,
+	shape: SingleShape,
+	rng: () => number,
+	cx: number,
+	cy: number,
+) {
+	if (shape.kind === 'spiral') draw_spiral(ctx, shape, rng, cx, cy);
+	if (shape.kind === 'elliptical') draw_elliptical(ctx, shape, rng, cx, cy);
+	if (shape.kind === 'ring') draw_ring(ctx, shape, rng, cx, cy);
+	if (shape.kind === 'clusters') draw_clusters(ctx, shape, rng, cx, cy);
+	if (shape.kind === 'irregular') draw_irregular(ctx, shape, rng, cx, cy);
+}
+
+function single_radius(shape: SingleShape) {
+	if (shape.kind === 'ring') return shape.radius + shape.thickness / 2;
+	if (shape.kind === 'clusters') return shape.radius + shape.cluster_radius;
+	return shape.radius;
+}
+
+function draw_multi(
+	ctx: Ctx,
+	shape: MultiShape,
+	rng: () => number,
+	cx: number,
+	cy: number,
+) {
+	const galaxies = shape.galaxies;
+	if (shape.streams > 0 && galaxies.length > 1) {
+		const connected = new Set<number>([0]);
+		while (connected.size < galaxies.length) {
+			let best: [number, number, number] | null = null;
+			for (const i of connected) {
+				for (let j = 0; j < galaxies.length; j++) {
+					if (connected.has(j)) continue;
+					const d = Math.hypot(
+						galaxies[i]!.x - galaxies[j]!.x,
+						galaxies[i]!.y - galaxies[j]!.y,
+					);
+					if (best == null || d < best[2]) best = [i, j, d];
+				}
+			}
+			if (best == null) break;
+			const a = galaxies[best[0]]!;
+			const b = galaxies[best[1]]!;
+			const bend = (rng() - 0.5) * best[2] * 0.25;
+			const nx = -(b.y - a.y) / best[2];
+			const ny = (b.x - a.x) / best[2];
+			const steps = Math.ceil(best[2] / 9);
+			for (let s = 0; s <= steps; s++) {
+				const t = s / steps;
+				const arc = Math.sin(t * Math.PI) * bend;
+				dab(
+					ctx,
+					cx + a.x + (b.x - a.x) * t + nx * arc + (rng() - 0.5) * 10,
+					cy + a.y + (b.y - a.y) * t + ny * arc + (rng() - 0.5) * 10,
+					10 + rng() * 6,
+					0.18 * shape.streams,
+				);
+			}
+			connected.add(best[1]);
+		}
+	}
+	for (const galaxy of galaxies) {
+		ctx.save();
+		ctx.translate(cx + galaxy.x, cy + galaxy.y);
+		ctx.scale(galaxy.scale, galaxy.scale);
+		draw_single(ctx, galaxy.shape, rng, 0, 0);
+		ctx.restore();
+	}
+}
+
 function draw_galaxy(ctx: Ctx, recipe: GalaxyRecipe) {
 	const rng = make_rng(recipe.seed);
 	const cx = CX + (recipe.extras?.center_x ?? 0);
@@ -319,11 +399,8 @@ function draw_galaxy(ctx: Ctx, recipe: GalaxyRecipe) {
 	ctx.save();
 	ctx.globalCompositeOperation = 'lighter';
 	const shape = recipe.shape;
-	if (shape.kind === 'spiral') draw_spiral(ctx, shape, rng, cx, cy);
-	if (shape.kind === 'elliptical') draw_elliptical(ctx, shape, rng, cx, cy);
-	if (shape.kind === 'ring') draw_ring(ctx, shape, rng, cx, cy);
-	if (shape.kind === 'clusters') draw_clusters(ctx, shape, rng, cx, cy);
-	if (shape.kind === 'irregular') draw_irregular(ctx, shape, rng, cx, cy);
+	if (shape.kind === 'multi') draw_multi(ctx, shape, rng, cx, cy);
+	else draw_single(ctx, shape, rng, cx, cy);
 	const ring = recipe.extras?.ring;
 	if (ring) {
 		draw_ring(
@@ -625,18 +702,309 @@ export const PRESETS: Preset[] = [
 			},
 		},
 	},
+	{
+		id: 'local_group',
+		name: 'Local Group',
+		description:
+			'Two big spirals face each other, with a smaller spiral and dwarf galaxies around them.',
+		systems: 1200,
+		recipe: {
+			shape: {
+				kind: 'multi',
+				streams: 0,
+				galaxies: [
+					{
+						x: -170,
+						y: 60,
+						scale: 0.5,
+						shape: {
+							...default_spiral(),
+							arms: 4,
+							bar: 0.28,
+							twist: 0.7,
+							rotation: 25,
+						},
+					},
+					{
+						x: 220,
+						y: -170,
+						scale: 0.48,
+						shape: {
+							...default_spiral(),
+							arms: 2,
+							twist: 1.1,
+							squash: 0.55,
+							tilt: -35,
+							core: 0.2,
+						},
+					},
+					{
+						x: 250,
+						y: 230,
+						scale: 0.24,
+						shape: { ...default_spiral(), arms: 3, twist: 0.9, core: 0.08 },
+					},
+					{
+						x: -330,
+						y: -280,
+						scale: 0.16,
+						shape: { kind: 'irregular', blobs: 5, radius: 380 },
+					},
+					{
+						x: -60,
+						y: -330,
+						scale: 0.13,
+						shape: {
+							kind: 'elliptical',
+							radius: 400,
+							squash: 0.7,
+							tilt: 20,
+							core: 0.2,
+							clumps: 0.3,
+						},
+					},
+					{
+						x: -330,
+						y: 340,
+						scale: 0.14,
+						shape: { kind: 'irregular', blobs: 4, radius: 380 },
+					},
+				],
+			},
+		},
+	},
+	{
+		id: 'crown',
+		name: 'The Crown',
+		description:
+			'A ring galaxy in the middle, guarded by four long galaxies at the four sides.',
+		systems: 1000,
+		recipe: {
+			shape: {
+				kind: 'multi',
+				streams: 0,
+				galaxies: [
+					{
+						x: 0,
+						y: 0,
+						scale: 0.6,
+						shape: {
+							kind: 'ring',
+							radius: 330,
+							thickness: 140,
+							core: 0.15,
+							squash: 0.85,
+							tilt: 0,
+							clumps: 0.2,
+						},
+					},
+					...[
+						[0, -390, 0],
+						[0, 390, 0],
+						[-390, 0, 90],
+						[390, 0, 90],
+					].map(([x, y, tilt]) => ({
+						x: x!,
+						y: y!,
+						scale: 0.3,
+						shape: {
+							kind: 'elliptical' as const,
+							radius: 360,
+							squash: 0.32,
+							tilt: tilt!,
+							core: 0.05,
+							clumps: 0.4,
+						},
+					})),
+				],
+			},
+		},
+	},
+	{
+		id: 'nine_realms',
+		name: 'Nine Realms',
+		description:
+			'Nine different galaxies in a grid: spirals, rings, ellipticals and clusters.',
+		systems: 1500,
+		recipe: {
+			shape: {
+				kind: 'multi',
+				streams: 0,
+				galaxies: [
+					{
+						kind: 'ring',
+						radius: 330,
+						thickness: 120,
+						core: 0,
+						squash: 1,
+						tilt: 0,
+						clumps: 0.2,
+					},
+					{
+						kind: 'elliptical',
+						radius: 400,
+						squash: 0.8,
+						tilt: 0,
+						core: 0.25,
+						clumps: 0.3,
+					},
+					{
+						kind: 'ring',
+						radius: 300,
+						thickness: 150,
+						core: 0.1,
+						squash: 1,
+						tilt: 0,
+						clumps: 0.3,
+					},
+					{ kind: 'irregular', blobs: 6, radius: 360 },
+					{ ...default_spiral(), arms: 2, twist: 1, core: 0.18 },
+					{
+						kind: 'clusters',
+						count: 5,
+						cluster_radius: 110,
+						radius: 280,
+						lanes: 40,
+					},
+					{ ...default_spiral(), arms: 5, twist: 0.4, arm_width: 70 },
+					{
+						kind: 'clusters',
+						count: 9,
+						cluster_radius: 90,
+						radius: 300,
+						lanes: 30,
+					},
+					{
+						kind: 'ring',
+						radius: 320,
+						thickness: 160,
+						core: 0.2,
+						squash: 0.9,
+						tilt: 30,
+						clumps: 0.2,
+					},
+				].map((shape, i) => ({
+					shape: shape as SingleShape,
+					x: ((i % 3) - 1) * 320,
+					y: (Math.floor(i / 3) - 1) * 320,
+					scale: 0.34,
+				})),
+			},
+		},
+	},
+	{
+		id: 'twin_collision',
+		name: 'Colliding Twins',
+		description:
+			'Two spirals pulling each other apart, joined by a long stream of stars.',
+		systems: 1000,
+		recipe: {
+			shape: {
+				kind: 'multi',
+				streams: 1,
+				galaxies: [
+					{
+						x: -230,
+						y: -120,
+						scale: 0.5,
+						shape: {
+							...default_spiral(),
+							arms: 2,
+							twist: 1.2,
+							rotation: 40,
+							tilt: 15,
+						},
+					},
+					{
+						x: 230,
+						y: 140,
+						scale: 0.44,
+						shape: {
+							...default_spiral(),
+							arms: 2,
+							twist: 1.2,
+							rotation: 220,
+							squash: 0.7,
+							tilt: -20,
+						},
+					},
+				],
+			},
+		},
+	},
+	{
+		id: 'galaxy_cluster',
+		name: 'Galaxy Cluster',
+		description:
+			'A giant elliptical in the center of a crowd of small galaxies of every kind.',
+		systems: 1400,
+		recipe: {
+			shape: {
+				kind: 'multi',
+				streams: 0.5,
+				galaxies: [
+					{
+						x: 0,
+						y: 0,
+						scale: 0.42,
+						shape: {
+							kind: 'elliptical',
+							radius: 420,
+							squash: 0.85,
+							tilt: 30,
+							core: 0.3,
+							clumps: 0.4,
+						},
+					},
+					...[
+						[-320, -280, 0],
+						[300, -300, 1],
+						[-380, 60, 2],
+						[360, 40, 3],
+						[-220, 330, 4],
+						[180, 340, 0],
+						[20, -400, 2],
+					].map(([x, y, k]) => ({
+						x: x!,
+						y: y!,
+						scale: 0.17,
+						shape: [
+							{ ...default_spiral(), arms: 2, rotation: x! },
+							{
+								kind: 'elliptical',
+								radius: 400,
+								squash: 0.6,
+								tilt: y!,
+								core: 0.2,
+								clumps: 0.3,
+							},
+							{
+								kind: 'ring',
+								radius: 320,
+								thickness: 140,
+								core: 0.1,
+								squash: 1,
+								tilt: 0,
+								clumps: 0.2,
+							},
+							{ kind: 'irregular', blobs: 5, radius: 380 },
+							{ ...default_spiral(), arms: 4, twist: 0.5 },
+						][k!] as SingleShape,
+					})),
+				],
+			},
+		},
+	},
 ];
 
-export function random_recipe(seed: string): {
-	recipe: GalaxyRecipe;
-	systems: number;
+function random_single(rng: () => number): {
+	shape: SingleShape;
 	label: string;
 } {
-	const rng = make_rng(`${seed}:shape`);
 	const between = (min: number, max: number) => min + rng() * (max - min);
 	const int = (min: number, max: number) => Math.floor(between(min, max + 1));
 	const roll = rng();
-	let shape: GalaxyShape;
+	let shape: SingleShape;
 	let label: string;
 	if (roll < 0.45) {
 		shape = {
@@ -692,6 +1060,71 @@ export function random_recipe(seed: string): {
 		};
 		label = 'Irregular';
 	}
+	return { shape, label };
+}
+
+export function random_multi(rng: () => number, count?: number): MultiShape {
+	const between = (min: number, max: number) => min + rng() * (max - min);
+	const total = count ?? Math.floor(between(2, 8));
+	const layout = rng();
+	const galaxies: MultiShape['galaxies'] = [];
+	const base = 0.62 / Math.sqrt(total);
+	const main_scale =
+		layout < 0.4 ? between(0.45, 0.58) : base * between(0.9, 1.15);
+	for (let i = 0; i < total; i++) {
+		const { shape } = random_single(rng);
+		const scale = i === 0 ? main_scale : base * between(0.55, 1);
+		const r = single_radius(shape) * scale;
+		let placed = false;
+		for (let attempt = 0; attempt < 600 && !placed; attempt++) {
+			const spread = 470 - r;
+			const angle = rng() * Math.PI * 2;
+			const distance =
+				i === 0 && layout < 0.4 ? rng() * 60 : Math.sqrt(rng()) * spread;
+			const x = Math.cos(angle) * distance;
+			const y = Math.sin(angle) * distance;
+			if (Math.hypot(x, y) + r > 485) continue;
+			const fits = galaxies.every(
+				(other) =>
+					Math.hypot(other.x - x, other.y - y) >
+					(single_radius(other.shape) * other.scale + r) * 1.05,
+			);
+			if (fits) {
+				galaxies.push({ shape, x, y, scale });
+				placed = true;
+			}
+		}
+	}
+	return {
+		kind: 'multi',
+		galaxies,
+		streams: rng() < 0.5 ? between(0.4, 1) : 0,
+	};
+}
+
+export type RandomKind = 'any' | 'single' | 'multi';
+
+export function random_recipe(
+	seed: string,
+	kind: RandomKind = 'any',
+): {
+	recipe: GalaxyRecipe;
+	systems: number;
+	label: string;
+} {
+	const rng = make_rng(`${seed}:shape`);
+	const between = (min: number, max: number) => min + rng() * (max - min);
+	const int = (min: number, max: number) => Math.floor(between(min, max + 1));
+	const multi =
+		kind === 'multi' || (kind === 'any' && make_rng(`${seed}:kind`)() < 0.22);
+	let shape: GalaxyShape;
+	let label: string;
+	if (multi) {
+		shape = random_multi(rng);
+		label = 'Multiple Galaxies';
+	} else {
+		({ shape, label } = random_single(rng));
+	}
 	const extras: GalaxyExtras = {};
 	if (shape.kind === 'spiral' && rng() < 0.2) {
 		extras.rift = {
@@ -700,7 +1133,7 @@ export function random_recipe(seed: string): {
 			offset: between(-80, 80),
 		};
 	}
-	if (rng() < 0.25) {
+	if (!multi && rng() < 0.25) {
 		extras.companions = [
 			{
 				x: between(-380, 380),
@@ -711,7 +1144,7 @@ export function random_recipe(seed: string): {
 	}
 	return {
 		recipe: { shape, extras, seed },
-		systems: int(5, 12) * 100,
+		systems: multi ? int(7, 11) * 100 : int(5, 12) * 100,
 		label,
 	};
 }
