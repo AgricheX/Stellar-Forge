@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { t } from '$lib/i18n/index.svelte';
+	import { ui } from '$lib/ui.svelte';
 	import { Icons } from '$lib/components/icons';
 	import { get_editor } from '$lib/editor.svelte';
 	import { get_direction_label } from '$lib/math';
@@ -66,7 +67,16 @@
 		}
 	}}
 	onSelect={(details) => {
-		if (details.value.startsWith('open_solar_system_details')) {
+		if (details.value.startsWith('design_solar_system')) {
+			const id = Number(details.value.split('|')[1]);
+			const target = project.get_solar_system(SolarSystemId.make(id));
+			ui.system_focus =
+				Option.isSome(target) ?
+					target.value.initializer.pipe(Option.getOrNull)
+				:	null;
+			ui.system_assign = id;
+			ui.open('system');
+		} else if (details.value.startsWith('open_solar_system_details')) {
 			const id = pipe(
 				details.value.split('|'),
 				Array.get(1),
@@ -164,6 +174,12 @@
 							</Menu.ItemGroupLabel>
 							<Menu.Item value="open_solar_system_details|{solar_system.id}">
 								<Menu.ItemText>{t('Open System Details')}</Menu.ItemText>
+							</Menu.Item>
+							<Menu.Item
+								value="design_solar_system|{solar_system.id}"
+								disabled={solar_system.locked}
+							>
+								<Menu.ItemText>{t('Design in System Forge...')}</Menu.ItemText>
 							</Menu.Item>
 							<Menu.Item
 								value="delete_solar_system|{solar_system.id}"

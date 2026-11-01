@@ -15,6 +15,7 @@
 				['Ctrl G', 'Generate all'],
 				['Ctrl E', 'Export'],
 				['Alt 1 · 2 · 3', 'Go to Paint, Generate or Tweak'],
+				['Alt S', 'System Forge'],
 			],
 		},
 		{

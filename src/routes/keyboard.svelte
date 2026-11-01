@@ -102,6 +102,10 @@
 				e.preventDefault();
 				ui.toggle_layers_open();
 			}
+			if (e.code === 'KeyS') {
+				e.preventDefault();
+				ui.open('system');
+			}
 			return;
 		}
 		if (e.shiftKey && /^Digit[1-8]$/.test(e.code)) {

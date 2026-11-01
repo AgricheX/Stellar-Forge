@@ -413,6 +413,12 @@ export class Actions extends Context.Tag('Actions')<
 										),
 								});
 							},
+							SetCustomSystemsAction: (action) => {
+								updated_project = new Project({
+									...updated_project,
+									custom_systems: action.new_value,
+								});
+							},
 							UpdateFallenEmpireZoneAction: (action) => {
 								updated_project = new Project({
 									...updated_project,

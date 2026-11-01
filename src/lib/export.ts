@@ -1,3 +1,4 @@
+import { initializers_file } from './system/initializers';
 import { strToU8, zipSync } from 'fflate';
 import { Option } from 'effect';
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './constants';
@@ -263,6 +264,15 @@ export async function build_mod_zip(
 		[`${folder}/map/setup_scenarios/${slug}.txt`]: strToU8(galaxy_txt),
 		'README.txt': strToU8(readme),
 	};
+	if (project.custom_systems.length > 0) {
+		files[`${folder}/common/solar_system_initializers/${folder}_systems.txt`] =
+			strToU8(
+				initializers_file(
+					project.custom_systems,
+					`${name} · custom systems made with Stellar Forge`,
+				),
+			);
+	}
 	if (options.include_thumbnail) {
 		const thumbnail = await render_map_image(project, {
 			...DEFAULT_IMAGE_STYLE,

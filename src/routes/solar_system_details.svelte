@@ -14,6 +14,7 @@
 	import { FloatingPanel, Portal, Switch } from '@skeletonlabs/skeleton-svelte';
 	import { Option, pipe } from 'effect';
 	import InitializerCombobox from './initializer_combobox.svelte';
+	import { ui } from '$lib/ui.svelte';
 	import {
 		initializer_metadata,
 		type InitializerKey,
@@ -54,6 +55,17 @@
 				:	null,
 			),
 			Option.flatMapNullable((value) => value.name),
+		),
+	);
+
+	const custom_key = $derived(
+		pipe(
+			solar_system,
+			Option.flatMap((value) => value.initializer),
+			Option.filter((key) =>
+				editor().project.custom_systems.some((custom) => custom.key === key),
+			),
+			Option.getOrElse(() => ''),
 		),
 	);
 
@@ -250,6 +262,50 @@
 							solar_system={solar_system.value}
 							disabled={solar_system.value.locked}
 						/>
+						<div class="flex flex-col gap-1">
+							<span class="label-text flex items-center gap-1">
+								<Icons.Orbit class="size-3.5 text-primary-500" />
+								{t('Custom system')}
+							</span>
+							<div class="flex gap-1.5">
+								<select
+									class="select ring-surface-300-700 bg-surface-200-800 grow"
+									disabled={solar_system.value.locked}
+									value={custom_key}
+									onchange={(e) => {
+										const value = e.currentTarget.value;
+										editor().apply_actions([
+											new Action.UpdateSolarSystemAction({
+												old_value: solar_system.value,
+												new_value: new SolarSystem({
+													...solar_system.value,
+													initializer:
+														value === '' ? Option.none() : Option.some(value),
+												}),
+											}),
+										]);
+									}}
+								>
+									<option value="">{t('None')}</option>
+									{#each editor().project.custom_systems as custom (custom.key)}
+										<option value={custom.key}>
+											{custom.name || custom.key}
+										</option>
+									{/each}
+								</select>
+								<button
+									class="btn preset-tonal px-2.5"
+									title={t('Open System Forge')}
+									onclick={() => {
+										ui.system_focus = custom_key || null;
+										ui.system_assign = solar_system.value.id;
+										ui.open('system');
+									}}
+								>
+									<Icons.Orbit class="size-4" />
+								</button>
+							</div>
+						</div>
 					{/if}
 				</FloatingPanel.Body>
 				<FloatingPanel.ResizeTrigger axis="se" />

@@ -29,6 +29,7 @@ import {
 import { Coordinate } from './coordinate';
 import { FallenEmpireZone, FallenEmpireZoneId } from './fallen_empire_zone';
 import { MAX_SYMMETRY_MATCH_DISTANCE } from '$lib/constants';
+import { CustomSystem } from './custom_system';
 
 export class ProjectListing extends Schema.Class<ProjectListing>(
 	'ProjectListing',
@@ -88,6 +89,13 @@ export class Project extends Schema.Class<Project>('Project')({
 		Schema.withDefaults({
 			constructor: () => SymmetryConfig.default(),
 			decoding: () => SymmetryConfig.default(),
+		}),
+	),
+	custom_systems: Schema.Array(CustomSystem).pipe(
+		Schema.optional,
+		Schema.withDefaults({
+			constructor: () => [],
+			decoding: () => [],
 		}),
 	),
 	txt_import_source: Schema.OptionFromNullishOr(Schema.String, null).pipe(

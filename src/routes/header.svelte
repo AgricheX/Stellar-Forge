@@ -118,6 +118,8 @@
 				const blob = new Blob([json], { type: 'application/json' });
 				download_blob(blob, `${editor().project.name}.json`);
 			}
+			if (details.value === 'import_save') ui.open('save');
+			if (details.value === 'system_forge') ui.open('system');
 		}}
 	>
 		<Menu.Trigger
@@ -174,6 +176,12 @@
 						'show-modal',
 						ID.import_project_dialog,
 					)}
+					<Menu.Item value="import_save">
+						<Menu.ItemText>{t('Import from Stellaris save...')}</Menu.ItemText>
+					</Menu.Item>
+					<Menu.Item value="system_forge">
+						<Menu.ItemText>{t('System Forge...')}</Menu.ItemText>
+					</Menu.Item>
 					<Menu.Item value="export_json">
 						<Menu.ItemText>{t('Export JSON')}</Menu.ItemText>
 					</Menu.Item>
@@ -548,6 +556,14 @@
 		onclick={() => ui.open('command')}
 	>
 		<Icons.Terminal class="size-4" />
+	</button>
+	<button
+		type="button"
+		class="sf-icon-btn"
+		title="{t('System Forge')} (Alt S)"
+		onclick={() => ui.open('system')}
+	>
+		<Icons.Orbit class="size-4" />
 	</button>
 	<button
 		type="button"
