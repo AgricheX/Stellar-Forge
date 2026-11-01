@@ -388,7 +388,7 @@
 		try {
 			const imported = import_initializers(await file.text());
 			if (imported.length === 0) {
-				toaster.error({ title: t('No solar systems found in this file.') });
+				toaster.error({ title: t('No star systems found in this file.') });
 				return;
 			}
 			for (const system of imported) {
@@ -485,7 +485,7 @@
 	{open}
 	title={t('System Forge')}
 	subtitle={t(
-		'Design solar systems planet by planet and use them anywhere on your map.',
+		'Design star systems planet by planet and use them anywhere on your map.',
 	)}
 	tag={t('System mode')}
 	width="full"
@@ -838,7 +838,7 @@
 					<div class="max-w-sm flex flex-col items-center gap-3">
 						<Icons.Orbit class="size-14 text-primary-500" />
 						<h3 class="text-lg font-bold">
-							{t('Forge your first solar system')}
+							{t('Forge your first star system')}
 						</h3>
 						<p class="text-sm text-surface-500">
 							{t(

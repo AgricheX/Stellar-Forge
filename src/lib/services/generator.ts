@@ -39,9 +39,9 @@ import { generate_grid_points } from '$lib/grid';
 
 interface GenerateSolarSystemsResult {
 	actions: Action[];
-	/** total solar systems after generation, including locked ones kept from before */
+	/** total star systems after generation, including locked ones kept from before */
 	generated_count: number;
-	/** target number of solar systems from generator settings */
+	/** target number of star systems from generator settings */
 	requested_count: number;
 }
 
@@ -213,7 +213,7 @@ export class Generator extends Context.Tag('Generator')<
 							let value =
 								grid_config.snap ?
 									// when snapped to grid, collect weight from adjacent pixels
-									// this fixes literal edge cases where you'd expect solar systems to generate, but they don't
+									// this fixes literal edge cases where you'd expect star systems to generate, but they don't
 									Math.round(
 										(get_weight_from_image(x - 1, y - 1) +
 											get_weight_from_image(x - 1, y) +

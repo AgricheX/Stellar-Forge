@@ -27,8 +27,8 @@ export const FORUM_TOPICS: ForumTopic[] = [
 		section: START,
 		title: ['What is Stellar Forge', 'O que é o Stellar Forge'],
 		intro: [
-			'Stellar Forge makes custom galaxy maps for Stellaris. You paint where you want stars, the tool turns the painting into solar systems and hyperlanes, and you download a mod ready to play.',
-			'O Stellar Forge cria mapas de galáxia personalizados pro Stellaris. Você pinta onde quer estrelas, a ferramenta transforma a pintura em sistemas solares e hiperpistas, e você baixa um mod pronto pra jogar.',
+			'Stellar Forge makes custom galaxy maps for Stellaris. You paint where you want stars, the tool turns the painting into star systems and hyperlanes, and you download a mod ready to play.',
+			'O Stellar Forge cria mapas de galáxia personalizados pro Stellaris. Você pinta onde quer estrelas, a ferramenta transforma a pintura em sistemas estelares e hiperpistas, e você baixa um mod pronto pra jogar.',
 		],
 		items: [
 			{
@@ -426,10 +426,10 @@ export const FORUM_TOPICS: ForumTopic[] = [
 	{
 		id: 'system_forge',
 		section: SYSTEMS,
-		title: ['Designing a solar system', 'Montando um sistema solar'],
+		title: ['Designing a star system', 'Montando um sistema estelar'],
 		intro: [
-			'System Forge (Alt+S) designs solar systems planet by planet. Each design becomes a system initializer inside your mod.',
-			'O System Forge (Alt+S) monta sistemas solares planeta por planeta. Cada projeto vira um inicializador de sistema dentro do seu mod.',
+			'System Forge (Alt+S) designs star systems planet by planet. Each design becomes a system initializer inside your mod.',
+			'O System Forge (Alt+S) monta sistemas estelares planeta por planeta. Cada projeto vira um inicializador de sistema dentro do seu mod.',
 		],
 		items: [
 			{

@@ -30,7 +30,7 @@ export const NUM_RANDOM_NEBULAS = 6;
 export const RANDOM_NEBULA_MIN_RADIUS = 40;
 export const RANDOM_NEBULA_MAX_RADIUS = 60;
 
-// solar systems are stored at rounded integer coordinates, but a symmetry
+// star systems are stored at rounded integer coordinates, but a symmetry
 // transform applied to a snapped (already rounded) point can land up to ~1.4
 // away from the actual symmetric system, so the transformed coordinate is
 // matched against the Delaunay triangulation instead of exact coordinates.

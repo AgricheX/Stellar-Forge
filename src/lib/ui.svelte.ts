@@ -16,7 +16,7 @@ type LayerState = { visible: boolean; locked: boolean; opacity: number };
 export const LAYERS: { id: LayerId; name: string; icon: keyof typeof Icons }[] =
 	[
 		{ id: 'paint', name: 'Painting', icon: 'Brush' },
-		{ id: 'systems', name: 'Solar Systems', icon: 'Sparkle' },
+		{ id: 'systems', name: 'Star Systems', icon: 'Sparkle' },
 		{ id: 'spawns', name: 'Spawns', icon: 'MapPin' },
 		{ id: 'hyperlanes', name: 'Hyperlanes', icon: 'Waypoints' },
 		{ id: 'wormholes', name: 'Wormholes', icon: 'Galaxy' },

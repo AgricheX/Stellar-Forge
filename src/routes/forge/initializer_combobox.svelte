@@ -178,7 +178,7 @@
 	<Combobox.Label class="flex gap-1">
 		Initializer
 		<Info>
-			The initializer determines the content of the solar system (planets, etc).
+			The initializer determines the content of the star system (planets, etc).
 			You can use it to customize the location of unique/event systems.
 		</Info>
 	</Combobox.Label>

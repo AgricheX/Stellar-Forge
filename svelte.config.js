@@ -8,6 +8,9 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		router: { resolution: 'client', type: 'hash' },
+		paths: {
+			base: process.env.BASE_PATH ?? '',
+		},
 		output: {
 			bundleStrategy: 'inline',
 		},

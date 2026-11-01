@@ -311,7 +311,7 @@
 
 	const layer_names: Record<string, string> = {
 		paint: 'Painting',
-		systems: 'Solar Systems',
+		systems: 'Star Systems',
 		spawns: 'Spawns',
 		hyperlanes: 'Hyperlanes',
 		wormholes: 'Wormholes',
@@ -1118,7 +1118,7 @@
 					</g>
 				{/if}
 
-				<!-- connecting line from details box to solar system -->
+				<!-- connecting line from details box to star system -->
 				{#if Option.isSome(details_opened_solar_system)}
 					{@const solar_system = details_opened_solar_system.value}
 					{@const details_coordinate = get_mouse_coordinates(

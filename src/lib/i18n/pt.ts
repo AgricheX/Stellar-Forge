@@ -8,8 +8,8 @@ export const pt: Record<string, string> = {
 	'A Galaxy Far, Far Away': 'Uma Galáxia Muito, Muito Distante',
 	'A bright ring of stars around an empty middle and a small core.':
 		'Um anel brilhante de estrelas em volta de um centro vazio e um núcleo pequeno.',
-	'A solar system already exists at this location.':
-		'Já existe um sistema solar neste local.',
+	'A star system already exists at this location.':
+		'Já existe um sistema estelar neste local.',
 	Accent: 'Destaque',
 	'Add Paint a Galaxy and your new mod to your playset. Paint a Galaxy must be enabled too.':
 		'Adicione o Paint a Galaxy e o seu mod novo ao playset. O Paint a Galaxy também precisa estar ativado.',
@@ -18,8 +18,8 @@ export const pt: Record<string, string> = {
 	'Allow Disconnected': 'Permitir Desconectados',
 	'Ambiguous Guaranteed Colonies': 'Colônias Garantidas Ambíguas',
 	Andromeda: 'Andrômeda',
-	'Another solar system is already at this location.':
-		'Outro sistema solar já está neste local.',
+	'Another star system is already at this location.':
+		'Outro sistema estelar já está neste local.',
 	Apply: 'Aplicar',
 	'Apply & Generate': 'Aplicar e Gerar',
 	Archipelago: 'Arquipélago',
@@ -39,8 +39,8 @@ export const pt: Record<string, string> = {
 	Black: 'Preto',
 	Blur: 'Desfoque',
 	Bold: 'Negrito',
-	'Both endpoints must be solar systems.':
-		'As duas pontas precisam ser sistemas solares.',
+	'Both endpoints must be star systems.':
+		'As duas pontas precisam ser sistemas estelares.',
 	'Browse Files': 'Procurar Arquivos',
 	'Bulk Brush Size': 'Tamanho do Pincel em Massa',
 	'Bulk Mode': 'Modo em Massa',
@@ -84,14 +84,14 @@ export const pt: Record<string, string> = {
 	Create: 'Criar',
 	'Create Fallen Empire Zone': 'Criar Zona de Império Caído',
 	'Create Nebula': 'Criar Nebulosa',
-	'Create Solar System': 'Criar Sistema Solar',
+	'Create Star System': 'Criar Sistema Estelar',
 	'Create a nebula. A non-circular nebula can be created by overlapping multiple circles.':
 		'Cria uma nebulosa. Para uma nebulosa que não seja redonda, sobreponha vários círculos.',
-	'Create a solar system. Hyperlanes need to be created or generated separated.':
-		'Cria um sistema solar. As hiperpistas precisam ser criadas ou geradas à parte.',
+	'Create a star system. Hyperlanes need to be created or generated separated.':
+		'Cria um sistema estelar. As hiperpistas precisam ser criadas ou geradas à parte.',
 	'Create/Delete Fallen Empire Zone': 'Criar/Apagar Zona de Império Caído',
 	'Create/Delete Nebula': 'Criar/Apagar Nebulosa',
-	'Create/Delete Solar System': 'Criar/Apagar Sistema Solar',
+	'Create/Delete Star System': 'Criar/Apagar Sistema Estelar',
 	'Creator of Paint a Galaxy, the open source project (MIT) Stellar Forge is built on, and of the Paint a Galaxy mod':
 		'Criador do Paint a Galaxy, o projeto open source (MIT) em que o Stellar Forge se baseia, e do mod Paint a Galaxy',
 	Credits: 'Créditos',
@@ -102,14 +102,14 @@ export const pt: Record<string, string> = {
 	'Delete Fallen Empire Zone': 'Apagar Zona de Império Caído',
 	'Delete Nebula': 'Apagar Nebulosa',
 	'Delete Project': 'Excluir Projeto',
-	'Delete Solar System': 'Apagar Sistema Solar',
+	'Delete Star System': 'Apagar Sistema Estelar',
 	'Delete System': 'Apagar Sistema',
 	'Delete Zone': 'Apagar Zona',
 	'Delete a Fallen Empire zone.': 'Apaga uma zona de Império Caído.',
 	'Delete a nebula. If there are overlapping nebulas, only the smallest is deleted.':
 		'Apaga uma nebulosa. Se houver nebulosas sobrepostas, só a menor é apagada.',
-	'Delete the closest solar system and any connected hyperlanes or wormholes.':
-		'Apaga o sistema solar mais próximo e as hiperpistas ou wormholes ligados a ele.',
+	'Delete the closest star system and any connected hyperlanes or wormholes.':
+		'Apaga o sistema estelar mais próximo e as hiperpistas ou wormholes ligados a ele.',
 	'Delete...': 'Excluir...',
 	'Dense Core Worlds, a crowded Inner Rim and a wide, sparse Outer Rim.':
 		'Mundos do Núcleo densos, uma Orla Interior cheia e uma Orla Exterior larga e esparsa.',
@@ -170,7 +170,7 @@ export const pt: Record<string, string> = {
 	'Fallen Empire Zone': 'Zona de Império Caído',
 	'Fallen Empire Zone at': 'Zona de Império Caído em',
 	'Fallen Empire Zones': 'Zonas de Império Caído',
-	'Fallen Empire zones should be empty. Solar systems inside a zone may overlap with Fallen Empire systems spawned at game start.':
+	'Fallen Empire zones should be empty. Star systems inside a zone may overlap with Fallen Empire systems spawned at game start.':
 		'Zonas de Império Caído devem ficar vazias. Sistemas dentro de uma zona podem ficar em cima dos sistemas do Império Caído criados no início do jogo.',
 	'Fallen Empire zones should not overlap. Fallen Empire systems may spawn on top of each other.':
 		'Zonas de Império Caído não devem se sobrepor. Os sistemas dos Impérios Caídos podem nascer um em cima do outro.',
@@ -196,8 +196,8 @@ export const pt: Record<string, string> = {
 	'Generate Random Systems if Unused':
 		'Gerar Sistemas Aleatórios se Não For Usada',
 	'Generate all': 'Gerar tudo',
-	'Generated {generated} of {requested} solar systems; no more valid locations.':
-		'Foram gerados {generated} de {requested} sistemas solares; não há mais lugares válidos.',
+	'Generated {generated} of {requested} star systems; no more valid locations.':
+		'Foram gerados {generated} de {requested} sistemas estelares; não há mais lugares válidos.',
 	'Gigastructural Engineering': 'Gigastructural Engineering',
 	'Go to Paint, Generate or Tweak': 'Ir para Pintar, Gerar ou Ajustar',
 	'Grand design spiral with a companion galaxy at the tip of an arm.':
@@ -216,7 +216,7 @@ export const pt: Record<string, string> = {
 	'I will paint it myself': 'Vou pintar sozinho',
 	'ID:': 'ID:',
 	'Icons, ISC': 'Ícones, ISC',
-	'If checked, if this Fallen Empire zone is not used, a cluster of random solar systems will be generated here.':
+	'If checked, if this Fallen Empire zone is not used, a cluster of random star systems will be generated here.':
 		'Se marcado e esta zona de Império Caído não for usada, um aglomerado de sistemas aleatórios será gerado aqui.',
 	'If enabled, hyperlanes longer than Max Distance are removed even if it would result in disconnected systems.':
 		'Se ativado, hiperpistas maiores que a Distância Máxima são removidas mesmo que deixem sistemas desconectados.',
@@ -259,9 +259,9 @@ export const pt: Record<string, string> = {
 	Line: 'Linha',
 	'Line Height': 'Altura da Linha',
 	Lock: 'Travar',
-	'Lock Solar System': 'Travar Sistema Solar',
+	'Lock Star System': 'Travar Sistema Estelar',
 	'Lock number of systems': 'Travar número de sistemas',
-	'Lock/Unlock Solar System': 'Travar/Destravar Sistema Solar',
+	'Lock/Unlock Star System': 'Travar/Destravar Sistema Estelar',
 	'Locked layers ignore every tool. Alt+click the eye to show only that layer.':
 		'Camadas travadas ignoram todas as ferramentas. Alt+clique no olho para ver só aquela camada.',
 	'Magellanic Clouds': 'Nuvens de Magalhães',
@@ -280,22 +280,22 @@ export const pt: Record<string, string> = {
 	'Max Safe AI Empires': 'Máx. de Impérios IA Seguros',
 	'Maximum hyperlane distance. Hyperlanes longer than this are removed, unless they are necessary to keep all systems connected.':
 		'Distância máxima das hiperpistas. As maiores que isso são removidas, a não ser que sejam necessárias para manter todos os sistemas ligados.',
-	'Maximum number of solar systems per cluster. Systems within a cluster will be more densely connected than systems in different clusters. Set to 1 to disable clustering.':
+	'Maximum number of star systems per cluster. Systems within a cluster will be more densely connected than systems in different clusters. Set to 1 to disable clustering.':
 		'Número máximo de sistemas por aglomerado. Sistemas do mesmo aglomerado ficam mais ligados entre si do que com outros aglomerados. Use 1 para desligar os aglomerados.',
 	'Milky Way': 'Via Láctea',
 	'Min Distance': 'Distância Mínima',
-	'Minimum distance between solar systems. Decrease for denser galaxies, increase for looser.':
-		'Distância mínima entre sistemas solares. Diminua para galáxias mais densas, aumente para mais espalhadas.',
+	'Minimum distance between star systems. Decrease for denser galaxies, increase for looser.':
+		'Distância mínima entre sistemas estelares. Diminua para galáxias mais densas, aumente para mais espalhadas.',
 	'Mod name': 'Nome do mod',
 	'Mod ready': 'Mod pronto',
 	Mode: 'Modo',
 	Move: 'Mover',
 	'Move Connected': 'Mover Conectados',
-	'Move Solar System': 'Mover Sistema Solar',
-	'Move Solar System / Cluster': 'Mover Sistema Solar / Aglomerado',
+	'Move Star System': 'Mover Sistema Estelar',
+	'Move Star System / Cluster': 'Mover Sistema Estelar / Aglomerado',
 	'Move a group of connected systems and Fallen Empire Zones, along with overlapping nebulas.':
 		'Move um grupo de sistemas ligados e Zonas de Império Caído, junto com as nebulosas em cima deles.',
-	'Move a single solar system.': 'Move um único sistema solar.',
+	'Move a single star system.': 'Move um único sistema estelar.',
 	'Move the camera': 'Mover a câmera',
 	'Multiple systems are set to the same unique system initializer. This can cause bugs with event chains.':
 		'Vários sistemas usam o mesmo initializer de sistema único. Isso pode causar bugs em cadeias de eventos.',
@@ -313,15 +313,15 @@ export const pt: Record<string, string> = {
 	Next: 'Próximo',
 	'No Fallen Empire zone at this location.':
 		'Nenhuma zona de Império Caído neste local.',
-	'No locked solar systems at this location.':
-		'Nenhum sistema solar travado neste local.',
+	'No locked star systems at this location.':
+		'Nenhum sistema estelar travado neste local.',
 	'No movement.': 'Nada foi movido.',
 	'No nebula at this location.': 'Nenhuma nebulosa neste local.',
-	'No solar system at this location.': 'Nenhum sistema solar neste local.',
-	'No solar system available to anchor a Fallen Empire zone.':
-		'Nenhum sistema solar disponível para ancorar uma zona de Império Caído.',
-	'No unlocked solar systems at this location.':
-		'Nenhum sistema solar destravado neste local.',
+	'No star system at this location.': 'Nenhum sistema estelar neste local.',
+	'No star system available to anchor a Fallen Empire zone.':
+		'Nenhum sistema estelar disponível para ancorar uma zona de Império Caído.',
+	'No unlocked star systems at this location.':
+		'Nenhum sistema estelar destravado neste local.',
 	'Not Enough Room': 'Sem Espaço Suficiente',
 	'Number of Nebulas': 'Número de Nebulosas',
 	'Number of Systems': 'Número de Sistemas',
@@ -335,7 +335,7 @@ export const pt: Record<string, string> = {
 	'Open System Details': 'Abrir Detalhes do Sistema',
 	'Open Zone Details': 'Abrir Detalhes da Zona',
 	'Open it later with Project → Import.': 'Abra depois em Projeto → Importar.',
-	'Out-of-Bounds Solar Systems': 'Sistemas Fora do Limite',
+	'Out-of-Bounds Star Systems': 'Sistemas Fora do Limite',
 	Outline: 'Contorno',
 	'Outline Width': 'Espessura do Contorno',
 	'Overlapping FE Zones': 'Zonas de IC Sobrepostas',
@@ -385,7 +385,7 @@ export const pt: Record<string, string> = {
 	'Reset camera': 'Redefinir câmera',
 	Resize: 'Redimensionar',
 	'Resize from the center': 'Redimensionar a partir do centro',
-	'Right-click solar systems on the map to manage their connections to Fallen Empire zones. If you do not set any connections, they will be randomly generated.':
+	'Right-click star systems on the map to manage their connections to Fallen Empire zones. If you do not set any connections, they will be randomly generated.':
 		'Clique com o botão direito nos sistemas do mapa para gerenciar as ligações com zonas de Império Caído. Se você não definir nenhuma, elas serão geradas aleatoriamente.',
 	Ring: 'Anel',
 	'Ring galaxy with spokes running to the core.':
@@ -414,11 +414,11 @@ export const pt: Record<string, string> = {
 	Size: 'Tamanho',
 	'Smaller or bigger brush': 'Pincel menor ou maior',
 	'Snap to Grid': 'Encaixar na Grade',
-	'Solar System Details': 'Detalhes do Sistema Solar',
-	'Solar Systems': 'Sistemas Solares',
-	'Solar system at': 'Sistema solar em',
-	'Solar system is already at this location.':
-		'Já há um sistema solar neste local.',
+	'Star System Details': 'Detalhes do Sistema Estelar',
+	'Star Systems': 'Sistemas Estelares',
+	'Star system at': 'Sistema estelar em',
+	'Star system is already at this location.':
+		'Já há um sistema estelar neste local.',
 	Solo: 'Solo',
 	'Solo a layer': 'Ver só uma camada',
 	'Some unique systems require others to be present.':
@@ -456,10 +456,10 @@ export const pt: Record<string, string> = {
 	'Systems in FE Zones': 'Sistemas em Zonas de IC',
 	'Systems in L-Cluster': 'Sistemas no L-Cluster',
 	'Target number of nebulas to generate.': 'Quantidade desejada de nebulosas.',
-	'Target number of potential empire home systems, per 100 solar systems.':
-		'Quantidade desejada de possíveis sistemas natais de impérios, a cada 100 sistemas solares.',
-	'Target number of solar systems. There might not be enough room for all them depending other settings.':
-		'Quantidade desejada de sistemas solares. Dependendo das outras configurações, pode não haver espaço para todos.',
+	'Target number of potential empire home systems, per 100 star systems.':
+		'Quantidade desejada de possíveis sistemas natais de impérios, a cada 100 sistemas estelares.',
+	'Target number of star systems. There might not be enough room for all them depending other settings.':
+		'Quantidade desejada de sistemas estelares. Dependendo das outras configurações, pode não haver espaço para todos.',
 	Templates: 'Modelos',
 	'Templates are placed on the map with a transform box: move, resize and rotate them freely, then press Apply.':
 		'Os modelos entram no mapa com uma caixa de transformação: mova, redimensione e gire à vontade e depois clique em Aplicar.',
@@ -472,10 +472,10 @@ export const pt: Record<string, string> = {
 	'The Great Rift': 'A Grande Fenda',
 	'The cluster would be moved in conflicting directions.':
 		'O aglomerado seria movido em direções conflitantes.',
-	'The cluster would collide with another solar system.':
-		'O aglomerado bateria em outro sistema solar.',
-	'The solar system would be moved in conflicting directions.':
-		'O sistema solar seria movido em direções conflitantes.',
+	'The cluster would collide with another star system.':
+		'O aglomerado bateria em outro sistema estelar.',
+	'The star system would be moved in conflicting directions.':
+		'O sistema estelar seria movido em direções conflitantes.',
 	"These DLC are required by the system initializers you've set. If you are missing the DLC, the system will be reset to a basic random system at the start of the game.":
 		'Essas DLCs são exigidas pelos initializers que você definiu. Se faltar a DLC, o sistema vira um sistema aleatório comum no início do jogo.',
 	'These guaranteed colony systems are within 2 jumps of multiple spawns, so either empire could claim them.':
@@ -483,12 +483,12 @@ export const pt: Record<string, string> = {
 	"These systems use vanilla initializers that Painted Galaxy doesn't support. This can cause issues such as duplicate systems and broken event chains.":
 		'Esses sistemas usam initializers vanilla que o Paint a Galaxy não suporta. Isso pode causar sistemas duplicados e cadeias de eventos quebradas.',
 	Thickness: 'Espessura',
-	'This cluster contains a locked solar system.':
-		'Este aglomerado tem um sistema solar travado.',
+	'This cluster contains a locked star system.':
+		'Este aglomerado tem um sistema estelar travado.',
 	'This is your only project. A new blank project will automatically be created.':
 		'Este é o seu único projeto. Um projeto em branco será criado automaticamente.',
 	'This list': 'Esta lista',
-	'This solar system is locked.': 'Este sistema solar está travado.',
+	'This star system is locked.': 'Este sistema estelar está travado.',
 	Thumbnail: 'Miniatura',
 	'Tip: press ? to see every keyboard shortcut.':
 		'Dica: aperte ? para ver todos os atalhos de teclado.',
@@ -506,8 +506,8 @@ export const pt: Record<string, string> = {
 	Transparent: 'Transparente',
 	Triangle: 'Triangular',
 	'Try {hints}.': 'Tente {hints}.',
-	'Turn your painting into solar systems, hyperlanes, spawns and nebulas. Tweak the settings and generate again until you like it.':
-		'Transforme a pintura em sistemas solares, hiperpistas, spawns e nebulosas. Mude as configurações e gere de novo até gostar.',
+	'Turn your painting into star systems, hyperlanes, spawns and nebulas. Tweak the settings and generate again until you like it.':
+		'Transforme a pintura em sistemas estelares, hiperpistas, spawns e nebulosas. Mude as configurações e gere de novo até gostar.',
 	Tweak: 'Ajustar',
 	Twist: 'Torção',
 	'Two irregular dwarf galaxies drifting side by side.':
@@ -520,7 +520,7 @@ export const pt: Record<string, string> = {
 	'Unexpected Error': 'Erro Inesperado',
 	'Unknown command "{command}".': 'Comando "{command}" desconhecido.',
 	Unlock: 'Destravar',
-	'Unlock Solar System': 'Destravar Sistema Solar',
+	'Unlock Star System': 'Destravar Sistema Estelar',
 	'Unlock the "{layer}" layer to edit it.':
 		'Destrave a camada "{layer}" para editar.',
 	'Unsupported Initializers': 'Initializers Não Suportados',
@@ -543,8 +543,8 @@ export const pt: Record<string, string> = {
 		'Não coloque o controle de Impérios IA acima disso, com 2 exceções:',
 	'You should see a .mod file and a folder with the same name side by side.':
 		'Você deve ver um arquivo .mod e uma pasta com o mesmo nome lado a lado.',
-	'Your galaxy has no solar systems yet. Go to Generate first.':
-		'A sua galáxia ainda não tem sistemas solares. Vá em Gerar primeiro.',
+	'Your galaxy has no star systems yet. Go to Generate first.':
+		'A sua galáxia ainda não tem sistemas estelares. Vá em Gerar primeiro.',
 	Zoom: 'Zoom',
 	'Zoom in and out': 'Aproximar e afastar',
 	'arms twist width core bar radius rotation tilt squash seed':
@@ -618,8 +618,8 @@ export const pt: Record<string, string> = {
 	'Custom system': 'Sistema personalizado',
 	Desert: 'Desértico',
 	'Design in System Forge...': 'Projetar no System Forge...',
-	'Design solar systems planet by planet and use them anywhere on your map.':
-		'Monte sistemas solares planeta por planeta e use em qualquer lugar do seu mapa.',
+	'Design star systems planet by planet and use them anywhere on your map.':
+		'Monte sistemas estelares planeta por planeta e use em qualquer lugar do seu mapa.',
 	'Download all (.txt)': 'Baixar todos (.txt)',
 	'Drag planets to change their orbit and angle. Shift snaps. Wheel zooms. Delete removes.':
 		'Arraste os planetas pra mudar órbita e ângulo. Shift encaixa. A roda dá zoom. Delete remove.',
@@ -628,7 +628,7 @@ export const pt: Record<string, string> = {
 	Duplicate: 'Duplicar',
 	Ecumenopolis: 'Ecumenópolis',
 	'Finding empire capitals': 'Procurando as capitais dos impérios',
-	'Forge your first solar system': 'Forje seu primeiro sistema solar',
+	'Forge your first star system': 'Forje seu primeiro sistema estelar',
 	Frozen: 'Congelado',
 	'Frozen Barren': 'Estéril Gelado',
 	Gaia: 'Gaia',
@@ -658,8 +658,8 @@ export const pt: Record<string, string> = {
 	'Neutron Star': 'Estrela de Nêutrons',
 	New: 'Novo',
 	'New System': 'Novo Sistema',
-	'No solar systems found in this file.':
-		'Nenhum sistema solar encontrado neste arquivo.',
+	'No star systems found in this file.':
+		'Nenhum sistema estelar encontrado neste arquivo.',
 	'No systems yet. Create one, pick the home template or roll a random one.':
 		'Nenhum sistema ainda. Crie um, use o modelo de sistema natal ou sorteie um aleatório.',
 	None: 'Nenhum',

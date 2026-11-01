@@ -420,9 +420,9 @@ const solar_system_create: _Tool<
 	Record<string, never>
 > = {
 	id: 'solar_system_create',
-	name: 'Create Solar System',
+	name: 'Create Star System',
 	description:
-		'Create a solar system. Hyperlanes need to be created or generated separated.',
+		'Create a star system. Hyperlanes need to be created or generated separated.',
 	step: 'tweak',
 	action_type: 'single_point',
 	snap_to_solar_system: 'none',
@@ -442,9 +442,9 @@ const solar_system_delete: _Tool<
 	{ bulk: number; bulk_brush_size: number }
 > = {
 	id: 'solar_system_delete',
-	name: 'Delete Solar System',
+	name: 'Delete Star System',
 	description:
-		'Delete the closest solar system and any connected hyperlanes or wormholes.',
+		'Delete the closest star system and any connected hyperlanes or wormholes.',
 	step: 'tweak',
 	action_type: 'single_point',
 	snap_to_solar_system: 'all',
@@ -467,9 +467,9 @@ const solar_system_lock: _Tool<
 	{ bulk: number; bulk_brush_size: number }
 > = {
 	id: 'solar_system_lock',
-	name: 'Lock Solar System',
+	name: 'Lock Star System',
 	description:
-		"Lock solar system, so it's not changed by other tools or random generation.",
+		"Lock star system, so it's not changed by other tools or random generation.",
 	step: 'tweak',
 	action_type: 'single_point',
 	snap_to_solar_system: 'all',
@@ -492,9 +492,9 @@ const solar_system_unlock: _Tool<
 	{ bulk: number; bulk_brush_size: number }
 > = {
 	id: 'solar_system_unlock',
-	name: 'Unlock Solar System',
+	name: 'Unlock Star System',
 	description:
-		"Unlock solar system, so it's can be changed by other tools and random generation.",
+		"Unlock star system, so it's can be changed by other tools and random generation.",
 	step: 'tweak',
 	action_type: 'single_point',
 	snap_to_solar_system: 'all',
@@ -517,8 +517,8 @@ const solar_system_move: _Tool<
 	Record<string, never>
 > = {
 	id: 'solar_system_move',
-	name: 'Move Solar System',
-	description: 'Move a single solar system.',
+	name: 'Move Star System',
+	description: 'Move a single star system.',
 	step: 'tweak',
 	action_type: 'double_point',
 	snap_to_solar_system: 'first',
@@ -887,7 +887,7 @@ export const tool_pairs: ToolPair[] = [
 	{
 		id: 'solar-system',
 		key: 'N',
-		name: 'Create/Delete Solar System',
+		name: 'Create/Delete Star System',
 		step: 'tweak',
 		primary: tools.solar_system_create,
 		secondary: tools.solar_system_delete,
@@ -896,7 +896,7 @@ export const tool_pairs: ToolPair[] = [
 	{
 		id: 'lock-solar-system',
 		key: 'U',
-		name: 'Lock/Unlock Solar System',
+		name: 'Lock/Unlock Star System',
 		step: 'tweak',
 		primary: tools.solar_system_lock,
 		secondary: tools.solar_system_unlock,
@@ -905,7 +905,7 @@ export const tool_pairs: ToolPair[] = [
 	{
 		id: 'move-solar-system',
 		key: 'M',
-		name: 'Move Solar System / Cluster',
+		name: 'Move Star System / Cluster',
 		step: 'tweak',
 		primary: tools.solar_system_move,
 		secondary: tools.cluster_move,

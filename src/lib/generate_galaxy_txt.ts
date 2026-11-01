@@ -547,7 +547,7 @@ export function generate_stellaris_galaxy(project: Project): string {
 		'# Made with Stellar Forge (https://agrichex.github.io/Stellar-Forge/), based on Paint a Galaxy by Michael Moore. Requires the Paint a Galaxy mod: https://steamcommunity.com/sharedfiles/filedetails/?id=3532904115',
 		'',
 		'# Stats:',
-		`# Solar Systems: ${num_solar_systems}`,
+		`# Star Systems: ${num_solar_systems}`,
 		`# Total Spawns: ${num_spawns}`,
 		`# Reserved Spawns: ${num_reserved_spawns}`,
 		`# Maximum Safe AI Spawns: ${max_safe_ai_spawns} (do not spawn more AI empires than this, unless you are force-spawning custom designs that use reserved spawns)`,
