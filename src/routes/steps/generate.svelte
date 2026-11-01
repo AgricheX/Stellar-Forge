@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import { Icons } from '$lib/components/icons';
 	import Info from '$lib/components/info.svelte';
 	import RangeSlider from '$lib/components/range_slider.svelte';
@@ -39,7 +40,7 @@
 			class="btn ps-14 preset-filled-primary-500"
 			onclick={() => on_generate_option_selected({ value: 'all' })}
 		>
-			Generate
+			{t('Generate')}
 		</button>
 		<Menu
 			positioning={{ placement: 'bottom-end' }}
@@ -52,42 +53,47 @@
 				<Menu.Positioner>
 					<Menu.Content class="bg-surface-100-900 border-surface-300-700">
 						<Menu.Item value="all">
-							<Menu.ItemText>Generate All</Menu.ItemText>
+							<Menu.ItemText>{t('Generate All')}</Menu.ItemText>
 						</Menu.Item>
 						<Menu.Item value="solar_systems">
 							<Menu.ItemText>
-								Systems Only
-								<small class="block">(removes hyperlanes and spawns)</small>
+								{t('Systems Only')}
+								<small class="block">
+									{t('(removes hyperlanes and spawns)')}
+								</small>
 							</Menu.ItemText>
 						</Menu.Item>
 						<Menu.Item value="hyperlanes">
 							<Menu.ItemText>
-								Hyperlanes Only
-								<small class="block">(re-generating spawns recommended)</small>
+								{t('Hyperlanes Only')}
+								<small class="block">
+									{t('(re-generating spawns recommended)')}
+								</small>
 							</Menu.ItemText>
 						</Menu.Item>
 						<Menu.Item value="spawns">
-							<Menu.ItemText>Spawns Only</Menu.ItemText>
+							<Menu.ItemText>{t('Spawns Only')}</Menu.ItemText>
 						</Menu.Item>
 						<Menu.Item value="nebulas">
-							<Menu.ItemText>Nebulas Only</Menu.ItemText>
+							<Menu.ItemText>{t('Nebulas Only')}</Menu.ItemText>
 						</Menu.Item>
 						<Menu.Separator class="border-surface-300-700" />
 						<Menu.Item value="reset">
-							<Menu.ItemText>Reset Settings</Menu.ItemText>
+							<Menu.ItemText>{t('Reset Settings')}</Menu.ItemText>
 						</Menu.Item>
 					</Menu.Content>
 				</Menu.Positioner>
 			</Portal>
 		</Menu>
 	</div>
-	<SectionHeader>Solar Systems</SectionHeader>
+	<SectionHeader>{t('Solar Systems')}</SectionHeader>
 	<label class="label">
 		<span class="label-text flex gap-1">
-			Number of Systems
+			{t('Number of Systems')}
 			<Info>
-				Target number of solar systems. There might not be enough room for all
-				them depending other settings.
+				{t(
+					'Target number of solar systems. There might not be enough room for all them depending other settings.',
+				)}
 			</Info>
 		</span>
 		<input
@@ -121,14 +127,15 @@
 			})}
 	>
 		{#snippet label()}
-			Min Distance
+			{t('Min Distance')}
 			<Info>
-				Minimum distance between solar systems. Decrease for denser galaxies,
-				increase for looser.
+				{t(
+					'Minimum distance between solar systems. Decrease for denser galaxies, increase for looser.',
+				)}
 			</Info>
 		{/snippet}
 	</Slider>
-	<SectionHeader>Hyperlanes</SectionHeader>
+	<SectionHeader>{t('Hyperlanes')}</SectionHeader>
 	<Slider
 		min={1}
 		max={50}
@@ -138,11 +145,11 @@
 			editor().update_generator_settings({ max_cluster_size: value })}
 	>
 		{#snippet label()}
-			Max Cluster Size
+			{t('Max Cluster Size')}
 			<Info>
-				Maximum number of solar systems per cluster. Systems within a cluster
-				will be more densely connected than systems in different clusters. Set
-				to 1 to disable clustering.
+				{t(
+					'Maximum number of solar systems per cluster. Systems within a cluster will be more densely connected than systems in different clusters. Set to 1 to disable clustering.',
+				)}
 			</Info>
 		{/snippet}
 	</Slider>
@@ -155,10 +162,11 @@
 			editor().update_generator_settings({ hyperlane_connectivity: value })}
 	>
 		{#snippet label()}
-			Same-Cluster Connectivity
+			{t('Same-Cluster Connectivity')}
 			<Info>
-				Likelihood of hyperlane connections between systems in the same cluster.
-				At 0%, systems will be minimally connected but still reachable.
+				{t(
+					'Likelihood of hyperlane connections between systems in the same cluster. At 0%, systems will be minimally connected but still reachable.',
+				)}
 			</Info>
 		{/snippet}
 		{#snippet output(value)}{Math.round(value * 100)}%{/snippet}
@@ -172,10 +180,11 @@
 			editor().update_generator_settings({ inter_cluster_connectivity: value })}
 	>
 		{#snippet label()}
-			Cross-Cluster Connectivity
+			{t('Cross-Cluster Connectivity')}
 			<Info>
-				Likelihood for 2 neighboring clusters to have a hyperlane connection. At
-				0%, clusters will be minimally connected but still reachable.
+				{t(
+					'Likelihood for 2 neighboring clusters to have a hyperlane connection. At 0%, clusters will be minimally connected but still reachable.',
+				)}
 			</Info>
 		{/snippet}
 		{#snippet output(value)}{Math.round(value * 100)}%{/snippet}
@@ -189,10 +198,11 @@
 			editor().update_generator_settings({ hyperlane_max_distance: value })}
 	>
 		{#snippet label()}
-			Max Distance
+			{t('Max Distance')}
 			<Info>
-				Maximum hyperlane distance. Hyperlanes longer than this are removed,
-				unless they are necessary to keep all systems connected.
+				{t(
+					'Maximum hyperlane distance. Hyperlanes longer than this are removed, unless they are necessary to keep all systems connected.',
+				)}
 			</Info>
 		{/snippet}
 	</Slider>
@@ -207,20 +217,23 @@
 			<Switch.Thumb />
 		</Switch.Control>
 		<Switch.Label class="flex gap-1">
-			Allow Disconnected
+			{t('Allow Disconnected')}
 			<Info>
-				If enabled, hyperlanes longer than Max Distance are removed even if it
-				would result in disconnected systems.
+				{t(
+					'If enabled, hyperlanes longer than Max Distance are removed even if it would result in disconnected systems.',
+				)}
 			</Info>
 		</Switch.Label>
 		<Switch.HiddenInput />
 	</Switch>
-	<SectionHeader>Spawns</SectionHeader>
+	<SectionHeader>{t('Spawns')}</SectionHeader>
 	<label class="label">
 		<span class="label-text flex gap-1">
-			Spawns per 100 Systems
+			{t('Spawns per 100 Systems')}
 			<Info>
-				Target number of potential empire home systems, per 100 solar systems.
+				{t(
+					'Target number of potential empire home systems, per 100 solar systems.',
+				)}
 			</Info>
 		</span>
 		<input
@@ -247,14 +260,15 @@
 			{Math.round(
 				(settings.number_of_systems * settings.spawns_per_100_solar_systems) /
 					100,
-			)} total spawns
+			)}
+			{t('total spawns')}
 		</small>
 	</label>
-	<SectionHeader>Nebulas</SectionHeader>
+	<SectionHeader>{t('Nebulas')}</SectionHeader>
 	<label class="label">
 		<span class="label-text flex gap-1">
-			Number of Nebulas
-			<Info>Target number of nebulas to generate.</Info>
+			{t('Number of Nebulas')}
+			<Info>{t('Target number of nebulas to generate.')}</Info>
 		</span>
 		<input
 			bind:this={free_inputs.number_of_nebulas}
@@ -288,10 +302,11 @@
 			})}
 	>
 		{#snippet label()}
-			Nebula Size
+			{t('Nebula Size')}
 			<Info>
-				Radius of generated nebulas. Each nebula will use a random value in the
-				specified range.
+				{t(
+					'Radius of generated nebulas. Each nebula will use a random value in the specified range.',
+				)}
 			</Info>
 		{/snippet}
 	</RangeSlider>

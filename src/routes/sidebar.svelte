@@ -1,19 +1,18 @@
 <script lang="ts">
 	import { Icons } from '$lib/components/icons';
-	import { Steps } from '@skeletonlabs/skeleton-svelte';
 	import type { Step } from '$lib/models/step';
-	import type { Component, Snippet } from 'svelte';
+	import type { Component } from 'svelte';
 	import Generate from './steps/generate.svelte';
 	import Paint from './steps/paint.svelte';
 	import Tweak from './steps/tweak.svelte';
 	import { get_editor } from '$lib/editor.svelte';
-	import { generate_stellaris_galaxy } from '$lib/generate_galaxy_txt';
-	import { download_blob } from '$lib/blob';
+	import { t } from '$lib/i18n/index.svelte';
+	import { ui } from '$lib/ui.svelte';
 
 	const steps: {
 		id: Step;
 		name: string;
-		description: string | Snippet;
+		description: string;
 		content: Component;
 	}[] = [
 		{
@@ -21,111 +20,106 @@
 			name: 'Paint',
 			content: Paint,
 			description:
-				"Paint the general shapes were you want stars to spawn. The brighter you paint, the more stars will spawn there. When you're ready, click Next.",
+				'Paint where you want stars. The brighter you paint, the more stars spawn there. Use shapes, templates, text or emoji.',
 		},
 		{
 			id: 'generate',
 			name: 'Generate',
 			content: Generate,
 			description:
-				"Randomize the galaxy according to your painting. Optionally play with the settings and regenerate. When you're satisfied, click Next.",
+				'Turn your painting into solar systems, hyperlanes, spawns and nebulas. Tweak the settings and generate again until you like it.',
 		},
 		{
 			id: 'tweak',
 			name: 'Tweak',
 			content: Tweak,
-			description: tweak_description,
+			description:
+				'Fine-tune by hand with the tools on the left, or right-click the map for more. When you are done, export your mod.',
 		},
 	];
 
 	const editor = get_editor();
-
-	function handle_download() {
-		const galaxy_txt = generate_stellaris_galaxy(editor().project);
-		const blob = new Blob([galaxy_txt], { type: 'text/plain' });
-		download_blob(blob, `${editor().project.name}.txt`);
-	}
+	const index = $derived(steps.findIndex((step) => step.id === editor().step));
+	const current = $derived(steps[index] ?? steps[0]!);
+	let scroller = $state<HTMLDivElement>();
+	$effect(() => {
+		void current.id;
+		scroller?.scrollTo({ top: 0 });
+	});
 </script>
 
-{#snippet tweak_description()}
-	<p>
-		Manually edit using the tools below, or right-click the map for more. Then
-		click Download and follow <a
-			class="anchor text-primary-700-300"
-			target="_blank"
-			href="https://steamcommunity.com/sharedfiles/filedetails/?id=3532904115"
-		>
-			the instructions on the Workshop.
-		</a>
-	</p>
-{/snippet}
-
-<aside class="w-96 p-4 flex-none overflow-auto">
-	<Steps
-		class="flex flex-col h-full"
-		count={steps.length}
-		step={steps.findIndex((step) => step.id === editor()?.step)}
-		onStepChange={(details) => {
-			const step = steps[details.step]?.id;
-			if (step) {
-				editor().set_step(step);
-			}
-		}}
-	>
-		<Steps.List>
-			{#each steps as step, i (step.id)}
-				<Steps.Item index={i}>
-					<Steps.Trigger>
-						<Steps.Indicator
-							class="border-surface-300-700 data-complete:border-primary-500 data-current:border-primary-500 data-current:border-2"
-						>
-							{i + 1}
-						</Steps.Indicator>
-						{step.name}
-					</Steps.Trigger>
-					{#if i < steps.length - 1}
-						<Steps.Separator
-							class="border-surface-300-700 data-complete:border-primary-500 data-complete:border-1"
-						/>
-					{/if}
-				</Steps.Item>
-			{/each}
-		</Steps.List>
-
-		{#each steps as step, i (step.id)}
-			<Steps.Content index={i} class="grow flex flex-col gap-4">
-				<div class="text-sm text-surface-900-100 flex flex-col gap-2">
-					{#if typeof step.description === 'string'}{step.description}{:else}{@render step.description()}{/if}
-				</div>
-				<step.content />
-			</Steps.Content>
-		{/each}
-
-		<div
-			class="flex justify-between sticky -bottom-4 p-4 pt-8 -m-4 mt-0 bg-linear-to-t from-65% from-surface-50-950 to-transparent"
-		>
-			<Steps.Context>
-				{#snippet children(context)}
-					<Steps.PrevTrigger class="btn preset-outlined-primary-500 ps-3">
-						<Icons.ArrowLeft size={18} />
-						Back
-					</Steps.PrevTrigger>
-					{#if context().value === steps.length - 1}
-						<button
-							class="btn preset-filled-primary-500"
-							onclick={handle_download}
-						>
-							<Icons.Download size={18} />
-							Download
-						</button>
-					{:else}
-						<Steps.NextTrigger class="btn preset-filled-primary-500 pe-3ps-3">
-							Next
-							<Icons.ArrowRight size={18} />
-						</Steps.NextTrigger>
-					{/if}
-				{/snippet}
-			</Steps.Context>
+<aside
+	class="w-[23rem] shrink-0 flex flex-col border-s border-surface-200-800 bg-surface-50-950 min-h-0"
+>
+	<header class="px-5 pt-4 pb-3 border-b border-surface-200-800">
+		<div class="sf-tag">
+			{t('Step')}
+			{index + 1} / {steps.length}
 		</div>
-	</Steps>
+		{#key current.id}
+			<h1 class="text-xl font-bold tracking-tight mt-1 sf-fade-in">
+				{t(current.name)}
+			</h1>
+			<p class="text-sm text-surface-600-400 mt-1 leading-relaxed sf-fade-in">
+				{t(current.description)}
+			</p>
+		{/key}
+		<div class="flex gap-1 mt-3">
+			{#each steps as step, i (step.id)}
+				<span
+					class={[
+						'h-1 grow rounded-full transition-all duration-500',
+						i <= index ?
+							'bg-primary-500 shadow-[0_0_8px_rgba(229,50,45,0.6)]'
+						:	'bg-surface-200-800',
+					]}
+				></span>
+			{/each}
+		</div>
+	</header>
+	<div
+		bind:this={scroller}
+		class="grow overflow-auto px-5 py-4 flex flex-col gap-4 min-h-0"
+	>
+		{#key current.id}
+			<div class="flex flex-col gap-4 sf-rise">
+				<current.content />
+			</div>
+		{/key}
+	</div>
+	<footer
+		class="flex justify-between gap-2 px-5 py-3 border-t border-surface-200-800 bg-surface-100-900/40"
+	>
+		<button
+			class="btn preset-outlined-surface-500 ps-3"
+			disabled={index === 0}
+			onclick={() => {
+				const step = steps[index - 1];
+				if (step) editor().set_step(step.id);
+			}}
+		>
+			<Icons.ArrowLeft size={18} />
+			{t('Back')}
+		</button>
+		{#if index === steps.length - 1}
+			<button
+				class="btn preset-filled-primary-500 sf-btn-glow"
+				onclick={() => ui.open('export')}
+			>
+				<Icons.Package size={18} />
+				{t('Export Mod')}
+			</button>
+		{:else}
+			<button
+				class="btn preset-filled-primary-500 sf-btn-glow pe-3"
+				onclick={() => {
+					const step = steps[index + 1];
+					if (step) editor().set_step(step.id);
+				}}
+			>
+				{t('Next')}
+				<Icons.ArrowRight size={18} />
+			</button>
+		{/if}
+	</footer>
 </aside>

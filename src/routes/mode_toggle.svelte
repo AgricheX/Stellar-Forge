@@ -7,7 +7,7 @@
 	defaultChecked={document.documentElement.dataset.mode === 'light'}
 	onCheckedChange={({ checked }) => {
 		document.documentElement.dataset.mode = checked ? 'light' : 'dark';
-		localStorage.setItem('paint-a-galaxy-mode', checked ? 'light' : 'dark');
+		localStorage.setItem('stellar-forge-mode', checked ? 'light' : 'dark');
 	}}
 >
 	<Switch.Control class="bg-surface-50-950 data-[state=checked]:bg-primary-500">

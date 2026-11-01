@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import { Icons } from '$lib/components/icons';
 	import { CUSTOM_COMMAND, ID } from '$lib/constants';
@@ -56,7 +57,7 @@
 
 <Dialog
 	{id}
-	title="New Project"
+	title={t('New Project')}
 	bind:this={dialog}
 	on_open={() => {
 		files = [];
@@ -66,7 +67,7 @@
 >
 	<form class="flex flex-col gap-4" {onsubmit}>
 		<label>
-			<span class="label-text">Name</span>
+			<span class="label-text">{t('Name')}</span>
 			<!-- svelte-ignore a11y_autofocus -->
 			<input
 				class="input ring-surface-500 bg-surface-200-800"
@@ -76,7 +77,7 @@
 			/>
 			{#if is_duplicate_name}
 				<small class="text-warning-500">
-					Name already used by another project.
+					{t('Name already used by another project.')}
 				</small>
 			{/if}
 		</label>
@@ -93,8 +94,8 @@
 				class="bg-surface-200-800 border border-surface-500 border-dashed"
 			>
 				<Icons.FileText class="size-10" />
-				<span>Select JSON or txt file, or drag here.</span>
-				<FileUpload.Trigger>Browse Files</FileUpload.Trigger>
+				<span>{t('Select JSON or txt file, or drag here.')}</span>
+				<FileUpload.Trigger>{t('Browse Files')}</FileUpload.Trigger>
 				<FileUpload.HiddenInput />
 			</FileUpload.Dropzone>
 			<FileUpload.ItemGroup>
@@ -107,7 +108,8 @@
 							>
 								<FileUpload.ItemName>{file.name}</FileUpload.ItemName>
 								<FileUpload.ItemSizeText>
-									{file.size} bytes
+									{file.size}
+									{t('bytes')}
 								</FileUpload.ItemSizeText>
 								<FileUpload.ItemDeleteTrigger />
 							</FileUpload.Item>
@@ -117,7 +119,9 @@
 			</FileUpload.ItemGroup>
 		</FileUpload>
 		{#if parse_failed}
-			<small class="text-warning-500">Failed to parse uploaded file.</small>
+			<small class="text-warning-500">
+				{t('Failed to parse uploaded file.')}
+			</small>
 		{/if}
 		<div class="flex justify-end gap-2">
 			<button
@@ -126,7 +130,7 @@
 				command="close"
 				commandfor={id}
 			>
-				Cancel
+				{t('Cancel')}
 			</button>
 			<button
 				class="btn preset-filled-primary-500 w-auto"
@@ -135,7 +139,7 @@
 					is_duplicate_name ||
 					files[0] == null}
 			>
-				Import
+				{t('Import')}
 			</button>
 		</div>
 	</form>

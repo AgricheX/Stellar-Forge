@@ -29,14 +29,14 @@ export class KeyVal extends Context.Tag('KeyVal')<
 		KeyVal.of({
 			get(key, schema) {
 				return Effect.tryPromise({
-					try: () => get(`paint-a-galaxy.${key}`) as Promise<unknown>,
+					try: () => get(`stellar-forge.${key}`) as Promise<unknown>,
 					catch: (error) => KeyValError.make({ message: `${error}` }),
 				}).pipe(Effect.map(Schema.decodeUnknownOption(schema))); // TODO handle parse error
 			},
 
 			set(key, val) {
 				return Effect.tryPromise({
-					try: () => set(`paint-a-galaxy.${key}`, val) as Promise<unknown>,
+					try: () => set(`stellar-forge.${key}`, val) as Promise<unknown>,
 					catch: (error) => {
 						console.error(error);
 						return KeyValError.make({ message: `${error}` });
@@ -46,7 +46,7 @@ export class KeyVal extends Context.Tag('KeyVal')<
 
 			delete(key) {
 				return Effect.tryPromise({
-					try: () => del(`paint-a-galaxy.${key}`) as Promise<unknown>,
+					try: () => del(`stellar-forge.${key}`) as Promise<unknown>,
 					catch: (error) => {
 						console.error(error);
 						return KeyValError.make({ message: `${error}` });

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import { normalize_image } from '$lib/canvas';
 	import Dialog from '$lib/components/dialog.svelte';
 	import { Icons } from '$lib/components/icons';
@@ -30,7 +31,7 @@
 
 <Dialog
 	{id}
-	title="Upload Image"
+	title={t('Upload Image')}
 	bind:this={dialog}
 	on_open={() => {
 		files = [];
@@ -49,8 +50,8 @@
 				class="bg-surface-200-800 border border-surface-500 border-dashed"
 			>
 				<Icons.FileImage class="size-10" />
-				<span>Select image or drag here.</span>
-				<FileUpload.Trigger>Browse Files</FileUpload.Trigger>
+				<span>{t('Select image or drag here.')}</span>
+				<FileUpload.Trigger>{t('Browse Files')}</FileUpload.Trigger>
 				<FileUpload.HiddenInput />
 			</FileUpload.Dropzone>
 			<FileUpload.ItemGroup>
@@ -63,7 +64,8 @@
 							>
 								<FileUpload.ItemName>{file.name}</FileUpload.ItemName>
 								<FileUpload.ItemSizeText>
-									{file.size} bytes
+									{file.size}
+									{t('bytes')}
 								</FileUpload.ItemSizeText>
 								<FileUpload.ItemDeleteTrigger />
 							</FileUpload.Item>
@@ -79,14 +81,14 @@
 				command="close"
 				commandfor={id}
 			>
-				Cancel
+				{t('Cancel')}
 			</button>
 			<button
 				class="btn preset-filled-primary-500 w-auto"
 				type="submit"
 				disabled={files.length !== 1}
 			>
-				Confirm
+				{t('Confirm')}
 			</button>
 		</div>
 	</form>

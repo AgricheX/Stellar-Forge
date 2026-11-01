@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import { debounced_value } from '$lib/attachments/debounced_value.svelte';
 	import { Icons } from '$lib/components/icons';
 	import Info from '$lib/components/info.svelte';
@@ -85,7 +86,7 @@
 					<FloatingPanel.Header>
 						<FloatingPanel.Title>
 							<Icons.GripVertical class="size-4" />
-							Solar System Details
+							{t('Solar System Details')}
 						</FloatingPanel.Title>
 						<FloatingPanel.Control>
 							<FloatingPanel.StageTrigger stage="minimized">
@@ -106,13 +107,13 @@
 							solar_system.value.coordinate.to_stellaris_coordinate()}
 						<dl>
 							<div class="flex items-baseline gap-2">
-								<dt class="label-text">ID:</dt>
+								<dt class="label-text">{t('ID:')}</dt>
 								<dd>
 									{solar_system.value.id}
 								</dd>
 							</div>
 							<div class="flex items-baseline gap-2">
-								<dt class="label-text">Coordinate:</dt>
+								<dt class="label-text">{t('Coordinate:')}</dt>
 								<dd>
 									{coordinate.x}, {coordinate.y}
 								</dd>
@@ -137,17 +138,18 @@
 							<Switch.Label class="flex gap-1">
 								{solar_system.value.locked ? 'Locked' : 'Unlocked'}
 								<Info>
-									If locked, this system can't be edited by Tweak tools or
-									randomly generating a map.
+									{t(
+										"If locked, this system can't be edited by Tweak tools or randomly generating a map.",
+									)}
 								</Info>
 							</Switch.Label>
 							<Switch.HiddenInput />
 						</Switch>
 						<label>
-							<span class="label-text">Name</span>
+							<span class="label-text">{t('Name')}</span>
 							<input
 								class="input ring-surface-300-700 bg-surface-200-800"
-								placeholder="Random"
+								placeholder={t('Random')}
 								disabled={Option.isSome(initializer_name) ||
 									solar_system.value.locked}
 								{@attach debounced_value(
@@ -174,44 +176,47 @@
 						</label>
 						<label>
 							<span class="label-text flex gap-1">
-								Spawn
+								{t('Spawn')}
 								<Info>
 									<dl class="flex flex-col gap-1">
 										<div class="ms-4 -indent-4">
-											<dt class="font-bold inline">Disabled</dt>
-											<dd class="inline">Empires will not spawn here.</dd>
-										</div>
-										<div class="ms-4 -indent-4">
-											<dt class="font-bold inline">Enabled</dt>
-											<dd class="inline">Empires can spawn here.</dd>
-										</div>
-										<div class="ms-4 -indent-4">
-											<dt class="font-bold inline">1st Player</dt>
+											<dt class="font-bold inline">{t('Disabled')}</dt>
 											<dd class="inline">
-												The 1st player will spawn here. AI empires (and other
-												players in multiplayer) will never spawn here. Use <em>
-													Reserved
+												{t('Empires will not spawn here.')}
+											</dd>
+										</div>
+										<div class="ms-4 -indent-4">
+											<dt class="font-bold inline">{t('Enabled')}</dt>
+											<dd class="inline">{t('Empires can spawn here.')}</dd>
+										</div>
+										<div class="ms-4 -indent-4">
+											<dt class="font-bold inline">{t('1st Player')}</dt>
+											<dd class="inline">
+												{t(
+													'The 1st player will spawn here. AI empires (and other players in multiplayer) will never spawn here. Use',
+												)}
+												<em>
+													{t('Reserved')}
 												</em>
-												spawns if you want to control the location of other AIs or
-												other players.
+												{t(
+													'spawns if you want to control the location of other AIs or other players.',
+												)}
 											</dd>
 										</div>
 										<div class="ms-4 -indent-4">
-											<dt class="font-bold inline">Reserved</dt>
+											<dt class="font-bold inline">{t('Reserved')}</dt>
 											<dd class="inline">
-												Empires will only spawn here if they have the matching
-												species trait (eg Reserved Spawn A) from the Reserved
-												Spawns submod. This can be used to precisely control the
-												locations of players and custom-designed AI.
+												{t(
+													'Empires will only spawn here if they have the matching species trait (eg Reserved Spawn A) from the Reserved Spawns submod. This can be used to precisely control the locations of players and custom-designed AI.',
+												)}
 											</dd>
 										</div>
 										<div class="ms-4 -indent-4">
-											<dt class="font-bold inline">Reserved Sol</dt>
+											<dt class="font-bold inline">{t('Reserved Sol')}</dt>
 											<dd class="inline">
-												Like Reserved, but additionally the UNE will be treated
-												as if they had the Reserved Spawn Sol trait. Unless
-												you're using a modded Sol system, don't set this
-												manually. Instead, set the initializer to Sol.
+												{t(
+													"Like Reserved, but additionally the UNE will be treated as if they had the Reserved Spawn Sol trait. Unless you're using a modded Sol system, don't set this manually. Instead, set the initializer to Sol.",
+												)}
 											</dd>
 										</div>
 									</dl>
@@ -233,9 +238,9 @@
 										}),
 									])}
 							>
-								<option value="disabled">Disabled</option>
-								<option value="enabled">Enabled</option>
-								<option value="preferred">1st Player</option>
+								<option value="disabled">{t('Disabled')}</option>
+								<option value="enabled">{t('Enabled')}</option>
+								<option value="preferred">{t('1st Player')}</option>
 								{#each reserved_spawn_options as option (option.value)}
 									<option value={option.value}>{option.label}</option>
 								{/each}

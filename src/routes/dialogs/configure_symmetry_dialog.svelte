@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import { ID } from '$lib/constants';
 	import { get_editor } from '$lib/editor.svelte';
@@ -41,7 +42,7 @@
 
 <Dialog
 	{id}
-	title="Configure Symmetry"
+	title={t('Configure Symmetry')}
 	bind:this={dialog}
 	on_open={() => {
 		mode = editor().project.symmetry_config.mode;
@@ -53,18 +54,18 @@
 >
 	<form class="flex flex-col gap-4" {onsubmit}>
 		<label>
-			<span class="label-text">Mode</span>
+			<span class="label-text">{t('Mode')}</span>
 			<select
 				class="select ring-surface-500 bg-surface-200-800"
 				bind:value={mode}
 			>
-				<option value="bilateral">Bilateral (mirror)</option>
-				<option value="radial">Radial (rotate)</option>
+				<option value="bilateral">{t('Bilateral (mirror)')}</option>
+				<option value="radial">{t('Radial (rotate)')}</option>
 			</select>
 		</label>
 		{#if mode === 'radial'}
 			<label>
-				<span class="label-text">Number of sectors</span>
+				<span class="label-text">{t('Number of sectors')}</span>
 				<input
 					class="input ring-surface-500 bg-surface-200-800"
 					type="number"
@@ -79,7 +80,7 @@
 		{/if}
 		{#if mode === 'bilateral'}
 			<label>
-				<span class="label-text">Rotation (degrees)</span>
+				<span class="label-text">{t('Rotation (degrees)')}</span>
 				<input
 					class="input ring-surface-500 bg-surface-200-800"
 					type="number"
@@ -93,7 +94,7 @@
 			</label>
 		{/if}
 		<label>
-			<span class="label-text">X Offset</span>
+			<span class="label-text">{t('X Offset')}</span>
 			<input
 				class="input ring-surface-500 bg-surface-200-800"
 				type="number"
@@ -106,7 +107,7 @@
 			/>
 		</label>
 		<label>
-			<span class="label-text">Y Offset</span>
+			<span class="label-text">{t('Y Offset')}</span>
 			<input
 				class="input ring-surface-500 bg-surface-200-800"
 				type="number"
@@ -125,10 +126,10 @@
 				command="close"
 				commandfor={id}
 			>
-				Cancel
+				{t('Cancel')}
 			</button>
 			<button class="btn preset-filled-primary-500 w-auto" type="submit">
-				Save
+				{t('Save')}
 			</button>
 		</div>
 	</form>

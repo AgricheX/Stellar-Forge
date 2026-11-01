@@ -50,6 +50,7 @@ import {
 	FallenEmpireZoneId,
 } from '$lib/models/fallen_empire_zone';
 import { convert_degrees_to_radians, get_degrees_difference } from '$lib/math';
+import { polygon_path, ring_path, spiral_path, star_path } from '$lib/shapes';
 
 class ToolsPersistenceError extends Schema.TaggedError<ToolsPersistenceError>(
 	'ToolsPersistenceError',
@@ -494,6 +495,33 @@ export class Tools extends Context.Tag('Tools')<
 								.join(' ') + ' Z'
 						);
 					}),
+					Match.when(Match.is('polygon_draw', 'polygon_erase'), () => {
+						const [center, edge] = get_double_payload(payload);
+						return polygon_path(center, edge, settings.sides);
+					}),
+					Match.when(Match.is('star_draw', 'star_erase'), () => {
+						const [center, edge] = get_double_payload(payload);
+						return star_path(
+							center,
+							edge,
+							settings.sides,
+							settings.inner_ratio,
+						);
+					}),
+					Match.when(Match.is('ring_draw', 'ring_erase'), () => {
+						const [center, edge] = get_double_payload(payload);
+						return ring_path(center, edge, settings.size);
+					}),
+					Match.when(Match.is('spiral_draw', 'spiral_erase'), () => {
+						const [center, edge] = get_double_payload(payload);
+						return spiral_path(
+							center,
+							edge,
+							settings.sides,
+							settings.turns,
+							settings.size,
+						);
+					}),
 					Match.when(Match.is('line_draw', 'line_erase'), () => {
 						const [a, b] = get_double_payload(payload);
 						const angle = Math.atan2(b.y - a.y, b.x - a.x);
@@ -592,6 +620,14 @@ export class Tools extends Context.Tag('Tools')<
 							'rectangle_erase',
 							'line_draw',
 							'line_erase',
+							'polygon_draw',
+							'polygon_erase',
+							'star_draw',
+							'star_erase',
+							'ring_draw',
+							'ring_erase',
+							'spiral_draw',
+							'spiral_erase',
 						),
 						(value) =>
 							Effect.promise(async () => {
@@ -602,11 +638,21 @@ export class Tools extends Context.Tag('Tools')<
 									project,
 								);
 								const size = Match.value(value).pipe(
-									Match.when(Match.is('circle_draw', 'circle_erase'), () => {
-										const [center, edge] = get_double_payload(payload);
-										const radius = center.distance_to(edge);
-										return radius * 2;
-									}),
+									Match.when(
+										Match.is(
+											'circle_draw',
+											'circle_erase',
+											'polygon_draw',
+											'polygon_erase',
+											'star_draw',
+											'star_erase',
+										),
+										() => {
+											const [center, edge] = get_double_payload(payload);
+											const radius = center.distance_to(edge);
+											return radius * 2;
+										},
+									),
 									Match.when(
 										Match.is('rectangle_draw', 'rectangle_erase'),
 										() => {

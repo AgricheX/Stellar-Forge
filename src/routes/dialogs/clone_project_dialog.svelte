@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import { ID } from '$lib/constants';
 	import { get_editor } from '$lib/editor.svelte';
@@ -34,7 +35,7 @@
 
 <Dialog
 	{id}
-	title="Clone Project"
+	title={t('Clone Project')}
 	bind:this={dialog}
 	on_open={() => {
 		name = editor().project.name;
@@ -42,7 +43,7 @@
 >
 	<form class="flex flex-col gap-4" {onsubmit}>
 		<label>
-			<span class="label-text">Name</span>
+			<span class="label-text">{t('Name')}</span>
 			<!-- svelte-ignore a11y_autofocus -->
 			<input
 				class="input ring-surface-500 bg-surface-200-800"
@@ -53,7 +54,7 @@
 			/>
 			{#if is_duplicate_name}
 				<small class="text-warning-500">
-					Name already used by another project.
+					{t('Name already used by another project.')}
 				</small>
 			{/if}
 		</label>
@@ -64,14 +65,14 @@
 				command="close"
 				commandfor={id}
 			>
-				Cancel
+				{t('Cancel')}
 			</button>
 			<button
 				class="btn preset-filled-primary-500 w-auto"
 				type="submit"
 				disabled={is_duplicate_name}
 			>
-				Clone
+				{t('Clone')}
 			</button>
 		</div>
 	</form>

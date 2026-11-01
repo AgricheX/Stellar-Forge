@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import { ID } from '$lib/constants';
 	import { get_editor } from '$lib/editor.svelte';
@@ -15,13 +16,14 @@
 	};
 </script>
 
-<Dialog {id} title="Delete Project" bind:this={dialog}>
+<Dialog {id} title={t('Delete Project')} bind:this={dialog}>
 	<form class="flex flex-col gap-4" {onsubmit}>
-		<p>Are you sure? This cannot be undone.</p>
+		<p>{t('Are you sure? This cannot be undone.')}</p>
 		{#if editor().projects.length === 1}
 			<p>
-				This is your only project. A new blank project will automatically be
-				created.
+				{t(
+					'This is your only project. A new blank project will automatically be created.',
+				)}
 			</p>
 		{/if}
 		<div class="flex justify-end gap-2">
@@ -31,10 +33,10 @@
 				command="close"
 				commandfor={id}
 			>
-				Cancel
+				{t('Cancel')}
 			</button>
 			<button class="btn preset-filled-error-500 w-auto" type="submit">
-				Delete
+				{t('Delete')}
 			</button>
 		</div>
 	</form>

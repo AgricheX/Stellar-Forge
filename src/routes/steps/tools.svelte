@@ -9,12 +9,8 @@
 	} from '$lib/models/tool';
 	import { get_editor } from '$lib/editor.svelte';
 	import Slider from '$lib/components/slider.svelte';
-	import {
-		Portal,
-		SegmentedControl,
-		Switch,
-		Tooltip,
-	} from '@skeletonlabs/skeleton-svelte';
+	import { Portal, Switch, Tooltip } from '@skeletonlabs/skeleton-svelte';
+	import { t } from '$lib/i18n/index.svelte';
 	import { Icons } from '$lib/components/icons';
 	import SectionHeader from '$lib/components/section_header.svelte';
 	import { Record } from 'effect';
@@ -37,64 +33,41 @@
 	}
 </script>
 
-<SegmentedControl
-	value={tool_pairs.find(
-		(tool_pair) =>
+<div class="flex flex-wrap gap-1">
+	{#each tool_pairs.filter((tool_pair) => tool_pair.step === step) as tool_pair (tool_pair.id)}
+		{@const Icon = Icons[tool_pair.icon]}
+		{@const active =
 			tool_pair.primary.id === editor().primary_tool_id ||
-			tool_pair.secondary?.id === editor().primary_tool_id,
-	)?.id}
-	onValueChange={(details) => {
-		const tool_pair = tool_pairs.find(
-			(tool_pair) => tool_pair.id === details.value,
-		);
-		if (!tool_pair) return;
-		editor().primary_tool_id = tool_pair.primary.id;
-		editor().secondary_tool_id = tool_pair.secondary.id;
-	}}
->
-	<SegmentedControl.Label>Tool</SegmentedControl.Label>
-	<SegmentedControl.Control class="border-surface-300-700">
-		<SegmentedControl.Indicator class="bg-primary-500" />
-		{#each tool_pairs.filter((tool_pair) => tool_pair.step === step) as tool_pair (tool_pair.id)}
-			{@const Icon = Icons[tool_pair.icon]}
-			<Tooltip positioning={{ placement: 'top' }}>
-				<Tooltip.Trigger>
-					{#snippet element(attributes: Record<string, unknown>)}
-						<div {...attributes} class="flex-1 flex w-0">
-							<SegmentedControl.Item
-								value={tool_pair.id}
-								aria-label={tool_pair.name}
-							>
-								<SegmentedControl.ItemText>
-									<Icon class="size-4 text-surface-950-50" />
-								</SegmentedControl.ItemText>
-								<SegmentedControl.ItemHiddenInput />
-							</SegmentedControl.Item>
-						</div>
-					{/snippet}
-				</Tooltip.Trigger>
-				<Portal>
-					<Tooltip.Positioner>
-						<Tooltip.Content class="card p-2 preset-filled-surface-950-50">
-							<span>{tool_pair.name}</span>
-							<Tooltip.Arrow
-								class="[--arrow-size:--spacing(2)] [--arrow-background:var(--color-surface-950-50)]"
-							>
-								<Tooltip.ArrowTip />
-							</Tooltip.Arrow>
-						</Tooltip.Content>
-					</Tooltip.Positioner>
-				</Portal>
-			</Tooltip>
-		{/each}
-	</SegmentedControl.Control>
-</SegmentedControl>
+			tool_pair.secondary.id === editor().primary_tool_id}
+		<button
+			type="button"
+			class={[
+				'flex items-center gap-1.5 h-8 px-2 rounded-md border text-xs transition-all',
+				active ?
+					'border-primary-500 bg-primary-500/12 text-primary-500 shadow-[0_0_14px_-6px_rgba(229,50,45,0.9)]'
+				:	'border-surface-200-800 text-surface-700-300 hover:border-surface-400-600',
+			]}
+			title="{t(tool_pair.name)} ({tool_pair.key})"
+			onclick={() => {
+				editor().primary_tool_id = tool_pair.primary.id;
+				editor().secondary_tool_id = tool_pair.secondary.id;
+			}}
+		>
+			<Icon class="size-3.5" />
+			<span class="font-mono text-[0.6rem] opacity-60">{tool_pair.key}</span>
+		</button>
+	{/each}
+</div>
 
 {#snippet settings(tool: Tool)}
 	<header class="flex gap-2 items-baseline">
-		<h3 class="inline font-bold text-surface-900-100">{tool.name}</h3>
-		<em class="text-sm text-surface-800-200">
-			{#if tool.id === editor().secondary_tool_id}shift+{/if}click{#if tool.action_type !== 'single_point' || editor().tool_settings[tool.id].bulk === 1}+drag{/if}
+		<h3 class="inline font-bold text-surface-900-100">{t(tool.name)}</h3>
+		<em class="text-xs text-surface-600-400 not-italic font-mono">
+			{#if tool.id === editor().secondary_tool_id}{t('shift')}+{/if}{t(
+				'click',
+			)}{#if tool.action_type !== 'single_point' || editor().tool_settings[tool.id].bulk === 1}+{t(
+					'drag',
+				)}{/if}
 		</em>
 		<div class="grow"></div>
 		<Tooltip positioning={{ placement: 'top' }}>
@@ -112,7 +85,7 @@
 			<Portal>
 				<Tooltip.Positioner>
 					<Tooltip.Content class="card p-2 preset-filled-surface-950-50">
-						<span>Swap Primary/Secondary</span>
+						<span>{t('Swap Primary/Secondary')} (X)</span>
 						<Tooltip.Arrow
 							class="[--arrow-size:--spacing(2)] [--arrow-background:var(--color-surface-950-50)]"
 						>
@@ -138,7 +111,7 @@
 				<Portal>
 					<Tooltip.Positioner>
 						<Tooltip.Content class="card p-2 preset-filled-surface-950-50">
-							<span>Reset Settings</span>
+							<span>{t('Reset Settings')}</span>
 							<Tooltip.Arrow
 								class="[--arrow-size:--spacing(2)] [--arrow-background:var(--color-surface-950-50)]"
 							>
@@ -152,12 +125,12 @@
 	</header>
 
 	{#if tool.description}
-		<p class="text-sm text-surface-900-100">{tool.description}</p>
+		<p class="text-sm text-surface-900-100">{t(tool.description)}</p>
 	{/if}
 
 	{#if 'cap_style' in tool.default_settings}
 		<label>
-			<span class="label-text">Cap Style</span>
+			<span class="label-text">{t('Cap Style')}</span>
 			<select
 				class="select ring-surface-300-700 bg-surface-100-900"
 				value={editor().tool_settings[tool.id].cap_style}
@@ -167,9 +140,9 @@
 						'cap_style',
 					)(Number.parseInt(e.currentTarget.value))}
 			>
-				<option value={CAP_STYLE.butt}>Butt</option>
-				<option value={CAP_STYLE.bevel}>Bevel</option>
-				<option value={CAP_STYLE.round}>Round</option>
+				<option value={CAP_STYLE.butt}>{t('Butt')}</option>
+				<option value={CAP_STYLE.bevel}>{t('Bevel')}</option>
+				<option value={CAP_STYLE.round}>{t('Round')}</option>
 			</select>
 		</label>
 	{/if}
@@ -182,7 +155,49 @@
 			value={editor().tool_settings[tool.id].size}
 			on_value_change={on_value_change(tool.id, 'size')}
 		>
-			{#snippet label()}{tool.size_label ?? 'Size'}{/snippet}
+			{#snippet label()}{t(tool.size_label ?? 'Size')}{/snippet}
+		</Slider>
+	{/if}
+
+	{#if 'sides' in tool.default_settings}
+		<Slider
+			min={tool.id.startsWith('spiral') ? 1 : 3}
+			max={tool.id.startsWith('spiral') ? 8 : 16}
+			step={1}
+			value={editor().tool_settings[tool.id].sides}
+			on_value_change={on_value_change(tool.id, 'sides')}
+		>
+			{#snippet label()}{t(
+					tool.id.startsWith('spiral') ? 'Arms'
+					: tool.id.startsWith('star') ? 'Points'
+					: 'Sides',
+				)}{/snippet}
+		</Slider>
+	{/if}
+
+	{#if 'inner_ratio' in tool.default_settings}
+		<Slider
+			min={0.1}
+			max={0.9}
+			step={0.05}
+			value={editor().tool_settings[tool.id].inner_ratio}
+			on_value_change={on_value_change(tool.id, 'inner_ratio')}
+		>
+			{#snippet label()}{t('Inner Radius')}{/snippet}
+			{#snippet output(value)}{Math.round(value * 100)}%{/snippet}
+		</Slider>
+	{/if}
+
+	{#if 'turns' in tool.default_settings}
+		<Slider
+			min={0.1}
+			max={2.5}
+			step={0.05}
+			value={editor().tool_settings[tool.id].turns}
+			on_value_change={on_value_change(tool.id, 'turns')}
+		>
+			{#snippet label()}{t('Twist')}{/snippet}
+			{#snippet output(value)}{value} {t('turns')}{/snippet}
 		</Slider>
 	{/if}
 
@@ -194,7 +209,7 @@
 			value={editor().tool_settings[tool.id].opacity}
 			on_value_change={on_value_change(tool.id, 'opacity')}
 		>
-			{#snippet label()}Strength{/snippet}
+			{#snippet label()}{t('Strength')}{/snippet}
 			{#snippet output(value)}{Math.round(value * 100)}%{/snippet}
 		</Slider>
 	{/if}
@@ -207,7 +222,7 @@
 			value={editor().tool_settings[tool.id].blur}
 			on_value_change={on_value_change(tool.id, 'blur')}
 		>
-			{#snippet label()}Blur{/snippet}
+			{#snippet label()}{t('Blur')}{/snippet}
 			{#snippet output(value)}{value}x{/snippet}
 		</Slider>
 	{/if}
@@ -224,7 +239,7 @@
 			<Switch.Control>
 				<Switch.Thumb />
 			</Switch.Control>
-			<Switch.Label class="flex gap-1">Bulk Mode</Switch.Label>
+			<Switch.Label class="flex gap-1">{t('Bulk Mode')}</Switch.Label>
 			<Switch.HiddenInput />
 		</Switch>
 	{/if}
@@ -237,13 +252,13 @@
 			value={editor().tool_settings[tool.id].bulk_brush_size}
 			on_value_change={on_value_change(tool.id, 'bulk_brush_size')}
 		>
-			{#snippet label()}Bulk Brush Size{/snippet}
+			{#snippet label()}{t('Bulk Brush Size')}{/snippet}
 		</Slider>
 	{/if}
 {/snippet}
 
-<SectionHeader>Primary</SectionHeader>
+<SectionHeader>{t('Primary')}</SectionHeader>
 {@render settings(editor().primary_tool)}
 
-<SectionHeader>Secondary</SectionHeader>
+<SectionHeader>{t('Secondary')}</SectionHeader>
 {@render settings(editor().secondary_tool)}

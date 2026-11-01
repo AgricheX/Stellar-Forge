@@ -319,7 +319,7 @@ export class Projects extends Context.Tag('Projects')<
 					const name = pipe(
 						get_legacy_localstorage('nebulas'),
 						Schema.decodeUnknownEither(Schema.NonEmptyString),
-						Either.getOrElse(() => 'Painted Galaxy'),
+						Either.getOrElse(() => 'Forged Galaxy'),
 					);
 
 					const base_64_image_data = localStorage.getItem(
