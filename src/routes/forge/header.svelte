@@ -662,6 +662,11 @@
 							'Discord: Agriche Community',
 							LINKS.discord,
 						)}
+						{@render menu_item_link(
+							'stellar_forge_steam',
+							'Stellar Forge (Steam Workshop)',
+							LINKS.steam,
+						)}
 						{@render menu_item_link('github', 'GitHub', LINKS.github)}
 						{@render menu_item_link('nexus', 'Agriche Nexus', LINKS.nexus)}
 						{@render menu_item_link(

@@ -137,6 +137,14 @@
 			</a>
 			<a
 				class="btn preset-tonal"
+				{...{ href: LINKS.steam }}
+				target="_blank"
+				rel="noreferrer"
+			>
+				<Icons.Gamepad2 class="size-4" /> Steam Workshop
+			</a>
+			<a
+				class="btn preset-tonal"
 				{...{ href: LINKS.github }}
 				target="_blank"
 				rel="noreferrer"

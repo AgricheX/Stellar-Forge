@@ -166,6 +166,15 @@
 						<Icons.BookOpen class="size-5" />
 						{tr('Guides and tutorials', 'Guias e tutoriais')}
 					</a>
+					<a
+						class="btn btn-lg preset-tonal"
+						{...{ href: LINKS.steam }}
+						target="_blank"
+						rel="noreferrer"
+					>
+						<Icons.Gamepad2 class="size-5" />
+						Steam Workshop
+					</a>
 				</div>
 				<p class="text-xs text-surface-500 flex items-center gap-2">
 					<Icons.Info class="size-3.5" />
@@ -258,6 +267,15 @@
 				>
 					<Icons.MessageCircle class="size-4" />
 					Discord
+				</a>
+				<a
+					class="btn preset-tonal"
+					{...{ href: LINKS.steam }}
+					target="_blank"
+					rel="noreferrer"
+				>
+					<Icons.Gamepad2 class="size-4" />
+					Steam Workshop
 				</a>
 				<a
 					class="btn preset-tonal"
