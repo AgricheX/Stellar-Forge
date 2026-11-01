@@ -179,7 +179,10 @@ export async function render_map_image(
 		const pad = size * 0.03;
 		ctx.fillStyle = 'rgba(13,13,15,0.75)';
 		ctx.font = `700 ${size * 0.032}px Inter, sans-serif`;
-		const title = project.mod_info.name.trim() || project.name;
+		const title =
+			project.map_count > 1 ?
+				project.scenario_name
+			:	project.mod_info.name.trim() || project.name;
 		const width = ctx.measureText(title).width;
 		ctx.fillRect(
 			pad,
@@ -213,12 +216,16 @@ export function mod_folder(project: Project) {
 	return `stellar_forge_${slugify(mod_display_name(project))}`;
 }
 
+function remote_id(info: Project['mod_info']) {
+	return info.remote_file_id.replace(/\D/g, '');
+}
+
 export async function build_mod_zip(project: Project): Promise<Blob> {
 	const info = project.mod_info;
 	const name = mod_display_name(project);
-	const slug = slugify(name);
 	const folder = mod_folder(project);
-	const galaxy_txt = generate_stellaris_galaxy(project);
+	const maps = project.all_maps().map((_, index) => project.single_map(index));
+	const map_names = maps.map((map) => map.scenario_name.replaceAll('"', "'"));
 	const tags = info.tags.length > 0 ? info.tags : ['Galaxy Generation'];
 	const descriptor_lines = [
 		`version="${info.version.trim().replaceAll('"', '') || '1.0.0'}"`,
@@ -232,8 +239,25 @@ export async function build_mod_zip(project: Project): Promise<Blob> {
 		'}',
 	];
 	if (info.thumbnail) descriptor_lines.push('picture="thumbnail.png"');
+	if (remote_id(info))
+		descriptor_lines.push(`remote_file_id="${remote_id(info)}"`);
 	const descriptor = descriptor_lines.join('\n') + '\n';
 	const outer_mod = descriptor + `path="mod/${folder}"\n`;
+	const size_line_en =
+		maps.length > 1 ?
+			`4. Start a new game, choose the "Elliptical" shape and one of these galaxy sizes:`
+		:	`4. Start a new game, choose the "Elliptical" shape and "${map_names[0]}" as the galaxy size.`;
+	const size_line_pt =
+		maps.length > 1 ?
+			`4. Comece um jogo novo, escolha o formato "Elliptical" e um destes tamanhos de galáxia:`
+		:	`4. Comece um jogo novo, escolha o formato "Elliptical" e "${map_names[0]}" como tamanho da galáxia.`;
+	const map_list =
+		maps.length > 1 ?
+			maps.map(
+				(map, i) =>
+					`   - ${map_names[i]} (${map.solar_systems.length} star systems)`,
+			)
+		:	[];
 	const readme = [
 		`${name} · v${info.version}`,
 		'',
@@ -249,7 +273,8 @@ export async function build_mod_zip(project: Project): Promise<Blob> {
 		'   macOS: ~/Documents/Paradox Interactive/Stellaris/mod',
 		`   You should end up with "${folder}.mod" and the "${folder}" folder side by side.`,
 		'3. Open the launcher, enable "Paint a Galaxy" and this mod in your playset.',
-		`4. Start a new game, choose the "Elliptical" shape and "${project.name}" as the galaxy size.`,
+		size_line_en,
+		...map_list,
 		'',
 		'COMO INSTALAR',
 		'1. Inscreva-se no "Paint a Galaxy" na Steam Workshop (obrigatório):',
@@ -260,13 +285,15 @@ export async function build_mod_zip(project: Project): Promise<Blob> {
 		'   macOS: ~/Documents/Paradox Interactive/Stellaris/mod',
 		`   Os arquivos "${folder}.mod" e a pasta "${folder}" devem ficar lado a lado.`,
 		'3. Abra o launcher e ative o "Paint a Galaxy" e este mod no seu playset.',
-		`4. Comece um jogo novo, escolha o formato "Elliptical" e "${project.name}" como tamanho da galáxia.`,
+		size_line_pt,
+		...map_list.map((line) =>
+			line.replace('star systems', 'sistemas estelares'),
+		),
 		'',
 	].join('\n');
 	const files: Record<string, Uint8Array> = {
 		[`${folder}.mod`]: strToU8(outer_mod),
 		[`${folder}/descriptor.mod`]: strToU8(descriptor),
-		[`${folder}/map/setup_scenarios/${slug}.txt`]: strToU8(galaxy_txt),
 		[`${folder}/${PROJECT_FILE}`]: strToU8(
 			JSON.stringify({
 				stellar_forge: version,
@@ -275,11 +302,23 @@ export async function build_mod_zip(project: Project): Promise<Blob> {
 		),
 		'README.txt': strToU8(readme),
 	};
-	if (project.custom_systems.length > 0) {
+	const used_slugs = new Set<string>();
+	for (const map of maps) {
+		const base = slugify(map.scenario_name);
+		let slug = base;
+		let n = 2;
+		while (used_slugs.has(slug)) slug = `${base}_${n++}`;
+		used_slugs.add(slug);
+		files[`${folder}/map/setup_scenarios/${slug}.txt`] = strToU8(
+			generate_stellaris_galaxy(map),
+		);
+	}
+	const custom_systems = project.custom_systems;
+	if (custom_systems.length > 0) {
 		files[`${folder}/common/solar_system_initializers/${folder}_systems.txt`] =
 			strToU8(
 				initializers_file(
-					project.custom_systems,
+					custom_systems,
 					`${name} · custom systems made with Stellar Forge`,
 				),
 			);

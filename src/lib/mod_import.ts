@@ -21,6 +21,7 @@ function read_descriptor(txt: string) {
 		version: text('version'),
 		supported_version: text('supported_version'),
 		picture: text('picture'),
+		remote_file_id: text('remote_file_id'),
 		tags,
 	};
 }
@@ -30,25 +31,40 @@ export async function open_mod_zip(file: File): Promise<OpenedMod> {
 	const paths = Object.keys(entries).filter((path) => !path.endsWith('/'));
 	const find = (test: (path: string) => boolean) => paths.find(test);
 
+	const descriptor_path =
+		find((path) => /^[^/]*\/?descriptor\.mod$/i.test(path)) ??
+		find((path) => path.endsWith('descriptor.mod'));
+	const descriptor =
+		descriptor_path ?
+			read_descriptor(strFromU8(entries[descriptor_path]!))
+		:	null;
+	const remote_file_id = descriptor?.remote_file_id ?? '';
+
 	const project_path = find(
 		(path) => path === PROJECT_FILE || path.endsWith(`/${PROJECT_FILE}`),
 	);
 	if (project_path) {
 		const json = JSON.parse(strFromU8(entries[project_path]!));
-		const project = await Project.from_json(json.project ?? json);
+		const main = await Project.from_json(json.project ?? json);
+		const project = new Project({
+			...main,
+			mod_info: ModInfo.make({
+				...main.mod_info,
+				remote_file_id: main.mod_info.remote_file_id || remote_file_id,
+			}),
+		});
 		return { project, source: 'project', file_name: file.name };
 	}
 
-	const map_path = find((path) =>
-		/(^|\/)map\/setup_scenarios\/[^/]+\.txt$/i.test(path),
-	);
-	if (!map_path) {
+	const map_paths = paths
+		.filter((path) => /(^|\/)map\/setup_scenarios\/[^/]+\.txt$/i.test(path))
+		.sort((a, b) => a.localeCompare(b));
+	if (map_paths.length === 0) {
 		throw new Error(
 			'This zip has no map/setup_scenarios file, so it is not a galaxy map mod.',
 		);
 	}
-	const root = map_path.replace(/map\/setup_scenarios\/[^/]+$/i, '');
-	const base = await Project.from_txt(strFromU8(entries[map_path]!));
+	const root = map_paths[0]!.replace(/map\/setup_scenarios\/[^/]+$/i, '');
 
 	const custom_systems = paths
 		.filter((path) =>
@@ -62,13 +78,25 @@ export async function open_mod_zip(file: File): Promise<OpenedMod> {
 			}
 		});
 
-	const descriptor_path =
-		find((path) => path === `${root}descriptor.mod`) ??
-		find((path) => path.endsWith('descriptor.mod'));
-	const descriptor =
-		descriptor_path ?
-			read_descriptor(strFromU8(entries[descriptor_path]!))
-		:	null;
+	const maps: Project[] = [];
+	const used_names = new Set<string>();
+	for (const path of map_paths) {
+		let base: Project;
+		try {
+			base = await Project.from_txt(strFromU8(entries[path]!));
+		} catch {
+			continue;
+		}
+		let name = base.name;
+		let n = 2;
+		while (used_names.has(name)) name = `${base.name} ${n++}`;
+		used_names.add(name);
+		maps.push(new Project({ ...base, name }));
+	}
+	const [first, ...rest] = maps;
+	if (!first) {
+		throw new Error('Could not read the map files in this zip.');
+	}
 
 	let icon = '';
 	const picture = descriptor?.picture ?? 'thumbnail.png';
@@ -85,7 +113,11 @@ export async function open_mod_zip(file: File): Promise<OpenedMod> {
 	}
 
 	const project = new Project({
-		...base,
+		...first,
+		name: rest.length > 0 ? descriptor?.name?.trim() || first.name : first.name,
+		map_name: rest.length > 0 ? first.name : '',
+		maps: rest.map((map) => map.current_map()),
+		map_index: 0,
 		custom_systems,
 		mod_info: ModInfo.make({
 			name: descriptor?.name ?? '',
@@ -97,6 +129,7 @@ export async function open_mod_zip(file: File): Promise<OpenedMod> {
 				:	['Galaxy Generation'],
 			icon,
 			thumbnail: picture_path != null,
+			remote_file_id,
 		}),
 	});
 	return { project, source: 'rebuilt', file_name: file.name };

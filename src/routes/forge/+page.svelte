@@ -20,6 +20,7 @@
 	import SystemForge from './panels/system_forge.svelte';
 	import SaveImportDialog from './panels/save_import_dialog.svelte';
 	import OpenModDialog from './panels/open_mod_dialog.svelte';
+	import MapDialog from './panels/map_dialog.svelte';
 	import EditorView from './editor.svelte';
 	import UrlActions from './url_actions.svelte';
 	import { t } from '$lib/i18n/index.svelte';
@@ -63,6 +64,7 @@
 			<SystemForge />
 			<SaveImportDialog />
 			<OpenModDialog />
+			<MapDialog />
 			<EditorView />
 			<UrlActions />
 		</EditorProvider>

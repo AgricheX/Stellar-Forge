@@ -29,10 +29,42 @@
 	let preview_url = $state('');
 	let busy = $state<string | null>(null);
 
+	const maps = $derived(project.all_maps());
+	const map_names = $derived(maps.map((map) => map.name));
+	let variant_count = $state(400);
+	let variant_name = $state('');
+	const variant_default_name = $derived(
+		`${project.scenario_name} - ${variant_count} Stars`,
+	);
+	const variant_final_name = $derived(
+		variant_name.trim() || variant_default_name,
+	);
+	const variant_taken = $derived(map_names.includes(variant_final_name));
+
+	const create_variant = () =>
+		run('variant', async () => {
+			const name = variant_final_name;
+			const variant = await editor().add_map(name, 'variant', variant_count);
+			variant_name = '';
+			toaster.success({
+				title: t('Variant created'),
+				description: t(
+					'"{name}" has {count} star systems and is a new map in this mod.',
+					{
+						name,
+						count: variant.solar_systems.length,
+					},
+				),
+			});
+		});
+
 	const spawns = $derived(
 		project.solar_systems.filter((system) => system.is_spawn).length,
 	);
 	const has_systems = $derived(project.solar_systems.length > 0);
+	const any_systems = $derived(
+		maps.some((map) => map.solar_systems.length > 0),
+	);
 
 	$effect(() => {
 		if (!open || info.icon) return;
@@ -106,7 +138,7 @@
 		} catch (e) {
 			toaster.error({
 				title: t('Export failed'),
-				description: e instanceof Error ? e.message : String(e),
+				description: e instanceof Error ? t(e.message) : String(e),
 			});
 		} finally {
 			busy = null;
@@ -128,14 +160,14 @@
 			const txt = generate_stellaris_galaxy(project);
 			download_blob(
 				new Blob([txt], { type: 'text/plain' }),
-				`${project.name}.txt`,
+				`${project.scenario_name}.txt`,
 			);
 		});
 
 	const download_png = () =>
 		run('png', async () => {
 			const blob = await render_map_image(project, image_style);
-			download_blob(blob, `${slugify(project.name)}.png`);
+			download_blob(blob, `${slugify(project.scenario_name)}.png`);
 		});
 
 	const download_json = () =>
@@ -320,24 +352,122 @@
 								{/each}
 							</div>
 						</div>
-						{#if ui.advanced}
-							<label class="flex flex-col gap-1 max-w-48">
-								<span class="label-text text-xs">{t('Game version')}</span>
+						<div class="grid grid-cols-2 gap-2">
+							{#if ui.advanced}
+								<label class="flex flex-col gap-1">
+									<span class="label-text text-xs">{t('Game version')}</span>
+									<input
+										class="input bg-surface-100-900 ring-surface-200-800 font-mono text-sm"
+										value={info.supported_version}
+										onchange={(e) =>
+											editor().update_mod_info({
+												supported_version:
+													e.currentTarget.value.trim() || 'v4.*',
+											})}
+									/>
+								</label>
+							{/if}
+							<label class="flex flex-col gap-1">
+								<span class="label-text text-xs">{t('Workshop ID')}</span>
 								<input
 									class="input bg-surface-100-900 ring-surface-200-800 font-mono text-sm"
-									value={info.supported_version}
+									placeholder={t('optional')}
+									title={t(
+										'The number in your Workshop link. Updates go to the same Workshop item.',
+									)}
+									value={info.remote_file_id}
 									onchange={(e) =>
 										editor().update_mod_info({
-											supported_version: e.currentTarget.value.trim() || 'v4.*',
+											remote_file_id: (
+												e.currentTarget.value.match(/id=(\d+)/)?.[1] ??
+												e.currentTarget.value
+											).replace(/\D/g, ''),
 										})}
 								/>
 							</label>
-						{/if}
+						</div>
+					</div>
+				</div>
+				<div class="mt-4 rounded-md border border-surface-200-800 p-3">
+					<div class="flex items-center justify-between gap-2">
+						<span class="font-semibold text-sm flex items-center gap-2">
+							<Icons.Layers class="size-4 text-primary-500" />
+							{t('Maps in this mod')}
+						</span>
+						<span class="sf-tag">
+							{t('{count} maps in this mod', { count: maps.length })}
+						</span>
+					</div>
+					<p class="text-xs text-surface-500 mt-1">
+						{t(
+							'Each map shows up as a galaxy size in the game. Add and switch maps with the tabs above the map.',
+						)}
+					</p>
+					<ul class="flex flex-col gap-1 mt-2 max-h-36 overflow-y-auto pe-1">
+						{#each maps as map, index (index)}
+							<li>
+								<button
+									class={[
+										'w-full flex items-center gap-2 rounded-md px-2 py-1 text-sm text-left transition-colors',
+										index === project.active_map_index ?
+											'bg-primary-500/15 text-primary-500'
+										:	'hover:bg-surface-100-900',
+									]}
+									onclick={() => editor().switch_map(index)}
+								>
+									<span class="truncate">{map.name}</span>
+									<span
+										class="ms-auto font-mono text-[0.65rem] text-surface-500 shrink-0"
+									>
+										{map.solar_systems.length}
+										{t('systems')}
+									</span>
+								</button>
+							</li>
+						{/each}
+					</ul>
+					<div class="grid grid-cols-[1fr_5.5rem_auto] gap-2 mt-3 items-end">
+						<label class="flex flex-col gap-1 min-w-0">
+							<span class="label-text text-xs">
+								{t('New variant with another star count')}
+							</span>
+							<input
+								class="input bg-surface-100-900 ring-surface-200-800 text-sm"
+								placeholder={variant_default_name}
+								bind:value={variant_name}
+							/>
+						</label>
+						<label class="flex flex-col gap-1">
+							<span class="label-text text-xs">{t('Stars')}</span>
+							<input
+								type="number"
+								min="10"
+								max="5000"
+								step="50"
+								class="input bg-surface-100-900 ring-surface-200-800 font-mono text-sm"
+								bind:value={variant_count}
+							/>
+						</label>
+						<button
+							class="btn preset-tonal h-[2.6rem]"
+							disabled={busy != null || variant_taken || !(variant_count > 0)}
+							title={variant_taken ?
+								t('A project with this name already exists.')
+							:	undefined}
+							onclick={create_variant}
+						>
+							{#if busy === 'variant'}
+								<Icons.RotateCcw class="size-4 sf-spin" />
+							{:else}
+								<Icons.Plus class="size-4" />
+							{/if}
+							{t('Create')}
+						</button>
 					</div>
 				</div>
 				<button
 					class="btn preset-filled-primary-500 sf-btn-glow w-full mt-3"
-					disabled={!has_systems || busy != null}
+					disabled={!any_systems || busy != null}
 					onclick={download_mod}
 				>
 					{#if busy === 'mod'}
@@ -346,7 +476,11 @@
 						<Icons.Download class="size-4" />
 					{/if}
 					{t('Download Mod')}
-					<span class="font-mono text-xs opacity-80">v{info.version}</span>
+					<span class="font-mono text-xs opacity-80">
+						v{info.version}{maps.length > 1 ?
+							` · ${maps.length} ${t('maps')}`
+						:	''}
+					</span>
 				</button>
 				<p class="text-xs text-surface-500 mt-2 font-mono truncate">
 					{mod_folder(project)}.zip · {mod_display_name(project)}

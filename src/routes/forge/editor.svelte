@@ -6,11 +6,13 @@
 	import PlacementToolbar from './placement_toolbar.svelte';
 	import StatusBar from './status_bar.svelte';
 	import EmptyState from './empty_state.svelte';
+	import MapTabs from './map_tabs.svelte';
 </script>
 
 <div class="flex flex-row h-0 grow">
 	<ToolRail />
 	<div class="relative flex flex-col grow min-w-0">
+		<MapTabs />
 		<div class="relative grow min-h-0">
 			<Canvas />
 			<EmptyState />

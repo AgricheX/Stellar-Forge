@@ -792,4 +792,49 @@ export const pt: Record<string, string> = {
 	'Surprise me': 'Surpresa',
 	'Just one': 'Só uma',
 	Several: 'Várias',
+	'Could not read the map files in this zip.':
+		'Não consegui ler os arquivos de mapa deste zip.',
+	Stars: 'Estrelas',
+	'The number in your Workshop link. Updates go to the same Workshop item.':
+		'O número do link da sua oficina. As atualizações vão para o mesmo item da oficina.',
+	'Workshop ID': 'ID da oficina',
+	maps: 'mapas',
+	'{count} maps in this mod': '{count} mapas neste mod',
+	'No star systems were generated. Variants need a painted galaxy.':
+		'Nenhum sistema estelar foi gerado. Variantes precisam de uma galáxia pintada.',
+	'"{name}" has {count} star systems and is a new map in this mod.':
+		'"{name}" tem {count} sistemas estelares e é um novo mapa neste mod.',
+	'"{name}" has {count} star systems.':
+		'"{name}" tem {count} sistemas estelares.',
+	'A map with this name already exists.': 'Já existe um mapa com esse nome.',
+	'Add map': 'Adicionar mapa',
+	'All maps open in one project. Switch between them with the tabs above the map.':
+		'Todos os mapas abrem em um só projeto. Troque entre eles pelas abas em cima do mapa.',
+	'Could not add the map': 'Não consegui adicionar o mapa',
+	'Delete map': 'Apagar mapa',
+	'Delete the map "{name}" from this project? This cannot be undone.':
+		'Apagar o mapa "{name}" deste projeto? Não dá para desfazer.',
+	'Double-click to rename': 'Clique duas vezes para renomear',
+	'Each map shows up as a galaxy size in the game. Add and switch maps with the tabs above the map.':
+		'Cada mapa aparece como um tamanho de galáxia no jogo. Adicione e troque mapas pelas abas em cima do mapa.',
+	'Every map in this project goes into the same mod and shows up as a galaxy size in the game.':
+		'Todos os mapas deste projeto vão para o mesmo mod e aparecem como tamanhos de galáxia no jogo.',
+	'Map added': 'Mapa adicionado',
+	Maps: 'Mapas',
+	'Maps in this mod': 'Mapas neste mod',
+	'Name in the game': 'Nome no jogo',
+	'New map': 'Novo mapa',
+	'Same galaxy, another star count':
+		'Mesma galáxia, outra quantidade de estrelas',
+	'Uses this painting and generates again with the number you choose.':
+		'Usa esta pintura e gera de novo com o número que você escolher.',
+	'Copy of this map': 'Cópia deste mapa',
+	'An exact copy you can change freely.':
+		'Uma cópia igual que você pode mudar à vontade.',
+	'Blank map': 'Mapa em branco',
+	'Start a new galaxy from scratch.': 'Comece uma galáxia nova do zero.',
+	'New variant with another star count':
+		'Nova variante com outra quantidade de estrelas',
+	'Variant created': 'Variante criada',
+	optional: 'opcional',
 };

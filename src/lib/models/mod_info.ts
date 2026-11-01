@@ -50,6 +50,10 @@ export class ModInfo extends Schema.Class<ModInfo>('ModInfo')({
 		Schema.optional,
 		Schema.withDefaults({ constructor: () => true, decoding: () => true }),
 	),
+	remote_file_id: Schema.String.pipe(
+		Schema.optional,
+		Schema.withDefaults({ constructor: () => '', decoding: () => '' }),
+	),
 }) {
 	static default() {
 		return ModInfo.make({});

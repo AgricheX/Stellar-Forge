@@ -107,7 +107,8 @@ type Panel =
 	| 'random'
 	| 'system'
 	| 'save'
-	| 'mod';
+	| 'mod'
+	| 'map';
 
 class Ui {
 	layers = $state(load_layers());

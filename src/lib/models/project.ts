@@ -50,8 +50,7 @@ export class ProjectListing extends Schema.Class<ProjectListing>(
 	}
 }
 
-export class Project extends Schema.Class<Project>('Project')({
-	name: Schema.NonEmptyString,
+const map_fields = {
 	step: Schema.Literal('paint', 'generate', 'tweak').pipe(
 		Schema.optional,
 		Schema.withDefaults({
@@ -92,6 +91,32 @@ export class Project extends Schema.Class<Project>('Project')({
 			decoding: () => SymmetryConfig.default(),
 		}),
 	),
+	txt_import_source: Schema.OptionFromNullishOr(Schema.String, null).pipe(
+		Schema.optional,
+		Schema.withDefaults({ constructor: Option.none, decoding: Option.none }),
+	),
+};
+
+export class GalaxyMap extends Schema.Class<GalaxyMap>('GalaxyMap')({
+	name: Schema.String,
+	...map_fields,
+}) {}
+
+export class Project extends Schema.Class<Project>('Project')({
+	name: Schema.NonEmptyString,
+	...map_fields,
+	map_name: Schema.String.pipe(
+		Schema.optional,
+		Schema.withDefaults({ constructor: () => '', decoding: () => '' }),
+	),
+	maps: Schema.Array(GalaxyMap).pipe(
+		Schema.optional,
+		Schema.withDefaults({ constructor: () => [], decoding: () => [] }),
+	),
+	map_index: Schema.Int.pipe(
+		Schema.optional,
+		Schema.withDefaults({ constructor: () => 0, decoding: () => 0 }),
+	),
 	custom_systems: Schema.Array(CustomSystem).pipe(
 		Schema.optional,
 		Schema.withDefaults({
@@ -105,10 +130,6 @@ export class Project extends Schema.Class<Project>('Project')({
 			constructor: () => ModInfo.default(),
 			decoding: () => ModInfo.default(),
 		}),
-	),
-	txt_import_source: Schema.OptionFromNullishOr(Schema.String, null).pipe(
-		Schema.optional,
-		Schema.withDefaults({ constructor: Option.none, decoding: Option.none }),
 	),
 }) {
 	#delaunay: Option.Option<Delaunay<unknown>> = Option.none();
@@ -129,6 +150,62 @@ export class Project extends Schema.Class<Project>('Project')({
 		} else {
 			return this.#delaunay.value;
 		}
+	}
+
+	get scenario_name(): string {
+		return this.map_name.trim() || this.name;
+	}
+
+	get map_count(): number {
+		return this.maps.length + 1;
+	}
+
+	get active_map_index(): number {
+		return Math.max(0, Math.min(this.map_index, this.maps.length));
+	}
+
+	current_map(): GalaxyMap {
+		return new GalaxyMap({
+			name: this.scenario_name,
+			step: this.step,
+			canvas: this.canvas,
+			solar_systems: this.solar_systems,
+			nebulas: this.nebulas,
+			hyperlanes: this.hyperlanes,
+			wormholes: this.wormholes,
+			fallen_empire_zones: this.fallen_empire_zones,
+			generator_settings: this.generator_settings,
+			grid_config: this.grid_config,
+			symmetry_config: this.symmetry_config,
+			txt_import_source: this.txt_import_source,
+		});
+	}
+
+	all_maps(): GalaxyMap[] {
+		const list = [...this.maps];
+		list.splice(this.active_map_index, 0, this.current_map());
+		return list;
+	}
+
+	with_maps(list: readonly GalaxyMap[], index: number): Project {
+		const active = list[index];
+		if (!active) return this;
+		const { name: map_name, ...fields } = active;
+		return new Project({
+			...this,
+			...fields,
+			map_name,
+			maps: list.filter((_, i) => i !== index),
+			map_index: index,
+		});
+	}
+
+	with_active_map(index: number): Project {
+		return this.with_maps(this.all_maps(), index);
+	}
+
+	single_map(index: number): Project {
+		return new Project({ ...this.with_active_map(index), maps: [] });
 	}
 
 	get_solar_system(id: SolarSystemId): Option.Option<SolarSystem> {
@@ -221,6 +298,12 @@ export class Project extends Schema.Class<Project>('Project')({
 		return {
 			...encoded,
 			canvas: await convert_blob_to_data_url(encoded.canvas),
+			maps: await Promise.all(
+				(encoded.maps ?? []).map(async (map) => ({
+					...map,
+					canvas: await convert_blob_to_data_url(map.canvas),
+				})),
+			),
 		};
 	}
 
@@ -228,6 +311,12 @@ export class Project extends Schema.Class<Project>('Project')({
 		return Schema.decodeSync(Project)({
 			...json,
 			canvas: await convert_data_url_to_blob(json.canvas),
+			maps: await Promise.all(
+				(json.maps ?? []).map(async (map) => ({
+					...map,
+					canvas: await convert_data_url_to_blob(map.canvas),
+				})),
+			),
 		});
 	}
 
@@ -518,6 +607,11 @@ export class Project extends Schema.Class<Project>('Project')({
 }
 
 type Encoded = typeof Project.Encoded;
-interface ProjectJson extends Omit<Encoded, 'canvas'> {
+type MapEncoded = typeof GalaxyMap.Encoded;
+interface MapJson extends Omit<MapEncoded, 'canvas'> {
 	canvas: string;
+}
+interface ProjectJson extends Omit<Encoded, 'canvas' | 'maps'> {
+	canvas: string;
+	maps?: readonly MapJson[];
 }
