@@ -17,6 +17,7 @@ import { Action } from './models/action';
 import { ViewSettings } from './models/view_settings';
 import { View } from './services/view';
 import { GeneratorSettings } from './models/generator_settings';
+import { ModInfo } from './models/mod_info';
 import { Generator } from './services/generator';
 import { SolarSystemId } from './models/solar_system';
 import type { FallenEmpireZoneId } from './models/fallen_empire_zone';
@@ -544,6 +545,13 @@ export class Editor {
 				...this.project.generator_settings,
 				...partial,
 			}),
+		});
+	}
+
+	update_mod_info(partial: Partial<Parameters<typeof ModInfo.make>[0]>) {
+		this.project = new Project({
+			...this.project,
+			mod_info: ModInfo.make({ ...this.project.mod_info, ...partial }),
 		});
 	}
 }

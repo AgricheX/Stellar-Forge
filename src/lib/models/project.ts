@@ -30,6 +30,7 @@ import { Coordinate } from './coordinate';
 import { FallenEmpireZone, FallenEmpireZoneId } from './fallen_empire_zone';
 import { MAX_SYMMETRY_MATCH_DISTANCE } from '$lib/constants';
 import { CustomSystem } from './custom_system';
+import { ModInfo } from './mod_info';
 
 export class ProjectListing extends Schema.Class<ProjectListing>(
 	'ProjectListing',
@@ -96,6 +97,13 @@ export class Project extends Schema.Class<Project>('Project')({
 		Schema.withDefaults({
 			constructor: () => [],
 			decoding: () => [],
+		}),
+	),
+	mod_info: ModInfo.pipe(
+		Schema.optional,
+		Schema.withDefaults({
+			constructor: () => ModInfo.default(),
+			decoding: () => ModInfo.default(),
 		}),
 	),
 	txt_import_source: Schema.OptionFromNullishOr(Schema.String, null).pipe(

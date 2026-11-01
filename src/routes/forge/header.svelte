@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
+	import { goto } from '$app/navigation';
+	import { LINKS } from '$lib/links';
 	import { Menu, Portal } from '@skeletonlabs/skeleton-svelte';
 	import { get_editor } from '$lib/editor.svelte';
 	import { Match } from 'effect';
@@ -101,13 +104,7 @@
 <header
 	class="relative z-20 flex items-center gap-1 h-14 px-3 border-b border-surface-200-800 bg-surface-50-950/90 backdrop-blur"
 >
-	<a
-		href="https://agrichex.github.io/Nexus/"
-		target="_blank"
-		rel="noreferrer"
-		class="me-2"
-		title="Agriche Nexus"
-	>
+	<a href={resolve('/')} class="me-2" title={t('Home page')}>
 		<Brand />
 	</a>
 	<div class="h-6 w-px bg-surface-200-800 mx-1"></div>
@@ -119,6 +116,7 @@
 				download_blob(blob, `${editor().project.name}.json`);
 			}
 			if (details.value === 'import_save') ui.open('save');
+			if (details.value === 'open_mod') ui.open('mod');
 			if (details.value === 'system_forge') ui.open('system');
 		}}
 	>
@@ -176,6 +174,9 @@
 						'show-modal',
 						ID.import_project_dialog,
 					)}
+					<Menu.Item value="open_mod">
+						<Menu.ItemText>{t('Open mod (.zip)...')}</Menu.ItemText>
+					</Menu.Item>
 					<Menu.Item value="import_save">
 						<Menu.ItemText>{t('Import from Stellaris save...')}</Menu.ItemText>
 					</Menu.Item>
@@ -319,6 +320,19 @@
 				<Menu.Content
 					class="bg-surface-50-950 border-surface-200-800 shadow-xl"
 				>
+					<Menu.OptionItem
+						type="checkbox"
+						value="advanced_mode"
+						closeOnSelect={false}
+						checked={ui.advanced}
+						onCheckedChange={() => ui.toggle_advanced()}
+					>
+						<Menu.ItemText>{t('Advanced mode')}</Menu.ItemText>
+						<Menu.ItemIndicator class="hidden data-[state=checked]:block ms-2">
+							<Icons.Check class="size-4" />
+						</Menu.ItemIndicator>
+					</Menu.OptionItem>
+					<Menu.Separator class="border-surface-300-700" />
 					{@render menu_item_command(
 						'reset',
 						'Reset Camera',
@@ -542,7 +556,10 @@
 	</div>
 	<button
 		type="button"
-		class="hidden lg:flex items-center gap-2 h-9 ps-3 pe-2 rounded-md border border-surface-200-800 bg-surface-100-900 text-sm text-surface-600-400 hover:border-primary-500/60 hover:text-surface-950-50 transition-colors"
+		class={[
+			'items-center gap-2 h-9 ps-3 pe-2 rounded-md border border-surface-200-800 bg-surface-100-900 text-sm text-surface-600-400 hover:border-primary-500/60 hover:text-surface-950-50 transition-colors',
+			ui.advanced ? 'hidden lg:flex' : 'hidden',
+		]}
 		onclick={() => ui.open('command')}
 	>
 		<Icons.Terminal class="size-4" />
@@ -551,27 +568,11 @@
 	</button>
 	<button
 		type="button"
-		class="sf-icon-btn lg:hidden"
-		title={t('Command Bar')}
+		class={['sf-icon-btn', ui.advanced && 'lg:hidden']}
+		title="{t('Command Bar')} (Ctrl K)"
 		onclick={() => ui.open('command')}
 	>
 		<Icons.Terminal class="size-4" />
-	</button>
-	<button
-		type="button"
-		class="sf-icon-btn"
-		title="{t('System Forge')} (Alt S)"
-		onclick={() => ui.open('system')}
-	>
-		<Icons.Orbit class="size-4" />
-	</button>
-	<button
-		type="button"
-		class="sf-icon-btn"
-		title={t('Random Galaxy')}
-		onclick={() => ui.open('random')}
-	>
-		<Icons.Dices class="size-4" />
 	</button>
 	<button
 		type="button"
@@ -617,7 +618,9 @@
 		onSelect={(details) => {
 			if (details.value === 'shortcuts') ui.open('shortcuts');
 			if (details.value === 'guide') ui.open('guide');
-			if (details.value === 'credits') ui.open('credits');
+			if (details.value === 'credits') void goto(resolve('/credits'));
+			if (details.value === 'forum') void goto(resolve('/forum'));
+			if (details.value === 'home') void goto(resolve('/'));
 		}}
 	>
 		<Menu.Trigger class="sf-icon-btn" aria-label={t('Help')}>
@@ -628,8 +631,12 @@
 				<Menu.Content
 					class="bg-surface-50-950 border-surface-200-800 shadow-xl min-w-56"
 				>
-					<Menu.Item value="guide">
+					<Menu.Item value="forum">
 						<Icons.BookOpen class="size-4" />
+						<Menu.ItemText>{t('Guides and tutorials')}</Menu.ItemText>
+					</Menu.Item>
+					<Menu.Item value="guide">
+						<Icons.Download class="size-4" />
 						<Menu.ItemText>{t('How to Install')}</Menu.ItemText>
 					</Menu.Item>
 					<Menu.Item value="shortcuts">
@@ -641,6 +648,10 @@
 						<Icons.Heart class="size-4" />
 						<Menu.ItemText>{t('Credits')}</Menu.ItemText>
 					</Menu.Item>
+					<Menu.Item value="home">
+						<Icons.House class="size-4" />
+						<Menu.ItemText>{t('Home page')}</Menu.ItemText>
+					</Menu.Item>
 					<Menu.Separator class="border-surface-200-800" />
 					<Menu.ItemGroup>
 						<Menu.ItemGroupLabel class="sf-tag">
@@ -649,22 +660,14 @@
 						{@render menu_item_link(
 							'discord',
 							'Discord: Agriche Community',
-							'https://discord.gg/s3EbgNSsJW',
+							LINKS.discord,
 						)}
-						{@render menu_item_link(
-							'github',
-							'GitHub',
-							'https://github.com/AgricheX/Stellar-Forge',
-						)}
-						{@render menu_item_link(
-							'nexus',
-							'Agriche Nexus',
-							'https://agrichex.github.io/Nexus/',
-						)}
+						{@render menu_item_link('github', 'GitHub', LINKS.github)}
+						{@render menu_item_link('nexus', 'Agriche Nexus', LINKS.nexus)}
 						{@render menu_item_link(
 							'steam',
 							'Paint a Galaxy (Steam Workshop)',
-							'https://steamcommunity.com/sharedfiles/filedetails/?id=3532904115',
+							LINKS.workshop,
 						)}
 					</Menu.ItemGroup>
 				</Menu.Content>

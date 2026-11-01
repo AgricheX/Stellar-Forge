@@ -339,7 +339,7 @@ export const pt: Record<string, string> = {
 	Outline: 'Contorno',
 	'Outline Width': 'Espessura do Contorno',
 	'Overlapping FE Zones': 'Zonas de IC Sobrepostas',
-	'Owner and founder of Stellar Forge': 'Dona e fundadora do Stellar Forge',
+	'Owner and founder of Stellar Forge': 'Fundação e direção do Stellar Forge',
 	Paint: 'Pintar',
 	'Paint a Galaxy (Steam Workshop)': 'Paint a Galaxy (Steam Workshop)',
 	'Paint where you want stars. The brighter you paint, the more stars spawn there. Use shapes, templates, text or emoji.':
@@ -721,4 +721,55 @@ export const pt: Record<string, string> = {
 	'{n} systems are ready to edit.': '{n} sistemas prontos pra editar.',
 	'{n} systems on the map use this design. Delete it anyway?':
 		'{n} sistemas do mapa usam este projeto. Excluir mesmo assim?',
+	'Advanced mode': 'Modo avançado',
+	'Already made a mod? Open it to update': 'Já fez um mod? Abra pra atualizar',
+	'Could not read this image.': 'Não deu pra ler esta imagem.',
+	Description: 'Descrição',
+	'Drop the mod .zip here or click to choose':
+		'Solte o .zip do mod aqui ou clique pra escolher',
+	'Edit it and export again to update your mod.':
+		'Edite e exporte de novo pra atualizar seu mod.',
+	Forge: 'Forja',
+	Forum: 'Fórum',
+	'Full project': 'Projeto completo',
+	'Game version': 'Versão do jogo',
+	'Get the next version ready ({from} → {to})':
+		'Já preparar a próxima versão ({from} → {to})',
+	'Guides and tutorials': 'Guias e tutoriais',
+	'Hide advanced settings': 'Esconder configurações avançadas',
+	'Home page': 'Início',
+	'Map picture': 'Imagem do mapa',
+	'Mod opened': 'Mod aberto',
+	'More mods and tools by Agriche: WorldBox, RimWorld and more.':
+		'Mais mods e ferramentas do Agriche: WorldBox, RimWorld e mais.',
+	'Next version': 'Próxima versão',
+	'Open a mod you exported to change the map and release a new version.':
+		'Abra um mod que você exportou pra mudar o mapa e lançar uma versão nova.',
+	'Open as a new project': 'Abrir como projeto novo',
+	'Open mod': 'Abrir mod',
+	'Open mod (.zip)': 'Abrir mod (.zip)',
+	'Open mod (.zip)...': 'Abrir mod (.zip)...',
+	'Open the Forge': 'Abrir a Forja',
+	'Reading the mod': 'Lendo o mod',
+	'Rebuilt from the map file': 'Refeito a partir do arquivo do mapa',
+	'Replace the project "{name}" in this browser':
+		'Substituir o projeto "{name}" neste navegador',
+	'Report a bug': 'Reportar bug',
+	'Show advanced settings': 'Mostrar configurações avançadas',
+	Tags: 'Tags',
+	Team: 'Equipe',
+	'This zip has no Stellar Forge project inside, so the painting is blank. Systems, hyperlanes, spawns and designs were kept.':
+		'Este zip não tem o projeto do Stellar Forge dentro, então a pintura vem em branco. Sistemas, hiperpistas, spawns e projetos de sistema foram mantidos.',
+	'This zip has no map/setup_scenarios file, so it is not a galaxy map mod.':
+		'Este zip não tem arquivo em map/setup_scenarios, então não é um mod de mapa de galáxia.',
+	'Update mod': 'Atualizar mod',
+	'Upload image': 'Enviar imagem',
+	'Use map picture': 'Usar imagem do mapa',
+	Version: 'Versão',
+	'Works best with zips made by Stellar Forge. Other galaxy mods are rebuilt from their map file.':
+		'Funciona melhor com zips feitos pelo Stellar Forge. Outros mods de galáxia são refeitos a partir do arquivo do mapa.',
+	'Your image': 'Sua imagem',
+	designs: 'projetos',
+	'goes in the README, copy it to the Workshop page':
+		'vai no README, copie pra página da Oficina',
 };

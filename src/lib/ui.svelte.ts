@@ -103,11 +103,11 @@ type Panel =
 	| 'shortcuts'
 	| 'command'
 	| 'export'
-	| 'credits'
 	| 'guide'
 	| 'random'
 	| 'system'
-	| 'save';
+	| 'save'
+	| 'mod';
 
 class Ui {
 	layers = $state(load_layers());
@@ -124,8 +124,9 @@ class Ui {
 	} = { reset: () => {}, scale_by: () => {}, scale_to: () => {} };
 	cursor = $state<{ x: number; y: number } | null>(null);
 	layers_open = $state(
-		localStorage.getItem('stellar-forge-layers-open') !== '0',
+		localStorage.getItem('stellar-forge-layers-open') === '1',
 	);
+	advanced = $state(localStorage.getItem('stellar-forge-advanced') === '1');
 
 	is_visible(layer: LayerId) {
 		if (this.solo != null && this.solo !== layer) return false;
@@ -169,6 +170,11 @@ class Ui {
 			'stellar-forge-layers-open',
 			this.layers_open ? '1' : '0',
 		);
+	}
+
+	toggle_advanced() {
+		this.advanced = !this.advanced;
+		localStorage.setItem('stellar-forge-advanced', this.advanced ? '1' : '0');
 	}
 
 	reset_layers() {

@@ -8,10 +8,13 @@
 	import {
 		build_mod_zip,
 		DEFAULT_IMAGE_STYLE,
+		mod_display_name,
+		mod_folder,
 		render_map_image,
 		slugify,
 		type ImageStyle,
 	} from '$lib/export';
+	import { bump_version, MOD_TAGS } from '$lib/models/mod_info';
 	import { generate_stellaris_galaxy } from '$lib/generate_galaxy_txt';
 	import { toaster } from '$lib/toaster';
 
@@ -19,8 +22,9 @@
 	const project = $derived(editor().project);
 	const open = $derived(ui.panel === 'export');
 
-	let mod_name = $state('');
-	let include_thumbnail = $state(true);
+	const info = $derived(project.mod_info);
+	let icon_input = $state<HTMLInputElement>();
+	let auto_icon_url = $state('');
 	let image_style = $state<ImageStyle>({ ...DEFAULT_IMAGE_STYLE });
 	let preview_url = $state('');
 	let busy = $state<string | null>(null);
@@ -31,10 +35,54 @@
 	const has_systems = $derived(project.solar_systems.length > 0);
 
 	$effect(() => {
-		if (open) {
-			mod_name = project.name;
-		}
+		if (!open || info.icon) return;
+		const current = project;
+		let cancelled = false;
+		render_map_image(current, { ...DEFAULT_IMAGE_STYLE, size: 256 }).then(
+			(blob) => {
+				if (cancelled) return;
+				if (auto_icon_url) URL.revokeObjectURL(auto_icon_url);
+				auto_icon_url = URL.createObjectURL(blob);
+			},
+		);
+		return () => {
+			cancelled = true;
+		};
 	});
+
+	async function upload_icon(file: File) {
+		try {
+			const bitmap = await createImageBitmap(file);
+			const side = Math.min(bitmap.width, bitmap.height);
+			const canvas = document.createElement('canvas');
+			canvas.width = 512;
+			canvas.height = 512;
+			const ctx = canvas.getContext('2d')!;
+			ctx.imageSmoothingQuality = 'high';
+			ctx.drawImage(
+				bitmap,
+				(bitmap.width - side) / 2,
+				(bitmap.height - side) / 2,
+				side,
+				side,
+				0,
+				0,
+				512,
+				512,
+			);
+			editor().update_mod_info({ icon: canvas.toDataURL('image/png') });
+		} catch {
+			toaster.error({ title: t('Could not read this image.') });
+		}
+	}
+
+	function toggle_tag(tag: string) {
+		const tags =
+			info.tags.includes(tag) ?
+				info.tags.filter((t) => t !== tag)
+			:	[...info.tags, tag];
+		editor().update_mod_info({ tags });
+	}
 
 	$effect(() => {
 		if (!open) return;
@@ -67,14 +115,8 @@
 
 	const download_mod = () =>
 		run('mod', async () => {
-			const blob = await build_mod_zip(project, {
-				mod_name,
-				include_thumbnail,
-			});
-			download_blob(
-				blob,
-				`stellar_forge_${slugify(mod_name || project.name)}.zip`,
-			);
+			const blob = await build_mod_zip(project);
+			download_blob(blob, `${mod_folder(project)}_v${info.version}.zip`);
 			toaster.success({
 				title: t('Mod ready'),
 				description: t('Extract the zip into your Stellaris mod folder.'),
@@ -145,22 +187,153 @@
 						</p>
 					</div>
 				</div>
-				<div class="grid sm:grid-cols-[1fr_auto] gap-3 mt-3 items-end">
-					<label class="flex flex-col gap-1">
-						<span class="label-text text-xs">{t('Mod name')}</span>
+				<div class="grid grid-cols-[6.5rem_1fr] gap-4 mt-4">
+					<div class="flex flex-col gap-1.5">
+						<button
+							class="relative aspect-square rounded-md overflow-hidden border border-surface-200-800 bg-[#0d0d0f] group"
+							title={t('Upload image')}
+							onclick={() => icon_input?.click()}
+						>
+							{#if info.icon || auto_icon_url}
+								<img
+									src={info.icon || auto_icon_url}
+									alt=""
+									class={[
+										'size-full object-cover',
+										!info.thumbnail && 'opacity-30',
+									]}
+								/>
+							{/if}
+							<span
+								class="absolute inset-0 grid place-items-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity"
+							>
+								<Icons.Upload class="size-5 text-white" />
+							</span>
+						</button>
 						<input
-							class="input bg-surface-100-900 ring-surface-200-800"
-							bind:value={mod_name}
+							bind:this={icon_input}
+							type="file"
+							accept="image/*"
+							class="hidden"
+							onchange={(e) => {
+								const file = e.currentTarget.files?.[0];
+								if (file) void upload_icon(file);
+								e.currentTarget.value = '';
+							}}
 						/>
-					</label>
-					<label class="flex items-center gap-2 text-sm h-10 cursor-pointer">
-						<input
-							type="checkbox"
-							class="checkbox"
-							bind:checked={include_thumbnail}
-						/>
-						{t('Thumbnail')}
-					</label>
+						<span
+							class="text-[0.65rem] text-surface-500 text-center leading-tight"
+						>
+							{info.icon ? t('Your image') : t('Map picture')}
+						</span>
+						{#if info.icon}
+							<button
+								class="text-[0.65rem] text-primary-500 hover:underline"
+								onclick={() => editor().update_mod_info({ icon: '' })}
+							>
+								{t('Use map picture')}
+							</button>
+						{/if}
+						<label
+							class="flex items-center justify-center gap-1.5 text-[0.65rem] cursor-pointer"
+						>
+							<input
+								type="checkbox"
+								class="checkbox size-3"
+								checked={info.thumbnail}
+								onchange={(e) =>
+									editor().update_mod_info({
+										thumbnail: e.currentTarget.checked,
+									})}
+							/>
+							{t('Thumbnail')}
+						</label>
+					</div>
+					<div class="flex flex-col gap-3 min-w-0">
+						<div class="grid grid-cols-[1fr_7.5rem] gap-2">
+							<label class="flex flex-col gap-1">
+								<span class="label-text text-xs">{t('Mod name')}</span>
+								<input
+									class="input bg-surface-100-900 ring-surface-200-800"
+									placeholder={project.name}
+									value={info.name}
+									onchange={(e) =>
+										editor().update_mod_info({ name: e.currentTarget.value })}
+								/>
+							</label>
+							<label class="flex flex-col gap-1">
+								<span class="label-text text-xs">{t('Version')}</span>
+								<div class="flex">
+									<input
+										class="input bg-surface-100-900 ring-surface-200-800 rounded-e-none font-mono text-sm"
+										value={info.version}
+										onchange={(e) =>
+											editor().update_mod_info({
+												version: e.currentTarget.value.trim() || '1.0.0',
+											})}
+									/>
+									<button
+										class="btn-icon preset-tonal rounded-s-none h-auto px-2"
+										title={t('Next version')}
+										onclick={() =>
+											editor().update_mod_info({
+												version: bump_version(info.version),
+											})}
+									>
+										<Icons.Plus class="size-3.5" />
+									</button>
+								</div>
+							</label>
+						</div>
+						<label class="flex flex-col gap-1">
+							<span class="label-text text-xs">
+								{t('Description')}
+								<span class="text-surface-500">
+									· {t('goes in the README, copy it to the Workshop page')}
+								</span>
+							</span>
+							<textarea
+								class="textarea bg-surface-100-900 ring-surface-200-800 text-sm"
+								rows="2"
+								value={info.description}
+								onchange={(e) =>
+									editor().update_mod_info({
+										description: e.currentTarget.value,
+									})}
+							></textarea>
+						</label>
+						<div class="flex flex-col gap-1">
+							<span class="label-text text-xs">{t('Tags')}</span>
+							<div class="flex flex-wrap gap-1">
+								{#each MOD_TAGS as tag (tag)}
+									<button
+										class={[
+											'px-2 py-0.5 rounded-full border text-[0.7rem] transition-colors',
+											info.tags.includes(tag) ?
+												'border-primary-500 bg-primary-500/15 text-primary-500'
+											:	'border-surface-200-800 text-surface-600-400 hover:border-surface-400-600',
+										]}
+										onclick={() => toggle_tag(tag)}
+									>
+										{tag}
+									</button>
+								{/each}
+							</div>
+						</div>
+						{#if ui.advanced}
+							<label class="flex flex-col gap-1 max-w-48">
+								<span class="label-text text-xs">{t('Game version')}</span>
+								<input
+									class="input bg-surface-100-900 ring-surface-200-800 font-mono text-sm"
+									value={info.supported_version}
+									onchange={(e) =>
+										editor().update_mod_info({
+											supported_version: e.currentTarget.value.trim() || 'v4.*',
+										})}
+								/>
+							</label>
+						{/if}
+					</div>
 				</div>
 				<button
 					class="btn preset-filled-primary-500 sf-btn-glow w-full mt-3"
@@ -173,7 +346,11 @@
 						<Icons.Download class="size-4" />
 					{/if}
 					{t('Download Mod')}
+					<span class="font-mono text-xs opacity-80">v{info.version}</span>
 				</button>
+				<p class="text-xs text-surface-500 mt-2 font-mono truncate">
+					{mod_folder(project)}.zip · {mod_display_name(project)}
+				</p>
 				<p class="text-xs text-surface-500 mt-2 flex items-center gap-1.5">
 					<Icons.Info class="size-3.5" />
 					{t(

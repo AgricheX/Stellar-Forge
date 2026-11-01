@@ -23,31 +23,33 @@
 		></span>
 		{t('Saved locally')}
 	</span>
-	<span>
-		{#if ui.cursor}
-			X {ui.cursor.x} · Y {ui.cursor.y}
-		{:else}
-			X — · Y —
-		{/if}
-	</span>
-	<span>{Math.round(ui.zoom * 100)}%</span>
-	<span class="hidden md:inline">
-		{t('Tool')}:
-		<span class="text-surface-950-50">
-			{t(tools[editor().primary_tool_id].name)}
+	{#if ui.advanced}
+		<span>
+			{#if ui.cursor}
+				X {ui.cursor.x} · Y {ui.cursor.y}
+			{:else}
+				X — · Y —
+			{/if}
 		</span>
-		{#if layer}
-			· {t('Layer')}:
-			<span
-				class={ui.is_locked(layer.id) ? 'text-warning-500' : (
-					'text-surface-950-50'
-				)}
-			>
-				{t(layer.name)}{#if ui.is_locked(layer.id)}
-					({t('locked')}){/if}
+		<span>{Math.round(ui.zoom * 100)}%</span>
+		<span class="hidden md:inline">
+			{t('Tool')}:
+			<span class="text-surface-950-50">
+				{t(tools[editor().primary_tool_id].name)}
 			</span>
-		{/if}
-	</span>
+			{#if layer}
+				· {t('Layer')}:
+				<span
+					class={ui.is_locked(layer.id) ? 'text-warning-500' : (
+						'text-surface-950-50'
+					)}
+				>
+					{t(layer.name)}{#if ui.is_locked(layer.id)}
+						({t('locked')}){/if}
+				</span>
+			{/if}
+		</span>
+	{/if}
 	<span class="grow"></span>
 	<span>{project.solar_systems.length} {t('systems')}</span>
 	<span>{project.hyperlanes.length} {t('hyperlanes')}</span>

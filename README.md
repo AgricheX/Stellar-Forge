@@ -25,17 +25,20 @@ It is an improved fork of [Paint a Galaxy](https://github.com/oatmealproblem/pai
 
 ## ✦ Features
 
-|                       |                                                                                                                                                                      |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **🎨 Shapes**         | Freehand, circle, ellipse, rectangle, line, polygon, star, ring and spiral, each with paint and erase versions.                                                      |
-| **⌨️ Typed galaxies** | Type letters, numbers, words or emoji and they become a galaxy in that exact shape. Several fonts, bold, outline, spacing and line height.                           |
-| **🔲 Transform box**  | Everything you place (text, emoji or templates) can be moved, resized, rotated and flipped freely before you apply it. You can also type exact X, Y, W, H and angle. |
-| **🗂️ Layers**         | Painting, systems, spawns, hyperlanes, wormholes, nebulas, Fallen Empire zones and guides. Hide, lock, solo or fade any layer to edit only what you want.            |
-| **🌌 Templates**      | Milky Way, Andromeda, Whirlpool, Cartwheel and galaxies inspired by famous sci-fi universes (Star Wars, Star Trek, Warhammer 40k, Mass Effect, Halo, Dune...).       |
-| **🎲 100% random**    | One click forges a whole new galaxy from a seed. The same seed always gives the same map, so you can share it.                                                       |
-| **💻 Command bar**    | `Ctrl K` and type things like `spiral arms=3 twist=1.2 stars=800` or `text "HELLO" stars=600`. Works in English and Portuguese.                                      |
-| **📦 One-click mod**  | Download a zip with descriptor, map file and thumbnail already in the right folders. Also exports `.txt`, project `.json` and a StellarMaps-style PNG.               |
-| **🌐 EN / PT-BR**     | Full interface in English and Brazilian Portuguese.                                                                                                                  |
+|                                |                                                                                                                                                                                                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **🎨 Shapes**                  | Freehand, circle, ellipse, rectangle, line, polygon, star, ring and spiral, each with paint and erase versions.                                                                                                                                        |
+| **⌨️ Typed galaxies**          | Type letters, numbers, words or emoji and they become a galaxy in that exact shape. Several fonts, bold, outline, spacing and line height.                                                                                                             |
+| **🔲 Transform box**           | Everything you place (text, emoji or templates) can be moved, resized, rotated and flipped freely before you apply it. You can also type exact X, Y, W, H and angle.                                                                                   |
+| **🗂️ Layers**                  | Painting, systems, spawns, hyperlanes, wormholes, nebulas, Fallen Empire zones and guides. Hide, lock, solo or fade any layer to edit only what you want.                                                                                              |
+| **🌌 Templates**               | Milky Way, Andromeda, Whirlpool, Cartwheel and galaxies inspired by famous sci-fi universes (Star Wars, Star Trek, Warhammer 40k, Mass Effect, Halo, Dune...).                                                                                         |
+| **🎲 100% random**             | One click forges a whole new galaxy from a seed. The same seed always gives the same map, so you can share it.                                                                                                                                         |
+| **💻 Command bar**             | `Ctrl K` and type things like `spiral arms=3 twist=1.2 stars=800` or `text "HELLO" stars=600`. Works in English and Portuguese.                                                                                                                        |
+| **📦 One-click mod**           | Download a zip with descriptor, map file and thumbnail already in the right folders. Set the mod name, version, description, tags and icon (your own image or a picture of the map). Also exports `.txt`, project `.json` and a StellarMaps-style PNG. |
+| **🔁 Update your mod**         | Every exported mod carries the project inside. Use **Project → Open mod (.zip)** to bring it back, change the map and release the next version. Other galaxy mods are rebuilt from their map file.                                                     |
+| **🧭 Simple by default**       | The editor shows only what you need. Turn on **View → Advanced mode** for every setting, the command field and extra status details.                                                                                                                   |
+| **📚 Home, forum and credits** | A calm home page, a forum with guides and tutorials for every feature, and a credits page with links to the Discord and Agriche Nexus.                                                                                                                 |
+| **🌐 EN / PT-BR**              | Full interface in English and Brazilian Portuguese.                                                                                                                                                                                                    |
 
 ## 🚀 Quick start
 
@@ -165,7 +168,10 @@ Stellaris is a trademark of Paradox Interactive. Stellar Forge is a fan project 
 - **💻 Barra de comandos**: `Ctrl K` e digite coisas como `espiral bracos=3 torcao=1.2 estrelas=800` ou `texto "OLÁ" estrelas=600`.
 - **🪐 System Forge**: monte sistemas solares planeta por planeta, com estrela, planetas, luas, anéis, cinturões de asteroides, estrelas companheiras e mundo natal. Arraste os planetas nas órbitas, sorteie sistemas aleatórios e use qualquer projeto em qualquer sistema do mapa. Importa arquivos `.txt` do Stellaris Solar System Editor.
 - **💾 Importar de um save**: abra o `.sav` de uma campanha que você jogou e transforme a galáxia num projeto editável, com sistemas, hiperpistas, wormholes, nebulosas e as capitais dos impérios como spawns. Tudo é lido no seu navegador.
-- **📦 Mod em um clique**: baixe um zip com descriptor, arquivo do mapa e miniatura já nas pastas certas. Também exporta `.txt`, `.json` do projeto e PNG no estilo StellarMaps.
+- **📦 Mod em um clique**: baixe um zip com descriptor, arquivo do mapa e miniatura já nas pastas certas. Defina nome, versão, descrição, tags e ícone do mod (sua própria imagem ou a imagem do mapa). Também exporta `.txt`, `.json` do projeto e PNG no estilo StellarMaps.
+- **🔁 Atualize seu mod**: todo mod exportado leva o projeto dentro. Use **Projeto → Abrir mod (.zip)** pra trazer de volta, mudar o mapa e lançar a próxima versão. Outros mods de galáxia são refeitos a partir do arquivo do mapa.
+- **🧭 Simples por padrão**: o editor mostra só o necessário. Ligue **Ver → Modo avançado** pra ver todas as configurações, o campo de comandos e mais detalhes na barra de status.
+- **📚 Início, fórum e créditos**: uma página inicial tranquila, um fórum com guias e tutoriais de cada recurso e uma página de créditos com links pro Discord e pro Agriche Nexus.
 - **🌐 EN / PT-BR**: interface completa em inglês e português.
 
 ### 🚀 Como usar
@@ -190,7 +196,7 @@ Aperte `?` dentro do app pra ver todos os atalhos de teclado.
 
 ### ❤️ Créditos
 
-- **Agriche**: dona e fundadora do Stellar Forge.
+- **Agriche**: fundação e direção do Stellar Forge.
 - **Claude**: co-criador.
 - **Michael Moore** ([oatmealproblem](https://github.com/oatmealproblem)): criador do [Paint a Galaxy](https://github.com/oatmealproblem/paint-a-galaxy) original, licença MIT.
 - **KillyBlame**: criador do [Stellaris Solar System Editor](https://github.com/KillyBlame/Stellaris_Solarsystem_Editor) (MIT), inspiração do System Forge.

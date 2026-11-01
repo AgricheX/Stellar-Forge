@@ -8,17 +8,19 @@
 	import { ui } from '$lib/ui.svelte';
 </script>
 
-<button
-	type="button"
-	class="flex items-center gap-2 w-full rounded-md border border-dashed border-surface-300-700 px-3 py-2 text-sm text-surface-600-400 hover:border-primary-500/70 hover:text-surface-950-50 transition-colors"
-	onclick={() => ui.open('command')}
->
-	<Icons.Terminal class="size-4 text-primary-500" />
-	<span class="grow text-left font-mono text-xs truncate">
-		spiral arms=4 stars=900
-	</span>
-	<span class="sf-kbd">Ctrl K</span>
-</button>
+{#if ui.advanced}
+	<button
+		type="button"
+		class="flex items-center gap-2 w-full rounded-md border border-dashed border-surface-300-700 px-3 py-2 text-sm text-surface-600-400 hover:border-primary-500/70 hover:text-surface-950-50 transition-colors"
+		onclick={() => ui.open('command')}
+	>
+		<Icons.Terminal class="size-4 text-primary-500" />
+		<span class="grow text-left font-mono text-xs truncate">
+			spiral arms=4 stars=900
+		</span>
+		<span class="sf-kbd">Ctrl K</span>
+	</button>
+{/if}
 
 <Tools step="paint" />
 

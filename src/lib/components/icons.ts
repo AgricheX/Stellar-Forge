@@ -38,6 +38,7 @@ import Star from '@lucide/svelte/icons/star';
 import CircleDot from '@lucide/svelte/icons/circle-dot';
 import Layers from '@lucide/svelte/icons/layers';
 import Eye from '@lucide/svelte/icons/eye';
+import SlidersHorizontal from '@lucide/svelte/icons/sliders-horizontal';
 import EyeOff from '@lucide/svelte/icons/eye-off';
 import LockOpen from '@lucide/svelte/icons/lock-open';
 import Keyboard from '@lucide/svelte/icons/keyboard';
@@ -110,6 +111,7 @@ export const Icons = {
 	CircleDot,
 	Layers,
 	Eye,
+	SlidersHorizontal,
 	EyeOff,
 	LockOpen,
 	Keyboard,

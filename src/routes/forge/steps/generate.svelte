@@ -8,6 +8,8 @@
 	import { get_editor } from '$lib/editor.svelte';
 	import { GeneratorSettings } from '$lib/models/generator_settings';
 	import { Menu, Portal, Switch } from '@skeletonlabs/skeleton-svelte';
+	import { ui } from '$lib/ui.svelte';
+	import AdvancedHint from './advanced_hint.svelte';
 
 	const editor = get_editor();
 	const settings = $derived(editor().project.generator_settings);
@@ -116,116 +118,120 @@
 			}}
 		/>
 	</label>
-	<Slider
-		min={0}
-		max={20}
-		step={1}
-		value={settings.min_distance_between_systems}
-		on_value_change={(value) =>
-			editor().update_generator_settings({
-				min_distance_between_systems: value,
-			})}
-	>
-		{#snippet label()}
-			{t('Min Distance')}
-			<Info>
-				{t(
-					'Minimum distance between solar systems. Decrease for denser galaxies, increase for looser.',
-				)}
-			</Info>
-		{/snippet}
-	</Slider>
-	<SectionHeader>{t('Hyperlanes')}</SectionHeader>
-	<Slider
-		min={1}
-		max={50}
-		step={1}
-		value={settings.max_cluster_size}
-		on_value_change={(value) =>
-			editor().update_generator_settings({ max_cluster_size: value })}
-	>
-		{#snippet label()}
-			{t('Max Cluster Size')}
-			<Info>
-				{t(
-					'Maximum number of solar systems per cluster. Systems within a cluster will be more densely connected than systems in different clusters. Set to 1 to disable clustering.',
-				)}
-			</Info>
-		{/snippet}
-	</Slider>
-	<Slider
-		min={0}
-		max={1}
-		step={0.01}
-		value={settings.hyperlane_connectivity}
-		on_value_change={(value) =>
-			editor().update_generator_settings({ hyperlane_connectivity: value })}
-	>
-		{#snippet label()}
-			{t('Same-Cluster Connectivity')}
-			<Info>
-				{t(
-					'Likelihood of hyperlane connections between systems in the same cluster. At 0%, systems will be minimally connected but still reachable.',
-				)}
-			</Info>
-		{/snippet}
-		{#snippet output(value)}{Math.round(value * 100)}%{/snippet}
-	</Slider>
-	<Slider
-		min={0}
-		max={1}
-		step={0.01}
-		value={settings.inter_cluster_connectivity}
-		on_value_change={(value) =>
-			editor().update_generator_settings({ inter_cluster_connectivity: value })}
-	>
-		{#snippet label()}
-			{t('Cross-Cluster Connectivity')}
-			<Info>
-				{t(
-					'Likelihood for 2 neighboring clusters to have a hyperlane connection. At 0%, clusters will be minimally connected but still reachable.',
-				)}
-			</Info>
-		{/snippet}
-		{#snippet output(value)}{Math.round(value * 100)}%{/snippet}
-	</Slider>
-	<Slider
-		min={0}
-		max={500}
-		step={1}
-		value={settings.hyperlane_max_distance}
-		on_value_change={(value) =>
-			editor().update_generator_settings({ hyperlane_max_distance: value })}
-	>
-		{#snippet label()}
-			{t('Max Distance')}
-			<Info>
-				{t(
-					'Maximum hyperlane distance. Hyperlanes longer than this are removed, unless they are necessary to keep all systems connected.',
-				)}
-			</Info>
-		{/snippet}
-	</Slider>
-	<Switch
-		checked={settings.allow_disconnected}
-		onCheckedChange={(details) =>
-			editor().update_generator_settings({
-				allow_disconnected: details.checked,
-			})}
-	>
-		<Switch.Control>
-			<Switch.Thumb />
-		</Switch.Control>
-		<Switch.Label class="flex gap-1">
-			{t('Allow Disconnected')}
-			<Info>
-				{t(
-					'If enabled, hyperlanes longer than Max Distance are removed even if it would result in disconnected systems.',
-				)}
-			</Info>
-		</Switch.Label>
-		<Switch.HiddenInput />
-	</Switch>
+	{#if ui.advanced}
+		<Slider
+			min={0}
+			max={20}
+			step={1}
+			value={settings.min_distance_between_systems}
+			on_value_change={(value) =>
+				editor().update_generator_settings({
+					min_distance_between_systems: value,
+				})}
+		>
+			{#snippet label()}
+				{t('Min Distance')}
+				<Info>
+					{t(
+						'Minimum distance between solar systems. Decrease for denser galaxies, increase for looser.',
+					)}
+				</Info>
+			{/snippet}
+		</Slider>
+		<SectionHeader>{t('Hyperlanes')}</SectionHeader>
+		<Slider
+			min={1}
+			max={50}
+			step={1}
+			value={settings.max_cluster_size}
+			on_value_change={(value) =>
+				editor().update_generator_settings({ max_cluster_size: value })}
+		>
+			{#snippet label()}
+				{t('Max Cluster Size')}
+				<Info>
+					{t(
+						'Maximum number of solar systems per cluster. Systems within a cluster will be more densely connected than systems in different clusters. Set to 1 to disable clustering.',
+					)}
+				</Info>
+			{/snippet}
+		</Slider>
+		<Slider
+			min={0}
+			max={1}
+			step={0.01}
+			value={settings.hyperlane_connectivity}
+			on_value_change={(value) =>
+				editor().update_generator_settings({ hyperlane_connectivity: value })}
+		>
+			{#snippet label()}
+				{t('Same-Cluster Connectivity')}
+				<Info>
+					{t(
+						'Likelihood of hyperlane connections between systems in the same cluster. At 0%, systems will be minimally connected but still reachable.',
+					)}
+				</Info>
+			{/snippet}
+			{#snippet output(value)}{Math.round(value * 100)}%{/snippet}
+		</Slider>
+		<Slider
+			min={0}
+			max={1}
+			step={0.01}
+			value={settings.inter_cluster_connectivity}
+			on_value_change={(value) =>
+				editor().update_generator_settings({
+					inter_cluster_connectivity: value,
+				})}
+		>
+			{#snippet label()}
+				{t('Cross-Cluster Connectivity')}
+				<Info>
+					{t(
+						'Likelihood for 2 neighboring clusters to have a hyperlane connection. At 0%, clusters will be minimally connected but still reachable.',
+					)}
+				</Info>
+			{/snippet}
+			{#snippet output(value)}{Math.round(value * 100)}%{/snippet}
+		</Slider>
+		<Slider
+			min={0}
+			max={500}
+			step={1}
+			value={settings.hyperlane_max_distance}
+			on_value_change={(value) =>
+				editor().update_generator_settings({ hyperlane_max_distance: value })}
+		>
+			{#snippet label()}
+				{t('Max Distance')}
+				<Info>
+					{t(
+						'Maximum hyperlane distance. Hyperlanes longer than this are removed, unless they are necessary to keep all systems connected.',
+					)}
+				</Info>
+			{/snippet}
+		</Slider>
+		<Switch
+			checked={settings.allow_disconnected}
+			onCheckedChange={(details) =>
+				editor().update_generator_settings({
+					allow_disconnected: details.checked,
+				})}
+		>
+			<Switch.Control>
+				<Switch.Thumb />
+			</Switch.Control>
+			<Switch.Label class="flex gap-1">
+				{t('Allow Disconnected')}
+				<Info>
+					{t(
+						'If enabled, hyperlanes longer than Max Distance are removed even if it would result in disconnected systems.',
+					)}
+				</Info>
+			</Switch.Label>
+			<Switch.HiddenInput />
+		</Switch>
+	{/if}
 	<SectionHeader>{t('Spawns')}</SectionHeader>
 	<label class="label">
 		<span class="label-text flex gap-1">
@@ -290,24 +296,27 @@
 			}}
 		/>
 	</label>
-	<RangeSlider
-		min={0}
-		max={100}
-		step={1}
-		value={[settings.nebula_min_size, settings.nebula_max_size]}
-		on_value_change={([nebula_min_size, nebula_max_size]) =>
-			editor().update_generator_settings({
-				nebula_min_size,
-				nebula_max_size,
-			})}
-	>
-		{#snippet label()}
-			{t('Nebula Size')}
-			<Info>
-				{t(
-					'Radius of generated nebulas. Each nebula will use a random value in the specified range.',
-				)}
-			</Info>
-		{/snippet}
-	</RangeSlider>
+	{#if ui.advanced}
+		<RangeSlider
+			min={0}
+			max={100}
+			step={1}
+			value={[settings.nebula_min_size, settings.nebula_max_size]}
+			on_value_change={([nebula_min_size, nebula_max_size]) =>
+				editor().update_generator_settings({
+					nebula_min_size,
+					nebula_max_size,
+				})}
+		>
+			{#snippet label()}
+				{t('Nebula Size')}
+				<Info>
+					{t(
+						'Radius of generated nebulas. Each nebula will use a random value in the specified range.',
+					)}
+				</Info>
+			{/snippet}
+		</RangeSlider>
+	{/if}
+	<AdvancedHint />
 </form>
