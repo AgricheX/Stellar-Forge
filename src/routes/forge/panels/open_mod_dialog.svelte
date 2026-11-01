@@ -194,13 +194,40 @@
 					</div>
 				</div>
 				<dl class="grid grid-cols-4 gap-2">
-					{#each [[project.solar_systems.length, 'systems'], [project.hyperlanes.length, 'hyperlanes'], [project.solar_systems.filter((s) => s.is_spawn).length, 'spawns'], [project.custom_systems.length, 'designs']] as [value, label] (label)}
+					{#each [[project.solar_systems.length, 'systems'], [project.hyperlanes.length, 'hyperlanes'], [project.solar_systems.filter((system) => system.is_spawn).length, 'spawns'], [project.custom_systems.length, 'designs']] as [value, label] (label)}
 						<div class="rounded-md bg-surface-100-900 px-2 py-1.5">
 							<dt class="sf-tag text-[0.6rem]!">{t(String(label))}</dt>
 							<dd class="font-mono font-bold">{value}</dd>
 						</div>
 					{/each}
 				</dl>
+				{#if project.map_count > 1}
+					<div class="flex flex-col gap-1.5">
+						<span class="sf-tag">
+							{t('{count} maps in this mod', { count: project.map_count })}
+						</span>
+						<ul
+							class="flex flex-col gap-1 max-h-40 overflow-y-auto text-sm pe-1"
+						>
+							{#each project.all_maps() as map, index (index)}
+								<li
+									class="flex items-center justify-between gap-2 rounded-md bg-surface-100-900 px-2 py-1"
+								>
+									<span class="truncate">{map.name}</span>
+									<span class="font-mono text-xs text-surface-500 shrink-0">
+										{map.solar_systems.length}
+										{t('systems')}
+									</span>
+								</li>
+							{/each}
+						</ul>
+						<p class="text-xs text-surface-500">
+							{t(
+								'All maps open in one project. Switch between them with the tabs above the map.',
+							)}
+						</p>
+					</div>
+				{/if}
 				{#if opened.source === 'rebuilt'}
 					<p class="text-xs text-surface-500 flex gap-1.5">
 						<Icons.Info class="size-3.5 shrink-0 mt-0.5" />

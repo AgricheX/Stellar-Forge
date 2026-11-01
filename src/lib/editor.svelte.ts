@@ -7,7 +7,7 @@ import {
 	type ToolId,
 	type ToolSettingId,
 } from './models/tool';
-import { Project, ProjectListing } from './models/project';
+import { GalaxyMap, Project, ProjectListing } from './models/project';
 import { Effect, Layer, Match, Option, pipe, Record } from 'effect';
 import { Projects } from './services/projects';
 import { KeyVal } from './services/key_val';
@@ -197,13 +197,31 @@ export class Editor {
 		return Effect.runSync(Effect.provide(effect, this.#layer));
 	}
 
-	async generate({
-		solar_systems = false,
-		hyperlanes = false,
-		spawns = false,
-		nebulas = false,
+	async generate(options: {
+		solar_systems?: boolean;
+		hyperlanes?: boolean;
+		spawns?: boolean;
+		nebulas?: boolean;
 	}) {
-		let project = this.project;
+		const [project, all_generator_actions] = await this.#run_generators(
+			this.project,
+			options,
+		);
+		this.project = project;
+		this.#done_stack.push(all_generator_actions);
+		this.#undone_stack = [];
+	}
+
+	async #run_generators(
+		start: Project,
+		{
+			solar_systems = false,
+			hyperlanes = false,
+			spawns = false,
+			nebulas = false,
+		},
+	): Promise<[Project, Action[]]> {
+		let project = start;
 		const all_generator_actions: Action[] = [];
 
 		if (solar_systems) {
@@ -300,9 +318,80 @@ export class Editor {
 			all_generator_actions.push(...additional_actions);
 		}
 
-		this.project = project;
-		this.#done_stack.push(all_generator_actions);
+		return [project, all_generator_actions];
+	}
+
+	#reset_history() {
+		this.#done_stack = [];
 		this.#undone_stack = [];
+		this.#select_tool_pair_for_step();
+	}
+
+	switch_map(index: number) {
+		if (index === this.project.active_map_index) return;
+		this.project = this.project.with_active_map(index);
+		this.#reset_history();
+	}
+
+	rename_map(index: number, name: string) {
+		const list = this.project.all_maps();
+		const map = list[index];
+		if (!map) return;
+		list[index] = new GalaxyMap({ ...map, name });
+		this.project = this.project.with_maps(list, this.project.active_map_index);
+	}
+
+	delete_map(index: number) {
+		const list = this.project.all_maps();
+		if (list.length <= 1 || !list[index]) return;
+		const active = this.project.active_map_index;
+		list.splice(index, 1);
+		const next =
+			index < active ? active - 1
+			: index === active ? Math.min(active, list.length - 1)
+			: active;
+		this.project = this.project.with_maps(list, next);
+		if (index === active) this.#reset_history();
+	}
+
+	async add_map(
+		name: string,
+		mode: 'blank' | 'copy' | 'variant',
+		number_of_systems?: number,
+	) {
+		const list = this.project.all_maps();
+		let map: GalaxyMap;
+		if (mode === 'blank') {
+			const empty = await Project.make_empty(name);
+			map = new GalaxyMap({ ...empty.current_map(), name });
+		} else if (mode === 'copy' || number_of_systems == null) {
+			map = new GalaxyMap({ ...this.project.current_map(), name });
+		} else {
+			const base = new Project({
+				...this.project.single_map(this.project.active_map_index),
+				map_name: name,
+				generator_settings: GeneratorSettings.make({
+					...this.project.generator_settings,
+					number_of_systems,
+				}),
+			});
+			const [generated] = await this.#run_generators(base, {
+				solar_systems: true,
+				hyperlanes: true,
+				spawns: true,
+				nebulas: true,
+			});
+			if (generated.solar_systems.length === 0) {
+				throw new Error(
+					'No star systems were generated. Variants need a painted galaxy.',
+				);
+			}
+			map = new GalaxyMap({ ...generated.current_map(), name });
+		}
+		list.push(map);
+		this.project = this.project.with_maps(list, list.length - 1);
+		this.#reset_history();
+		return map;
 	}
 
 	apply_tool(

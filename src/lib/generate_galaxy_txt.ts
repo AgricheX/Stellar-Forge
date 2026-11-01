@@ -555,7 +555,7 @@ export function generate_stellaris_galaxy(project: Project): string {
 		`# Recommended DLC: ${recommended_dlc}`,
 		'',
 		`static_galaxy_scenario = {`,
-		`\tname="${project.name}"`,
+		`\tname="${project.scenario_name.replaceAll('"', "'")}"`,
 		COMMON,
 		ai_empire_settings,
 		size_based_settings,
