@@ -539,12 +539,12 @@ export function generate_stellaris_galaxy(project: Project): string {
 		.join('\n');
 
 	return [
-		`#\u200b created by Paint a Galaxy ${version}${pipe(
+		`#\u200b created by Stellar Forge ${version}${pipe(
 			project.txt_import_source,
 			Option.map((source) => ` (imported from txt created by ${source})`),
 			Option.getOrElse(() => ''),
 		)}`,
-		'# README for what to do with this file, read the Steam Workshop page https://steamcommunity.com/sharedfiles/filedetails/?id=3532904115',
+		'# Made with Stellar Forge (https://agrichex.github.io/Stellar-Forge/), based on Paint a Galaxy by Michael Moore. Requires the Paint a Galaxy mod: https://steamcommunity.com/sharedfiles/filedetails/?id=3532904115',
 		'',
 		'# Stats:',
 		`# Solar Systems: ${num_solar_systems}`,

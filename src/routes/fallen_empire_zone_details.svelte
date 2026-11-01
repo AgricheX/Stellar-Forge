@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import { Icons } from '$lib/components/icons';
 	import Info from '$lib/components/info.svelte';
 	import { get_editor } from '$lib/editor.svelte';
@@ -60,7 +61,7 @@
 					<FloatingPanel.Header>
 						<FloatingPanel.Title>
 							<Icons.GripVertical class="size-4" />
-							Fallen Empire Zone
+							{t('Fallen Empire Zone')}
 						</FloatingPanel.Title>
 						<FloatingPanel.Control>
 							<FloatingPanel.StageTrigger stage="minimized">
@@ -78,7 +79,7 @@
 				<FloatingPanel.Body class="flex flex-col gap-2">
 					{#if Option.isSome(zone)}
 						<label>
-							<span class="label-text">Type</span>
+							<span class="label-text">{t('Type')}</span>
 							<select
 								class="select ring-surface-300-700 bg-surface-200-800"
 								value={zone.value.type}
@@ -117,10 +118,11 @@
 								<Switch.Thumb />
 							</Switch.Control>
 							<Switch.Label class="flex gap-1">
-								Generate Random Systems if Unused
+								{t('Generate Random Systems if Unused')}
 								<Info>
-									If checked, if this Fallen Empire zone is not used, a cluster
-									of random solar systems will be generated here.
+									{t(
+										'If checked, if this Fallen Empire zone is not used, a cluster of random solar systems will be generated here.',
+									)}
 								</Info>
 							</Switch.Label>
 							<Switch.HiddenInput />
@@ -128,7 +130,7 @@
 						<div>
 							<dl>
 								<div class="flex items-baseline gap-2">
-									<dt class="label-text">Connections:</dt>
+									<dt class="label-text">{t('Connections:')}</dt>
 									<dd>
 										{zone.value.connections.length === 0 ?
 											'Random'
@@ -137,9 +139,9 @@
 								</div>
 							</dl>
 							<span class="text-surface-800-200">
-								Right-click solar systems on the map to manage their connections
-								to Fallen Empire zones. If you do not set any connections, they
-								will be randomly generated.
+								{t(
+									'Right-click solar systems on the map to manage their connections to Fallen Empire zones. If you do not set any connections, they will be randomly generated.',
+								)}
 							</span>
 						</div>
 					{/if}

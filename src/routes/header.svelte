@@ -11,6 +11,10 @@
 	import { download_blob } from '$lib/blob';
 	import ModeToggle from './mode_toggle.svelte';
 	import { Icons } from '$lib/components/icons';
+	import Brand from '$lib/components/brand.svelte';
+	import { t, i18n, set_locale } from '$lib/i18n/index.svelte';
+	import { ui } from '$lib/ui.svelte';
+	import type { Step } from '$lib/models/step';
 
 	type RecordUnknown = Record<string, unknown>;
 	type Command =
@@ -39,25 +43,15 @@
 		);
 	}
 
-	function onkeydown(e: KeyboardEvent) {
-		const active_element = document.activeElement;
-		const is_editing_text =
-			active_element != null &&
-			'selectionStart' in active_element &&
-			active_element.selectionStart != null;
-		if (is_editing_text) return;
-		// TODO better support for non-Latin keyboards
-		// TODO support metaKey instead of ctrlKey based on navigator.platform
-		if (e.key === 'z' && e.ctrlKey && editor().can_undo) editor().undo();
-		if (e.key === 'я' && e.ctrlKey && editor().can_undo) editor().undo();
-		if (e.key === 'Z' && e.ctrlKey && editor().can_redo) editor().redo();
-		if (e.key === 'Я' && e.ctrlKey && editor().can_redo) editor().redo();
-		if (e.key === 'y' && e.ctrlKey && editor().can_redo) editor().redo();
-		if (e.key === 'н' && e.ctrlKey && editor().can_redo) editor().redo();
-	}
+	const steps: { id: Step; name: string }[] = [
+		{ id: 'paint', name: 'Paint' },
+		{ id: 'generate', name: 'Generate' },
+		{ id: 'tweak', name: 'Tweak' },
+	];
+	const step_index = $derived(
+		steps.findIndex((step) => step.id === editor().step),
+	);
 </script>
-
-<svelte:window {onkeydown} />
 
 {#snippet menu_item_command(
 	value: string,
@@ -68,7 +62,7 @@
 	<Menu.Item {value} class="w-full">
 		{#snippet element(attributes: RecordUnknown)}
 			<button {...attributes} {command} {commandfor}>
-				<Menu.ItemText>{text}</Menu.ItemText>
+				<Menu.ItemText>{t(text)}</Menu.ItemText>
 			</button>
 		{/snippet}
 	</Menu.Item>
@@ -78,8 +72,8 @@
 	<Menu.Item {value}>
 		{#snippet element(attributes: RecordUnknown)}
 			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-			<a href={url} {...attributes}>
-				<Menu.ItemText>{text}</Menu.ItemText>
+			<a href={url} target="_blank" rel="noreferrer" {...attributes}>
+				<Menu.ItemText>{t(text)}</Menu.ItemText>
 			</a>
 		{/snippet}
 	</Menu.Item>
@@ -104,7 +98,19 @@
 	</Menu.OptionItem>
 {/snippet}
 
-<header class="bg-surface-200-800 flex">
+<header
+	class="relative z-20 flex items-center gap-1 h-14 px-3 border-b border-surface-200-800 bg-surface-50-950/90 backdrop-blur"
+>
+	<a
+		href="https://agrichex.github.io/Nexus/"
+		target="_blank"
+		rel="noreferrer"
+		class="me-2"
+		title="Agriche Nexus"
+	>
+		<Brand />
+	</a>
+	<div class="h-6 w-px bg-surface-200-800 mx-1"></div>
 	<Menu
 		onSelect={async (details) => {
 			if (details.value === 'export_json') {
@@ -114,10 +120,16 @@
 			}
 		}}
 	>
-		<Menu.Trigger class="btn">Project</Menu.Trigger>
+		<Menu.Trigger
+			class="btn btn-sm text-sm font-medium px-2.5 hover:preset-tonal"
+		>
+			{t('Project')}
+		</Menu.Trigger>
 		<Portal>
 			<Menu.Positioner class="z-10!">
-				<Menu.Content class="bg-surface-100-900 border-surface-300-700">
+				<Menu.Content
+					class="bg-surface-50-950 border-surface-200-800 shadow-xl"
+				>
 					{@render menu_item_command(
 						'new',
 						'New...',
@@ -136,14 +148,14 @@
 						positioning={{ offset: { mainAxis: 8, crossAxis: -8 } }}
 					>
 						<Menu.TriggerItem value="open">
-							<Menu.ItemText>Open</Menu.ItemText>
+							<Menu.ItemText>{t('Open')}</Menu.ItemText>
 							<Menu.ItemIndicator>
 								<Icons.ChevronRight class="size-4" />
 							</Menu.ItemIndicator>
 							<Portal>
 								<Menu.Positioner class="z-10!">
 									<Menu.Content
-										class="bg-surface-100-900 border-surface-300-700"
+										class="bg-surface-50-950 border-surface-200-800 shadow-xl"
 									>
 										{#each editor().projects as project (project.name)}
 											<Menu.Item value={project.name}>
@@ -163,7 +175,7 @@
 						ID.import_project_dialog,
 					)}
 					<Menu.Item value="export_json">
-						<Menu.ItemText>Export JSON</Menu.ItemText>
+						<Menu.ItemText>{t('Export JSON')}</Menu.ItemText>
 					</Menu.Item>
 					<Menu.Separator class="border-surface-300-700" />
 					<Menu.ItemGroup>
@@ -194,16 +206,22 @@
 		</Portal>
 	</Menu>
 	<Menu onSelect={on_edit_menu_select}>
-		<Menu.Trigger class="btn">Edit</Menu.Trigger>
+		<Menu.Trigger
+			class="btn btn-sm text-sm font-medium px-2.5 hover:preset-tonal"
+		>
+			{t('Edit')}
+		</Menu.Trigger>
 		<Portal>
 			<Menu.Positioner class="z-10!">
-				<Menu.Content class="bg-surface-100-900 border-surface-300-700">
+				<Menu.Content
+					class="bg-surface-50-950 border-surface-200-800 shadow-xl"
+				>
 					<Menu.Item
 						value="undo"
 						closeOnSelect={false}
 						disabled={!editor().can_undo}
 					>
-						<Menu.ItemText>Undo</Menu.ItemText>
+						<Menu.ItemText>{t('Undo')}</Menu.ItemText>
 						<kbd class="bg-surface-200-800 rounded-base p-1">ctrl+z</kbd>
 					</Menu.Item>
 					<Menu.Item
@@ -211,7 +229,7 @@
 						closeOnSelect={false}
 						disabled={!editor().can_redo}
 					>
-						<Menu.ItemText>Redo</Menu.ItemText>
+						<Menu.ItemText>{t('Redo')}</Menu.ItemText>
 						<kbd class="bg-surface-200-800 rounded-base p-1">ctrl+y</kbd>
 					</Menu.Item>
 					<Menu.Separator class="border-surface-300-700" />
@@ -222,7 +240,7 @@
 						ID.upload_image_dialog,
 					)}
 					<Menu.Item value="clear">
-						<Menu.ItemText>Clear Canvas</Menu.ItemText>
+						<Menu.ItemText>{t('Clear Canvas')}</Menu.ItemText>
 					</Menu.Item>
 					<Menu.Separator class="border-surface-300-700" />
 					<Menu.OptionItem
@@ -240,7 +258,7 @@
 							});
 						}}
 					>
-						<Menu.ItemText>Snap to Grid</Menu.ItemText>
+						<Menu.ItemText>{t('Snap to Grid')}</Menu.ItemText>
 						<Menu.ItemIndicator class="hidden data-[state=checked]:block ms-2">
 							<Icons.Check class="size-4" />
 						</Menu.ItemIndicator>
@@ -267,7 +285,7 @@
 							});
 						}}
 					>
-						<Menu.ItemText>Symmetry</Menu.ItemText>
+						<Menu.ItemText>{t('Symmetry')}</Menu.ItemText>
 						<Menu.ItemIndicator class="hidden data-[state=checked]:block ms-2">
 							<Icons.Check class="size-4" />
 						</Menu.ItemIndicator>
@@ -283,10 +301,16 @@
 		</Portal>
 	</Menu>
 	<Menu>
-		<Menu.Trigger class="btn">View</Menu.Trigger>
+		<Menu.Trigger
+			class="btn btn-sm text-sm font-medium px-2.5 hover:preset-tonal"
+		>
+			{t('View')}
+		</Menu.Trigger>
 		<Portal>
 			<Menu.Positioner class="z-10!">
-				<Menu.Content class="bg-surface-100-900 border-surface-300-700">
+				<Menu.Content
+					class="bg-surface-50-950 border-surface-200-800 shadow-xl"
+				>
 					{@render menu_item_command(
 						'reset',
 						'Reset Camera',
@@ -295,14 +319,14 @@
 					)}
 					<Menu positioning={{ offset: { mainAxis: 8, crossAxis: -8 } }}>
 						<Menu.TriggerItem value="set_zoom">
-							<Menu.ItemText>Set Zoom</Menu.ItemText>
+							<Menu.ItemText>{t('Set Zoom')}</Menu.ItemText>
 							<Menu.ItemIndicator>
 								<Icons.ChevronRight class="size-4" />
 							</Menu.ItemIndicator>
 							<Portal>
 								<Menu.Positioner class="z-10!">
 									<Menu.Content
-										class="bg-surface-100-900 border-surface-300-700"
+										class="bg-surface-50-950 border-surface-200-800 shadow-xl"
 									>
 										{@render menu_item_command(
 											'50%',
@@ -355,7 +379,8 @@
 					<Menu positioning={{ offset: { mainAxis: 8, crossAxis: -8 } }}>
 						<Menu.TriggerItem value="set_canvas_opacity">
 							<Menu.ItemText>
-								Canvas Opacity: {editor().current_step_canvas_opacity * 100}%
+								{t('Canvas Opacity')}: {editor().current_step_canvas_opacity *
+									100}%
 							</Menu.ItemText>
 							<Menu.ItemIndicator>
 								<Icons.ChevronRight class="size-4" />
@@ -363,7 +388,7 @@
 							<Portal>
 								<Menu.Positioner class="z-10!">
 									<Menu.Content
-										class="bg-surface-100-900 border-surface-300-700"
+										class="bg-surface-50-950 border-surface-200-800 shadow-xl"
 									>
 										{@render menu_item_canvas_opacity(0)}
 										{@render menu_item_canvas_opacity(0.1)}
@@ -391,7 +416,7 @@
 							editor().update_view_settings({ show_center_mark: checked });
 						}}
 					>
-						<Menu.ItemText>Show Center Mark</Menu.ItemText>
+						<Menu.ItemText>{t('Show Center Mark')}</Menu.ItemText>
 						<Menu.ItemIndicator class="hidden data-[state=checked]:block ms-2">
 							<Icons.Check class="size-4" />
 						</Menu.ItemIndicator>
@@ -405,7 +430,7 @@
 							editor().update_view_settings({ show_map_limit: checked });
 						}}
 					>
-						<Menu.ItemText>Show Map Limit</Menu.ItemText>
+						<Menu.ItemText>{t('Show Map Limit')}</Menu.ItemText>
 						<Menu.ItemIndicator class="hidden data-[state=checked]:block ms-2">
 							<Icons.Check class="size-4" />
 						</Menu.ItemIndicator>
@@ -419,7 +444,7 @@
 							editor().update_view_settings({ show_l_cluster: checked });
 						}}
 					>
-						<Menu.ItemText>Show L-Cluster</Menu.ItemText>
+						<Menu.ItemText>{t('Show L-Cluster')}</Menu.ItemText>
 						<Menu.ItemIndicator class="hidden data-[state=checked]:block ms-2">
 							<Icons.Check class="size-4" />
 						</Menu.ItemIndicator>
@@ -427,7 +452,7 @@
 					<Menu.Separator class="border-surface-300-700" />
 					<Menu.ItemGroup>
 						<Menu.ItemGroupLabel class="text-surface-800-200">
-							Gigastructural Engineering
+							{t('Gigastructural Engineering')}
 						</Menu.ItemGroupLabel>
 						<Menu.OptionItem
 							type="checkbox"
@@ -438,7 +463,7 @@
 								editor().update_view_settings({ show_giga_core: checked });
 							}}
 						>
-							<Menu.ItemText>Show Random Core</Menu.ItemText>
+							<Menu.ItemText>{t('Show Random Core')}</Menu.ItemText>
 							<Menu.ItemIndicator
 								class="hidden data-[state=checked]:block ms-2"
 							>
@@ -454,7 +479,7 @@
 								editor().update_view_settings({ show_giga_aeternum: checked });
 							}}
 						>
-							<Menu.ItemText>Show Aeternum</Menu.ItemText>
+							<Menu.ItemText>{t('Show Aeternum')}</Menu.ItemText>
 							<Menu.ItemIndicator
 								class="hidden data-[state=checked]:block ms-2"
 							>
@@ -466,52 +491,164 @@
 			</Menu.Positioner>
 		</Portal>
 	</Menu>
-	<div class="grow"></div>
+	<div class="grow flex justify-center">
+		<nav
+			class="hidden md:flex items-center gap-1 p-1 rounded-lg bg-surface-100-900 border border-surface-200-800"
+			aria-label={t('Steps')}
+		>
+			{#each steps as step, i (step.id)}
+				{#if i > 0}
+					<span
+						class={[
+							'w-5 h-px transition-colors duration-500',
+							i <= step_index ? 'bg-primary-500' : 'bg-surface-300-700',
+						]}
+					></span>
+				{/if}
+				<button
+					type="button"
+					class={[
+						'flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200',
+						step.id === editor().step ?
+							'bg-primary-500 text-white shadow-[0_0_18px_-4px_rgba(229,50,45,0.9)]'
+						: i < step_index ? 'text-surface-950-50 hover:bg-surface-200-800'
+						: 'text-surface-600-400 hover:bg-surface-200-800',
+					]}
+					onclick={() => editor().set_step(step.id)}
+				>
+					<span
+						class={[
+							'grid place-items-center size-5 rounded-full text-[0.65rem] font-mono border',
+							step.id === editor().step ? 'border-white/60'
+							: i < step_index ? 'border-primary-500 text-primary-500'
+							: 'border-surface-400-600',
+						]}
+					>
+						{#if i < step_index}<Icons.Check class="size-3" />{:else}{i +
+								1}{/if}
+					</span>
+					{t(step.name)}
+				</button>
+			{/each}
+		</nav>
+	</div>
+	<button
+		type="button"
+		class="hidden lg:flex items-center gap-2 h-9 ps-3 pe-2 rounded-md border border-surface-200-800 bg-surface-100-900 text-sm text-surface-600-400 hover:border-primary-500/60 hover:text-surface-950-50 transition-colors"
+		onclick={() => ui.open('command')}
+	>
+		<Icons.Terminal class="size-4" />
+		{t('Type a command')}
+		<span class="sf-kbd ms-3">Ctrl K</span>
+	</button>
+	<button
+		type="button"
+		class="sf-icon-btn lg:hidden"
+		title={t('Command Bar')}
+		onclick={() => ui.open('command')}
+	>
+		<Icons.Terminal class="size-4" />
+	</button>
+	<button
+		type="button"
+		class="sf-icon-btn"
+		title={t('Random Galaxy')}
+		onclick={() => ui.open('random')}
+	>
+		<Icons.Dices class="size-4" />
+	</button>
+	<button
+		type="button"
+		class="btn btn-sm preset-filled-primary-500 sf-btn-glow ms-1"
+		onclick={() => ui.open('export')}
+	>
+		<Icons.Package class="size-4" />
+		<span class="hidden sm:inline">{t('Export')}</span>
+	</button>
+	<div class="h-6 w-px bg-surface-200-800 mx-1"></div>
+	<div
+		class="flex items-center rounded-md border border-surface-200-800 overflow-hidden text-xs font-mono"
+		role="group"
+		aria-label={t('Language')}
+	>
+		<button
+			type="button"
+			class={[
+				'px-2 py-1.5 transition-colors',
+				i18n.locale === 'en' ?
+					'bg-primary-500 text-white'
+				:	'text-surface-600-400 hover:bg-surface-200-800',
+			]}
+			onclick={() => set_locale('en')}
+		>
+			EN
+		</button>
+		<button
+			type="button"
+			class={[
+				'px-2 py-1.5 transition-colors',
+				i18n.locale === 'pt' ?
+					'bg-primary-500 text-white'
+				:	'text-surface-600-400 hover:bg-surface-200-800',
+			]}
+			onclick={() => set_locale('pt')}
+		>
+			PT
+		</button>
+	</div>
 	<ModeToggle />
-	<Menu>
-		<Menu.Trigger class="btn">Community</Menu.Trigger>
+	<Menu
+		onSelect={(details) => {
+			if (details.value === 'shortcuts') ui.open('shortcuts');
+			if (details.value === 'guide') ui.open('guide');
+			if (details.value === 'credits') ui.open('credits');
+		}}
+	>
+		<Menu.Trigger class="sf-icon-btn" aria-label={t('Help')}>
+			<Icons.CircleHelp class="size-4" />
+		</Menu.Trigger>
 		<Portal>
-			<Menu.Positioner class="z-10!">
-				<Menu.Content class="bg-surface-100-900 border-surface-300-700">
+			<Menu.Positioner class="z-30!">
+				<Menu.Content
+					class="bg-surface-50-950 border-surface-200-800 shadow-xl min-w-56"
+				>
+					<Menu.Item value="guide">
+						<Icons.BookOpen class="size-4" />
+						<Menu.ItemText>{t('How to Install')}</Menu.ItemText>
+					</Menu.Item>
+					<Menu.Item value="shortcuts">
+						<Icons.Keyboard class="size-4" />
+						<Menu.ItemText>{t('Keyboard Shortcuts')}</Menu.ItemText>
+						<span class="sf-kbd">?</span>
+					</Menu.Item>
+					<Menu.Item value="credits">
+						<Icons.Heart class="size-4" />
+						<Menu.ItemText>{t('Credits')}</Menu.ItemText>
+					</Menu.Item>
+					<Menu.Separator class="border-surface-200-800" />
 					<Menu.ItemGroup>
-						<Menu.ItemGroupLabel class="text-surface-800-200">
-							Get Help and Give Suggestions
+						<Menu.ItemGroupLabel class="sf-tag">
+							{t('Community')}
 						</Menu.ItemGroupLabel>
 						{@render menu_item_link(
-							'steam',
-							'Steam Workshop',
-							'https://steamcommunity.com/sharedfiles/filedetails/?id=3532904115',
-						)}
-						{@render menu_item_link(
 							'discord',
-							'Discord',
-							'https://discord.gg/72kaXW782b',
+							'Discord: Agriche Community',
+							'https://discord.gg/s3EbgNSsJW',
 						)}
 						{@render menu_item_link(
 							'github',
-							'Github',
-							'https://github.com/oatmealproblem/paint-a-galaxy/issues',
-						)}
-					</Menu.ItemGroup>
-					<Menu.Separator class="border-surface-300-700" />
-					<Menu.ItemGroup>
-						<Menu.ItemGroupLabel class="text-surface-800-200">
-							Support Me
-						</Menu.ItemGroupLabel>
-						{@render menu_item_link(
-							'github_sponsors',
-							'Github Sponsors',
-							'https://github.com/sponsors/oatmealproblem',
+							'GitHub',
+							'https://github.com/AgricheX/Stellar-Forge',
 						)}
 						{@render menu_item_link(
-							'patreon',
-							'Patreon',
-							'https://patreon.com/oatmealproblem',
+							'nexus',
+							'Agriche Nexus',
+							'https://agrichex.github.io/Nexus/',
 						)}
 						{@render menu_item_link(
-							'buy_me_a_coffee',
-							'Buy Me a Coffee',
-							'https://buymeacoffee.com/oatmealproblem',
+							'steam',
+							'Paint a Galaxy (Steam Workshop)',
+							'https://steamcommunity.com/sharedfiles/filedetails/?id=3532904115',
 						)}
 					</Menu.ItemGroup>
 				</Menu.Content>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import { Icons } from '$lib/components/icons';
 	import Info from '$lib/components/info.svelte';
 	import {
@@ -132,7 +133,7 @@
 
 <Combobox
 	class="gap-0"
-	placeholder="Search..."
+	placeholder={t('Search...')}
 	{collection}
 	{disabled}
 	onOpenChange={on_open_change}

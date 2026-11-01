@@ -7,12 +7,12 @@
 	const { children }: Props = $props();
 </script>
 
-<div class="relative py-3 mt-2">
-	<hr class="border-t border-surface-300-700" />
-	<h2
-		class="small-caps text-surface-800-200 bg-surface-50-950 absolute top-0 left-1/2 -translate-x-1/2 px-2"
-		style:font-variant="small-caps"
-	>
+<div class="flex items-center gap-2 mt-3">
+	<span
+		class="size-1.5 rotate-45 bg-primary-500 shadow-[0_0_6px_rgba(229,50,45,0.9)]"
+	></span>
+	<h2 class="sf-tag text-surface-800-200! font-semibold">
 		{@render children()}
 	</h2>
+	<hr class="grow border-t border-surface-200-800" />
 </div>

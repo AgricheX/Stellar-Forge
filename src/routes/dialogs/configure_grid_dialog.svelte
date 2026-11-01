@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import Dialog from '$lib/components/dialog.svelte';
 	import { ID } from '$lib/constants';
 	import { get_editor } from '$lib/editor.svelte';
@@ -39,7 +40,7 @@
 
 <Dialog
 	{id}
-	title="Configure Grid"
+	title={t('Configure Grid')}
 	bind:this={dialog}
 	on_open={() => {
 		type = editor().project.grid_config.type;
@@ -51,20 +52,20 @@
 >
 	<form class="flex flex-col gap-4" {onsubmit}>
 		<label>
-			<span class="label-text">Type</span>
+			<span class="label-text">{t('Type')}</span>
 			<select
 				class="select ring-surface-500 bg-surface-200-800"
 				bind:value={type}
 			>
-				<option value="square">Square</option>
-				<option value="triangle">Triangle</option>
-				<option value="hex">Hex</option>
-				<option value="radial-4">Radial (4 spokes)</option>
-				<option value="radial-6">Radial (6 spokes)</option>
+				<option value="square">{t('Square')}</option>
+				<option value="triangle">{t('Triangle')}</option>
+				<option value="hex">{t('Hex')}</option>
+				<option value="radial-4">{t('Radial (4 spokes)')}</option>
+				<option value="radial-6">{t('Radial (6 spokes)')}</option>
 			</select>
 		</label>
 		<label>
-			<span class="label-text">Size</span>
+			<span class="label-text">{t('Size')}</span>
 			<input
 				class="input ring-surface-500 bg-surface-200-800"
 				type="number"
@@ -76,7 +77,7 @@
 			/>
 		</label>
 		<label>
-			<span class="label-text">Rotation (degrees)</span>
+			<span class="label-text">{t('Rotation (degrees)')}</span>
 			<input
 				class="input ring-surface-500 bg-surface-200-800"
 				type="number"
@@ -88,7 +89,7 @@
 			/>
 		</label>
 		<label>
-			<span class="label-text">X Offset</span>
+			<span class="label-text">{t('X Offset')}</span>
 			<input
 				class="input ring-surface-500 bg-surface-200-800"
 				type="number"
@@ -101,7 +102,7 @@
 			/>
 		</label>
 		<label>
-			<span class="label-text">Y Offset</span>
+			<span class="label-text">{t('Y Offset')}</span>
 			<input
 				class="input ring-surface-500 bg-surface-200-800"
 				type="number"
@@ -120,10 +121,10 @@
 				command="close"
 				commandfor={id}
 			>
-				Cancel
+				{t('Cancel')}
 			</button>
 			<button class="btn preset-filled-primary-500 w-auto" type="submit">
-				Save
+				{t('Save')}
 			</button>
 		</div>
 	</form>

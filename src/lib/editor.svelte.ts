@@ -21,6 +21,7 @@ import { Generator } from './services/generator';
 import { SolarSystemId } from './models/solar_system';
 import type { FallenEmpireZoneId } from './models/fallen_empire_zone';
 import { toaster } from './toaster';
+import { t } from './i18n/index.svelte';
 
 type EditorLayer = Layer.Layer<Actions | Generator | Projects | Tools | View>;
 
@@ -44,6 +45,9 @@ export class Editor {
 				cap_style: 0,
 				bulk: 0,
 				bulk_brush_size: 0,
+				sides: 0,
+				inner_ratio: 0,
+				turns: 0,
 			})),
 		),
 	);
@@ -221,14 +225,22 @@ export class Editor {
 			if (generated_count < requested_count) {
 				const hints: string[] = [];
 				if (project.generator_settings.min_distance_between_systems > 0)
-					hints.push('decreasing Min Distance');
+					hints.push(t('decreasing Min Distance'));
 				if (project.grid_config.snap)
-					hints.push('disabling Snap to Grid', 'using a smaller grid');
+					hints.push(t('disabling Snap to Grid'), t('using a smaller grid'));
 				toaster.warning({
-					title: 'Not Enough Room',
+					title: t('Not Enough Room'),
 					description:
-						`Generated ${generated_count} of ${requested_count} solar systems; no more valid locations.` +
-						(hints.length > 0 ? ` Try ${hints.join(' or ')}.` : ''),
+						t(
+							'Generated {generated} of {requested} solar systems; no more valid locations.',
+							{
+								generated: generated_count,
+								requested: requested_count,
+							},
+						) +
+						(hints.length > 0 ?
+							' ' + t('Try {hints}.', { hints: hints.join(t(' or ')) })
+						:	''),
 				});
 			}
 		}
@@ -317,8 +329,8 @@ export class Editor {
 					onSome: ({ type, text }) =>
 						toaster.create({
 							type,
-							title: tools[tool_id].name,
-							description: text,
+							title: t(tools[tool_id].name),
+							description: t(text),
 						}),
 					onNone: () => {},
 				});
@@ -419,7 +431,7 @@ export class Editor {
 			const updated_project =
 				first ?
 					yield* projects.get(first)
-				:	yield* Effect.promise(() => Project.make_empty('Painted Galaxy'));
+				:	yield* Effect.promise(() => Project.make_empty('Forged Galaxy'));
 			list =
 				first ? list : [ProjectListing.from_project(updated_project), ...list];
 			return [updated_project, list] as const;
@@ -432,8 +444,8 @@ export class Editor {
 				this.#done_stack = [];
 				this.#undone_stack = [];
 				toaster.success({
-					title: 'Project Deleted',
-					description: `"${project.name}" has been deleted.`,
+					title: t('Project Deleted'),
+					description: t('"{name}" has been deleted.', { name: project.name }),
 				});
 			},
 		);

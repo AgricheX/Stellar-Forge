@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import SectionHeader from '$lib/components/section_header.svelte';
 	import StatItem from '$lib/components/stat_item.svelte';
 	import {
@@ -415,7 +416,7 @@
 	{#if Option.isSome(warning)}
 		<StatItem {label} warning solar_system_ids={warning.value.system_ids}>
 			{#snippet info()}
-				Some unique systems require others to be present.
+				{t('Some unique systems require others to be present.')}
 			{/snippet}
 			{#snippet detail()}
 				{#each warning.value.missing_initializers as initializer (initializer)}
@@ -426,42 +427,49 @@
 	{/if}
 {/snippet}
 
-<SectionHeader>Stats</SectionHeader>
+<SectionHeader>{t('Stats')}</SectionHeader>
 <div class="table-wrap">
 	<table class="table">
 		<tbody>
 			<StatItem
-				label="Solar Systems"
+				label={t('Solar Systems')}
 				value={num_solar_systems}
 				warning={num_solar_systems === 0}
 			/>
-			<StatItem label="Spawns" value={num_spawns} warning={num_spawns === 0} />
-			<StatItem label="Max Safe AI Empires" value={num_safe_ai_spawns}>
+			<StatItem
+				label={t('Spawns')}
+				value={num_spawns}
+				warning={num_spawns === 0}
+			/>
+			<StatItem label={t('Max Safe AI Empires')} value={num_safe_ai_spawns}>
 				{#snippet info()}
-					You should not set the AI Empires slider higher than this, with 2
-					exceptions:
+					{t(
+						'You should not set the AI Empires slider higher than this, with 2 exceptions:',
+					)}
 					<ul class="list-disc ms-4">
 						<li>
-							Increase by 1 for for each force-spawned custom design with a
-							Reserved spawn.
+							{t(
+								'Increase by 1 for for each force-spawned custom design with a Reserved spawn.',
+							)}
 						</li>
 						<li>
-							Decrease by 1 for each player beyond the first (unless using a
-							Reserved spawn).
+							{t(
+								'Decrease by 1 for each player beyond the first (unless using a Reserved spawn).',
+							)}
 						</li>
 					</ul>
 				{/snippet}
 			</StatItem>
 			{#if recommended_dlc.size > 0}
 				<StatItem
-					label="Recommended DLC"
+					label={t('Recommended DLC')}
 					value={recommended_dlc.size}
 					solar_system_ids={required_dlc_system_ids}
 				>
 					{#snippet info()}
-						These DLC are required by the system initializers you've set. If you
-						are missing the DLC, the system will be reset to a basic random
-						system at the start of the game.
+						{t(
+							"These DLC are required by the system initializers you've set. If you are missing the DLC, the system will be reset to a basic random system at the start of the game.",
+						)}
 					{/snippet}
 					{#snippet detail()}
 						{#each recommended_dlc as dlc (dlc)}
@@ -472,41 +480,43 @@
 			{/if}
 			{#if unsupported_initializer_system_ids.length > 0}
 				<StatItem
-					label="Unsupported Initializers"
+					label={t('Unsupported Initializers')}
 					value={unsupported_initializer_system_ids.length}
 					warning
 					solar_system_ids={unsupported_initializer_system_ids}
 				>
 					{#snippet info()}
-						These systems use vanilla initializers that Painted Galaxy doesn't
-						support. This can cause issues such as duplicate systems and broken
-						event chains.
+						{t(
+							"These systems use vanilla initializers that Painted Galaxy doesn't support. This can cause issues such as duplicate systems and broken event chains.",
+						)}
 					{/snippet}
 				</StatItem>
 			{/if}
 			{#if num_duplicate_unique_systems > 0}
 				<StatItem
-					label="Duplicate Unique Systems"
+					label={t('Duplicate Unique Systems')}
 					value={num_duplicate_unique_systems}
 					warning
 					solar_system_ids={duplicate_unique_system_ids}
 				>
 					{#snippet info()}
-						Multiple systems are set to the same unique system initializer. This
-						can cause bugs with event chains.
+						{t(
+							'Multiple systems are set to the same unique system initializer. This can cause bugs with event chains.',
+						)}
 					{/snippet}
 				</StatItem>
 			{/if}
 			{#if num_duplicate_name_systems > 0}
 				<StatItem
-					label="Duplicate Names"
+					label={t('Duplicate Names')}
 					value={num_duplicate_name_systems}
 					warning
 					solar_system_ids={duplicate_name_system_ids}
 				>
 					{#snippet info()}
-						Multiple systems share the same name. This won't cause any bugs, but
-						can be confusing and immersion-breaking.
+						{t(
+							"Multiple systems share the same name. This won't cause any bugs, but can be confusing and immersion-breaking.",
+						)}
 					{/snippet}
 				</StatItem>
 			{/if}
@@ -533,59 +543,63 @@
 			)}
 			{#if guaranteed_colony_system_ids_too_far_from_spawn.length > 0}
 				<StatItem
-					label="Guaranteed Colonies Too Far From Spawn"
+					label={t('Guaranteed Colonies Too Far From Spawn')}
 					value={guaranteed_colony_system_ids_too_far_from_spawn.length}
 					warning
 					solar_system_ids={guaranteed_colony_system_ids_too_far_from_spawn}
 				>
 					{#snippet info()}
-						Guaranteed colony systems are only used if they're within 2 jumps of
-						an empire's home system.
+						{t(
+							"Guaranteed colony systems are only used if they're within 2 jumps of an empire's home system.",
+						)}
 					{/snippet}
 				</StatItem>
 			{/if}
 			{#if ambiguous_guaranteed_colony_system_ids.length > 0}
 				<StatItem
-					label="Ambiguous Guaranteed Colonies"
+					label={t('Ambiguous Guaranteed Colonies')}
 					value={ambiguous_guaranteed_colony_system_ids.length}
 					warning
 					solar_system_ids={ambiguous_guaranteed_colony_system_ids}
 				>
 					{#snippet info()}
-						These guaranteed colony systems are within 2 jumps of multiple
-						spawns, so either empire could claim them.
+						{t(
+							'These guaranteed colony systems are within 2 jumps of multiple spawns, so either empire could claim them.',
+						)}
 					{/snippet}
 				</StatItem>
 			{/if}
 			{#if overlapping_fallen_empire_zone_ids.length > 0}
 				<StatItem
-					label="Overlapping FE Zones"
+					label={t('Overlapping FE Zones')}
 					value={overlapping_fallen_empire_zone_ids.length}
 					warning
 					fallen_empire_zone_ids={overlapping_fallen_empire_zone_ids}
 				>
 					{#snippet info()}
-						Fallen Empire zones should not overlap. Fallen Empire systems may
-						spawn on top of each other.
+						{t(
+							'Fallen Empire zones should not overlap. Fallen Empire systems may spawn on top of each other.',
+						)}
 					{/snippet}
 				</StatItem>
 			{/if}
 			{#if solar_system_ids_in_fallen_empire_zones.length > 0}
 				<StatItem
-					label="Systems in FE Zones"
+					label={t('Systems in FE Zones')}
 					value={solar_system_ids_in_fallen_empire_zones.length}
 					warning
 					solar_system_ids={solar_system_ids_in_fallen_empire_zones}
 				>
 					{#snippet info()}
-						Fallen Empire zones should be empty. Solar systems inside a zone may
-						overlap with Fallen Empire systems spawned at game start.
+						{t(
+							'Fallen Empire zones should be empty. Solar systems inside a zone may overlap with Fallen Empire systems spawned at game start.',
+						)}
 					{/snippet}
 				</StatItem>
 			{/if}
 			{#if out_of_bounds_system_ids.length > 0}
 				<StatItem
-					label="Out-of-Bounds Solar Systems"
+					label={t('Out-of-Bounds Solar Systems')}
 					value={out_of_bounds_system_ids.length}
 					warning
 					solar_system_ids={out_of_bounds_system_ids}
@@ -593,7 +607,7 @@
 			{/if}
 			{#if systems_in_l_cluster_ids.length > 0}
 				<StatItem
-					label="Systems in L-Cluster"
+					label={t('Systems in L-Cluster')}
 					value={systems_in_l_cluster_ids.length}
 					warning
 					solar_system_ids={systems_in_l_cluster_ids}
@@ -601,7 +615,7 @@
 			{/if}
 			{#if systems_in_core_ids.length > 0}
 				<StatItem
-					label="Systems in Core Zone"
+					label={t('Systems in Core Zone')}
 					value={systems_in_core_ids.length}
 					warning
 					solar_system_ids={systems_in_core_ids}

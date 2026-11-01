@@ -17,6 +17,14 @@ export const ToolId = Schema.Literal(
 	'rectangle_erase',
 	'line_draw',
 	'line_erase',
+	'polygon_draw',
+	'polygon_erase',
+	'star_draw',
+	'star_erase',
+	'ring_draw',
+	'ring_erase',
+	'spiral_draw',
+	'spiral_erase',
 	// tweak
 	'hyperlane_toggle',
 	'nebula_create',
@@ -42,6 +50,9 @@ export const ToolSettingId = Schema.Literal(
 	'cap_style',
 	'bulk',
 	'bulk_brush_size',
+	'sides',
+	'inner_ratio',
+	'turns',
 );
 export type ToolSettingId = typeof ToolSettingId.Type;
 
@@ -52,6 +63,9 @@ export const EMPTY_TOOL_SETTINGS = {
 	cap_style: 0,
 	bulk: 0,
 	bulk_brush_size: 0,
+	sides: 0,
+	inner_ratio: 0,
+	turns: 0,
 } as const satisfies Record<ToolSettingId, number>;
 
 export const CAP_STYLE = {
@@ -649,6 +663,85 @@ const fallen_empire_zone_delete: _Tool<
 	default_settings: {},
 };
 
+function make_shape_tool<
+	Id extends ToolId,
+	Settings extends Partial<Record<ToolSettingId, number>>,
+>(
+	id: Id,
+	name: string,
+	erase: boolean,
+	default_settings: Settings,
+	size_label?: string,
+): _Tool<Id, 'double_point', Settings> {
+	return {
+		id,
+		name,
+		step: 'paint',
+		action_type: 'double_point',
+		snap_to_solar_system: 'none',
+		can_snap_to_grid: true,
+		invert_lock_behavior: false,
+		show_preview: false,
+		render: {
+			type: 'stroke',
+			color: erase ? CANVAS_BACKGROUND : 'white',
+		},
+		default_settings,
+		...(size_label ? { size_label } : {}),
+	};
+}
+
+const polygon_draw = make_shape_tool('polygon_draw', 'Draw Polygon', false, {
+	blur: 0,
+	opacity: 0.5,
+	sides: 6,
+});
+const polygon_erase = make_shape_tool('polygon_erase', 'Erase Polygon', true, {
+	blur: 0,
+	opacity: 1,
+	sides: 6,
+});
+const star_draw = make_shape_tool('star_draw', 'Draw Star', false, {
+	blur: 0,
+	opacity: 0.5,
+	sides: 5,
+	inner_ratio: 0.45,
+});
+const star_erase = make_shape_tool('star_erase', 'Erase Star', true, {
+	blur: 0,
+	opacity: 1,
+	sides: 5,
+	inner_ratio: 0.45,
+});
+const ring_draw = make_shape_tool(
+	'ring_draw',
+	'Draw Ring',
+	false,
+	{ blur: 0, opacity: 0.5, size: 80 },
+	'Thickness',
+);
+const ring_erase = make_shape_tool(
+	'ring_erase',
+	'Erase Ring',
+	true,
+	{ blur: 0, opacity: 1, size: 80 },
+	'Thickness',
+);
+const spiral_draw = make_shape_tool(
+	'spiral_draw',
+	'Draw Spiral',
+	false,
+	{ blur: 0.3, opacity: 0.5, size: 90, sides: 2, turns: 0.75 },
+	'Arm Width',
+);
+const spiral_erase = make_shape_tool(
+	'spiral_erase',
+	'Erase Spiral',
+	true,
+	{ blur: 0, opacity: 1, size: 90, sides: 2, turns: 0.75 },
+	'Arm Width',
+);
+
 export type ToolActionTypePayload = {
 	multi_point: Coordinate[];
 	single_point: [Coordinate];
@@ -666,6 +759,14 @@ export const tools = {
 	rectangle_erase,
 	line_draw,
 	line_erase,
+	polygon_draw,
+	polygon_erase,
+	star_draw,
+	star_erase,
+	ring_draw,
+	ring_erase,
+	spiral_draw,
+	spiral_erase,
 	solar_system_create,
 	solar_system_delete,
 	solar_system_lock,
@@ -698,11 +799,13 @@ interface ToolPair {
 	primary: Tool;
 	secondary: Tool;
 	icon: keyof typeof Icons;
+	key: string;
 }
 
 export const tool_pairs: ToolPair[] = [
 	{
 		id: 'freehand',
+		key: 'B',
 		name: 'Freehand',
 		step: 'paint',
 		primary: tools.freehand_draw,
@@ -711,6 +814,7 @@ export const tool_pairs: ToolPair[] = [
 	},
 	{
 		id: 'circle',
+		key: 'C',
 		name: 'Circle',
 		step: 'paint',
 		primary: tools.circle_draw,
@@ -719,6 +823,7 @@ export const tool_pairs: ToolPair[] = [
 	},
 	{
 		id: 'ellipse',
+		key: 'E',
 		name: 'Ellipse',
 		step: 'paint',
 		primary: tools.ellipse_draw,
@@ -727,6 +832,7 @@ export const tool_pairs: ToolPair[] = [
 	},
 	{
 		id: 'rectangle',
+		key: 'R',
 		name: 'Rectangle',
 		step: 'paint',
 		primary: tools.rectangle_draw,
@@ -735,6 +841,7 @@ export const tool_pairs: ToolPair[] = [
 	},
 	{
 		id: 'line',
+		key: 'L',
 		name: 'Line',
 		step: 'paint',
 		primary: tools.line_draw,
@@ -742,7 +849,44 @@ export const tool_pairs: ToolPair[] = [
 		icon: 'Minus',
 	},
 	{
+		id: 'polygon',
+		key: 'G',
+		name: 'Polygon',
+		step: 'paint',
+		primary: tools.polygon_draw,
+		secondary: tools.polygon_erase,
+		icon: 'Hexagon',
+	},
+	{
+		id: 'star',
+		key: 'K',
+		name: 'Star',
+		step: 'paint',
+		primary: tools.star_draw,
+		secondary: tools.star_erase,
+		icon: 'Star',
+	},
+	{
+		id: 'ring',
+		key: 'O',
+		name: 'Ring',
+		step: 'paint',
+		primary: tools.ring_draw,
+		secondary: tools.ring_erase,
+		icon: 'CircleDot',
+	},
+	{
+		id: 'spiral',
+		key: 'Q',
+		name: 'Spiral',
+		step: 'paint',
+		primary: tools.spiral_draw,
+		secondary: tools.spiral_erase,
+		icon: 'Spiral',
+	},
+	{
 		id: 'solar-system',
+		key: 'N',
 		name: 'Create/Delete Solar System',
 		step: 'tweak',
 		primary: tools.solar_system_create,
@@ -751,6 +895,7 @@ export const tool_pairs: ToolPair[] = [
 	},
 	{
 		id: 'lock-solar-system',
+		key: 'U',
 		name: 'Lock/Unlock Solar System',
 		step: 'tweak',
 		primary: tools.solar_system_lock,
@@ -759,6 +904,7 @@ export const tool_pairs: ToolPair[] = [
 	},
 	{
 		id: 'move-solar-system',
+		key: 'M',
 		name: 'Move Solar System / Cluster',
 		step: 'tweak',
 		primary: tools.solar_system_move,
@@ -767,6 +913,7 @@ export const tool_pairs: ToolPair[] = [
 	},
 	{
 		id: 'hyperlane',
+		key: 'H',
 		name: 'Toggle Hyperlane/Wormhole',
 		step: 'tweak',
 		primary: tools.hyperlane_toggle,
@@ -775,6 +922,7 @@ export const tool_pairs: ToolPair[] = [
 	},
 	{
 		id: 'spawn',
+		key: 'P',
 		name: 'Toggle Spawn',
 		step: 'tweak',
 		primary: tools.spawn_toggle,
@@ -783,6 +931,7 @@ export const tool_pairs: ToolPair[] = [
 	},
 	{
 		id: 'nebula',
+		key: 'J',
 		name: 'Create/Delete Nebula',
 		step: 'tweak',
 		primary: tools.nebula_create,
@@ -791,6 +940,7 @@ export const tool_pairs: ToolPair[] = [
 	},
 	{
 		id: 'fallen-empire-zone',
+		key: 'F',
 		name: 'Create/Delete Fallen Empire Zone',
 		step: 'tweak',
 		primary: tools.fallen_empire_zone_create,

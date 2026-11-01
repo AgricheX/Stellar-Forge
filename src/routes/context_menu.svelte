@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n/index.svelte';
 	import { Icons } from '$lib/components/icons';
 	import { get_editor } from '$lib/editor.svelte';
 	import { get_direction_label } from '$lib/math';
@@ -153,7 +154,8 @@
 							solar_system.coordinate.to_stellaris_coordinate()}
 						<Menu.ItemGroup>
 							<Menu.ItemGroupLabel class="text-surface-800-200">
-								Solar system at {stellaris_coordinate.x}, {stellaris_coordinate.y}
+								{t('Solar system at')}
+								{stellaris_coordinate.x}, {stellaris_coordinate.y}
 								{#if Option.isSome(solar_system.resolve_name())}
 									<em class="block">
 										{solar_system.resolve_name().pipe(Option.getOrThrow)}
@@ -161,13 +163,13 @@
 								{/if}
 							</Menu.ItemGroupLabel>
 							<Menu.Item value="open_solar_system_details|{solar_system.id}">
-								<Menu.ItemText>Open System Details</Menu.ItemText>
+								<Menu.ItemText>{t('Open System Details')}</Menu.ItemText>
 							</Menu.Item>
 							<Menu.Item
 								value="delete_solar_system|{solar_system.id}"
 								disabled={solar_system.locked}
 							>
-								<Menu.ItemText>Delete System</Menu.ItemText>
+								<Menu.ItemText>{t('Delete System')}</Menu.ItemText>
 							</Menu.Item>
 							{#if project.fallen_empire_zones.length > 0}
 								{@const sorted_zones = pipe(
@@ -185,7 +187,9 @@
 										value="connect_to_fallen_empire"
 										disabled={solar_system.locked}
 									>
-										<Menu.ItemText>Connect to Fallen Empire</Menu.ItemText>
+										<Menu.ItemText>
+											{t('Connect to Fallen Empire')}
+										</Menu.ItemText>
 										<Menu.ItemIndicator>
 											<Icons.ChevronRight class="size-4" />
 										</Menu.ItemIndicator>
@@ -227,7 +231,9 @@
 															<Menu.ItemText>
 																{Math.round(
 																	center.distance_to(solar_system.coordinate),
-																)} units {get_direction_label(
+																)}
+																{t('units')}
+																{get_direction_label(
 																	center.x - solar_system.coordinate.x,
 																	center.y - solar_system.coordinate.y,
 																)}
@@ -255,11 +261,13 @@
 							nebula.coordinate.to_stellaris_coordinate()}
 						<Menu.ItemGroup>
 							<Menu.ItemGroupLabel class="text-surface-800-200">
-								Nebula at {stellaris_coordinate.x}, {stellaris_coordinate.y} with
-								radius {nebula.radius}
+								{t('Nebula at')}
+								{stellaris_coordinate.x}, {stellaris_coordinate.y}
+								{t('with radius')}
+								{nebula.radius}
 							</Menu.ItemGroupLabel>
 							<Menu.Item value="delete_nebula|{nebula.key}">
-								<Menu.ItemText>Delete Nebula</Menu.ItemText>
+								<Menu.ItemText>{t('Delete Nebula')}</Menu.ItemText>
 							</Menu.Item>
 						</Menu.ItemGroup>
 					{/each}
@@ -273,13 +281,14 @@
 							.to_rounded()}
 						<Menu.ItemGroup>
 							<Menu.ItemGroupLabel class="text-surface-800-200">
-								Fallen Empire Zone at {stellaris_coordinate.x}, {stellaris_coordinate.y}
+								{t('Fallen Empire Zone at')}
+								{stellaris_coordinate.x}, {stellaris_coordinate.y}
 							</Menu.ItemGroupLabel>
 							<Menu.Item value="open_fallen_empire_zone_details|{zone.id}">
-								<Menu.ItemText>Open Zone Details</Menu.ItemText>
+								<Menu.ItemText>{t('Open Zone Details')}</Menu.ItemText>
 							</Menu.Item>
 							<Menu.Item value="delete_fallen_empire_zone|{zone.id}">
-								<Menu.ItemText>Delete Zone</Menu.ItemText>
+								<Menu.ItemText>{t('Delete Zone')}</Menu.ItemText>
 							</Menu.Item>
 						</Menu.ItemGroup>
 					{/each}
@@ -291,10 +300,11 @@
 							data.value.coordinate.to_stellaris_coordinate()}
 						<Menu.ItemGroup>
 							<Menu.ItemGroupLabel class="text-surface-800-200">
-								Coordinate {coordinate.x}, {coordinate.y}
+								{t('Coordinate')}
+								{coordinate.x}, {coordinate.y}
 							</Menu.ItemGroupLabel>
 							<Menu.Item value="create_solar_system">
-								<Menu.ItemText>Create Solar System</Menu.ItemText>
+								<Menu.ItemText>{t('Create Solar System')}</Menu.ItemText>
 							</Menu.Item>
 						</Menu.ItemGroup>
 					{/if}
