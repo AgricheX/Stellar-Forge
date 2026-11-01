@@ -8,7 +8,8 @@
 		title: string;
 		subtitle?: string;
 		tag?: string;
-		width?: 'sm' | 'md' | 'lg' | 'xl';
+		width?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+		flush?: boolean;
 		children: Snippet;
 		footer?: Snippet;
 		on_close: () => void;
@@ -19,6 +20,7 @@
 		subtitle,
 		tag,
 		width = 'md',
+		flush = false,
 		children,
 		footer,
 		on_close,
@@ -33,7 +35,13 @@
 	});
 
 	const max_width = $derived(
-		{ sm: 'max-w-sm', md: 'max-w-lg', lg: 'max-w-2xl', xl: 'max-w-4xl' }[width],
+		{
+			sm: 'max-w-sm',
+			md: 'max-w-lg',
+			lg: 'max-w-2xl',
+			xl: 'max-w-4xl',
+			full: 'max-w-[110rem] mt-[2vh]! h-[96vh] max-h-[96vh]!',
+		}[width],
 	);
 </script>
 
@@ -51,7 +59,9 @@
 	}}
 >
 	{#if open}
-		<div class="flex flex-col max-h-[88vh]">
+		<div
+			class={['flex flex-col', width === 'full' ? 'h-[96vh]' : 'max-h-[88vh]']}
+		>
 			<header
 				class="flex items-start justify-between gap-4 px-5 pt-4 pb-3 border-b border-surface-200-800"
 			>
@@ -71,7 +81,12 @@
 					<Icons.X class="size-4" />
 				</button>
 			</header>
-			<div class="overflow-auto px-5 py-4 grow">
+			<div
+				class={[
+					'grow min-h-0',
+					flush ? 'overflow-hidden' : 'overflow-auto px-5 py-4',
+				]}
+			>
 				{@render children()}
 			</div>
 			{#if footer}

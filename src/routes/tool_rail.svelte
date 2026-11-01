@@ -106,6 +106,16 @@
 		</Tooltip.Trigger>
 		{@render tip(t('Random Galaxy'))}
 	</Tooltip>
+	<Tooltip positioning={{ placement: 'right' }} openDelay={150}>
+		<Tooltip.Trigger
+			class="sf-icon-btn"
+			aria-label={t('System Forge')}
+			onclick={() => ui.open('system')}
+		>
+			<Icons.Orbit class="size-[1.1rem]" />
+		</Tooltip.Trigger>
+		{@render tip(t('System Forge'), 'Alt S')}
+	</Tooltip>
 
 	<div class="grow"></div>
 

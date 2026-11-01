@@ -20,6 +20,8 @@
 	import GuideDialog from './panels/guide_dialog.svelte';
 	import CreditsDialog from './panels/credits_dialog.svelte';
 	import RandomDialog from './panels/random_dialog.svelte';
+	import SystemForge from './panels/system_forge.svelte';
+	import SaveImportDialog from './panels/save_import_dialog.svelte';
 	import Brand from '$lib/components/brand.svelte';
 	import { t } from '$lib/i18n/index.svelte';
 
@@ -85,6 +87,8 @@
 			<GuideDialog />
 			<CreditsDialog />
 			<RandomDialog />
+			<SystemForge />
+			<SaveImportDialog />
 			<Toast.Group {toaster}>
 				{#snippet children(toast)}
 					<Toast {toast}>

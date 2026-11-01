@@ -339,26 +339,33 @@ export class Editor {
 		);
 	}
 
+	#action_queue: Promise<void> = Promise.resolve();
+
 	apply_actions(actions: Action[], { is_redo = false } = {}) {
 		if (actions.length === 0) return Promise.resolve();
-		const project = this.project;
-		const effect = Effect.gen(function* () {
-			const actions_service = yield* Actions;
-			const updated_project = yield* actions_service.apply_actions(
-				project,
-				actions,
+		const run = () => {
+			const project = this.project;
+			const effect = Effect.gen(function* () {
+				const actions_service = yield* Actions;
+				const updated_project = yield* actions_service.apply_actions(
+					project,
+					actions,
+				);
+				return updated_project;
+			});
+			return Effect.runPromise(Effect.provide(effect, this.#layer)).then(
+				(updated_project) => {
+					if (!is_redo) {
+						this.#done_stack.push(actions);
+						this.#undone_stack = [];
+					}
+					this.project = updated_project;
+				},
 			);
-			return updated_project;
-		});
-		return Effect.runPromise(Effect.provide(effect, this.#layer)).then(
-			(updated_project) => {
-				if (!is_redo) {
-					this.#done_stack.push(actions);
-					this.#undone_stack = [];
-				}
-				this.project = updated_project;
-			},
-		);
+		};
+		const result = this.#action_queue.then(run);
+		this.#action_queue = result.catch(() => {});
+		return result;
 	}
 
 	undo() {

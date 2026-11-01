@@ -55,6 +55,14 @@ It is an improved fork of [Paint a Galaxy](https://github.com/oatmealproblem/pai
     <td align="center"><sub>Command bar</sub></td>
   </tr>
   <tr>
+    <td><img src="docs/screenshots/system_forge.png" alt="System Forge"></td>
+    <td><img src="docs/screenshots/save_import.png" alt="Import from a save"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>System Forge: design your own solar systems</sub></td>
+    <td align="center"><sub>Import the galaxy of a save</sub></td>
+  </tr>
+  <tr>
     <td><img src="docs/screenshots/random.png" alt="Random galaxy"></td>
     <td><img src="docs/screenshots/export.png" alt="Export"></td>
   </tr>
@@ -133,6 +141,7 @@ The site is deployed to GitHub Pages by `.github/workflows/pages.yml` on every p
 - **Agriche**: owner and founder of Stellar Forge.
 - **Claude**: co-creator.
 - **Michael Moore** ([oatmealproblem](https://github.com/oatmealproblem)): creator of the original [Paint a Galaxy](https://github.com/oatmealproblem/paint-a-galaxy), MIT license.
+- **KillyBlame**: creator of the [Stellaris Solar System Editor](https://github.com/KillyBlame/Stellaris_Solarsystem_Editor) (MIT), the inspiration for System Forge.
 - [Twemoji](https://github.com/jdecked/twemoji) (CC-BY 4.0), [Lucide](https://lucide.dev), [Skeleton](https://www.skeleton.dev), [Google Fonts](https://fonts.google.com), [StellarMaps](https://github.com/MichaelMakesGames/stellarmaps).
 
 Stellaris is a trademark of Paradox Interactive. Stellar Forge is a fan project and is not affiliated with or endorsed by Paradox Interactive. Franchise names in the templates are only used to describe the inspiration.
@@ -154,6 +163,8 @@ Stellaris is a trademark of Paradox Interactive. Stellar Forge is a fan project 
 - **🌌 Modelos**: Via Láctea, Andrômeda, Rodamoinho, Roda de Carro e galáxias inspiradas em universos famosos da ficção (Star Wars, Star Trek, Warhammer 40k, Mass Effect, Halo, Duna...).
 - **🎲 100% aleatória**: um clique forja uma galáxia nova a partir de uma semente. A mesma semente sempre gera o mesmo mapa, então dá pra compartilhar.
 - **💻 Barra de comandos**: `Ctrl K` e digite coisas como `espiral bracos=3 torcao=1.2 estrelas=800` ou `texto "OLÁ" estrelas=600`.
+- **🪐 System Forge**: monte sistemas solares planeta por planeta, com estrela, planetas, luas, anéis, cinturões de asteroides, estrelas companheiras e mundo natal. Arraste os planetas nas órbitas, sorteie sistemas aleatórios e use qualquer projeto em qualquer sistema do mapa. Importa arquivos `.txt` do Stellaris Solar System Editor.
+- **💾 Importar de um save**: abra o `.sav` de uma campanha que você jogou e transforme a galáxia num projeto editável, com sistemas, hiperpistas, wormholes, nebulosas e as capitais dos impérios como spawns. Tudo é lido no seu navegador.
 - **📦 Mod em um clique**: baixe um zip com descriptor, arquivo do mapa e miniatura já nas pastas certas. Também exporta `.txt`, `.json` do projeto e PNG no estilo StellarMaps.
 - **🌐 EN / PT-BR**: interface completa em inglês e português.
 
@@ -182,6 +193,7 @@ Aperte `?` dentro do app pra ver todos os atalhos de teclado.
 - **Agriche**: dona e fundadora do Stellar Forge.
 - **Claude**: co-criador.
 - **Michael Moore** ([oatmealproblem](https://github.com/oatmealproblem)): criador do [Paint a Galaxy](https://github.com/oatmealproblem/paint-a-galaxy) original, licença MIT.
+- **KillyBlame**: criador do [Stellaris Solar System Editor](https://github.com/KillyBlame/Stellaris_Solarsystem_Editor) (MIT), inspiração do System Forge.
 - Twemoji (CC-BY 4.0), Lucide, Skeleton, Google Fonts e StellarMaps.
 
 Stellaris é uma marca da Paradox Interactive. O Stellar Forge é um projeto de fã, sem vínculo com a Paradox Interactive.

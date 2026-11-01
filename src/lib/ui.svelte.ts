@@ -105,12 +105,16 @@ type Panel =
 	| 'export'
 	| 'credits'
 	| 'guide'
-	| 'random';
+	| 'random'
+	| 'system'
+	| 'save';
 
 class Ui {
 	layers = $state(load_layers());
 	solo = $state<LayerId | null>(null);
 	panel = $state<Panel>('none');
+	system_focus = $state<string | null>(null);
+	system_assign = $state<number | null>(null);
 	zoom = $state(1);
 	space_held = $state(false);
 	camera: {

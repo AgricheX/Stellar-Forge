@@ -3,6 +3,22 @@ import { SolarSystem } from './solar_system';
 import { Connection } from './connection';
 import { Nebula } from './nebula';
 import { FallenEmpireZone } from './fallen_empire_zone';
+import { CustomSystem } from './custom_system';
+
+export class SetCustomSystemsAction extends Schema.TaggedClass<SetCustomSystemsAction>()(
+	'SetCustomSystemsAction',
+	{
+		old_value: Schema.Array(CustomSystem),
+		new_value: Schema.Array(CustomSystem),
+	},
+) {
+	invert(): SetCustomSystemsAction {
+		return SetCustomSystemsAction.make({
+			old_value: this.new_value,
+			new_value: this.old_value,
+		});
+	}
+}
 
 class SetCanvasAction extends Schema.TaggedClass<SetCanvasAction>()(
 	'SetCanvasAction',
@@ -210,6 +226,7 @@ export const Action = Object.assign(
 		CreateFallenEmpireZoneAction,
 		DeleteFallenEmpireZoneAction,
 		UpdateFallenEmpireZoneAction,
+		SetCustomSystemsAction,
 	),
 	{
 		SetCanvasAction,
@@ -226,6 +243,7 @@ export const Action = Object.assign(
 		CreateFallenEmpireZoneAction,
 		DeleteFallenEmpireZoneAction,
 		UpdateFallenEmpireZoneAction,
+		SetCustomSystemsAction,
 	},
 );
 
@@ -243,4 +261,5 @@ export type Action =
 	| UpdateNebulaAction
 	| CreateFallenEmpireZoneAction
 	| DeleteFallenEmpireZoneAction
-	| UpdateFallenEmpireZoneAction;
+	| UpdateFallenEmpireZoneAction
+	| SetCustomSystemsAction;

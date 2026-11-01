@@ -1,3 +1,9 @@
+import Orbit from '@lucide/svelte/icons/orbit';
+import Plus from '@lucide/svelte/icons/plus';
+import House from '@lucide/svelte/icons/house';
+import Globe from '@lucide/svelte/icons/globe';
+import FolderOpen from '@lucide/svelte/icons/folder-open';
+import HardDriveUpload from '@lucide/svelte/icons/hard-drive-upload';
 import ArrowDownUp from '@lucide/svelte/icons/arrow-down-up';
 import ArrowLeft from '@lucide/svelte/icons/arrow-left';
 import ArrowRight from '@lucide/svelte/icons/arrow-right';
@@ -140,4 +146,10 @@ export const Icons = {
 	ExternalLink,
 	CircleHelp,
 	Spiral,
+	Orbit,
+	Plus,
+	House,
+	Globe,
+	FolderOpen,
+	HardDriveUpload,
 };
