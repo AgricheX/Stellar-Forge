@@ -2,11 +2,12 @@ import { CANVAS_HEIGHT, CANVAS_WIDTH } from './constants';
 import {
 	default_spiral,
 	PRESETS,
+	random_multi,
 	type GalaxyRecipe,
 	type GalaxyShape,
 	type Preset,
 } from './galaxy';
-import { make_seed } from './random';
+import { make_rng, make_seed } from './random';
 import { polygon_points, ring_path, spiral_path, star_points } from './shapes';
 
 type CommandResult = {
@@ -45,6 +46,12 @@ const COMMAND_ALIASES: Record<string, string> = {
 	aglomerados: 'clusters',
 	aglomerado: 'clusters',
 	irregular: 'irregular',
+	multi: 'multi',
+	multiple: 'multi',
+	galaxies: 'multi',
+	multiplas: 'multi',
+	multipla: 'multi',
+	galaxias: 'multi',
 	preset: 'preset',
 	modelo: 'preset',
 	random: 'random',
@@ -355,6 +362,16 @@ export function run_command(input: string): CommandResult {
 				},
 				'Irregular',
 			);
+		case 'multi':
+			return galaxy(
+				random_multi(
+					make_rng(`${seed}:multi`),
+					params.count != null ?
+						number_param(params, 'count', 4, 2, 12)
+					:	undefined,
+				),
+				'Multiple Galaxies',
+			);
 		case 'preset': {
 			const preset = find_preset(words.join(' ') || params.name || '');
 			if (!preset) {
@@ -473,6 +490,7 @@ export const COMMAND_EXAMPLES = [
 	'elliptical radius=380 squash=0.6 tilt=30',
 	'ring radius=320 thickness=90 core=10%',
 	'clusters count=16 size=50 lanes=8',
+	'multi count=5',
 	'preset milky way stars=1000',
 	'random seed=vega-2077',
 	'text "STELLAR FORGE" font=Orbitron',

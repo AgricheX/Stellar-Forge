@@ -1,6 +1,11 @@
 import { CANVAS_HEIGHT, CANVAS_WIDTH } from './constants';
 import type { Editor } from './editor.svelte';
-import { random_recipe, render_galaxy_mask, type GalaxyRecipe } from './galaxy';
+import {
+	random_recipe,
+	render_galaxy_mask,
+	type GalaxyRecipe,
+	type RandomKind,
+} from './galaxy';
 import { Action } from './models/action';
 import { with_seeded_random } from './random';
 import { make_blank_image } from './canvas';
@@ -82,9 +87,9 @@ export async function generate_all(editor: Editor, seed?: string) {
 export async function forge_random(
 	editor: Editor,
 	seed: string,
-	options: { keep_systems?: number } = {},
+	options: { keep_systems?: number; kind?: RandomKind } = {},
 ) {
-	const { recipe, systems } = random_recipe(seed);
+	const { recipe, systems } = random_recipe(seed, options.kind);
 	await paint_galaxy(editor, recipe);
 	editor.update_generator_settings({
 		number_of_systems: options.keep_systems ?? systems,

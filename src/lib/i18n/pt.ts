@@ -772,4 +772,24 @@ export const pt: Record<string, string> = {
 	designs: 'projetos',
 	'goes in the README, copy it to the Workshop page':
 		'vai no README, copie pra página da Oficina',
+	'A giant elliptical in the center of a crowd of small galaxies of every kind.':
+		'Uma elíptica gigante no centro de uma multidão de galáxias pequenas de todo tipo.',
+	'A ring galaxy in the middle, guarded by four long galaxies at the four sides.':
+		'Uma galáxia anel no meio, guardada por quatro galáxias compridas nos quatro lados.',
+	'Colliding Twins': 'Gêmeas em Colisão',
+	Galaxies: 'Galáxias',
+	'Galaxy Cluster': 'Aglomerado de Galáxias',
+	'Local Group': 'Grupo Local',
+	'Multiple Galaxies': 'Múltiplas Galáxias',
+	'Nine Realms': 'Nove Reinos',
+	'Nine different galaxies in a grid: spirals, rings, ellipticals and clusters.':
+		'Nove galáxias diferentes em grade: espirais, anéis, elípticas e aglomerados.',
+	'The Crown': 'A Coroa',
+	'Two big spirals face each other, with a smaller spiral and dwarf galaxies around them.':
+		'Duas espirais grandes frente a frente, com uma espiral menor e galáxias anãs em volta.',
+	'Two spirals pulling each other apart, joined by a long stream of stars.':
+		'Duas espirais se puxando, ligadas por um longo rastro de estrelas.',
+	'Surprise me': 'Surpresa',
+	'Just one': 'Só uma',
+	Several: 'Várias',
 };

@@ -271,6 +271,13 @@ export const FORUM_TOPICS: ForumTopic[] = [
 					'O botão de dado forja uma galáxia inteira a partir de uma semente. A mesma semente sempre gera o mesmo mapa, então dá pra compartilhar.',
 				],
 			},
+			{
+				title: ['Multiple galaxies', 'Múltiplas galáxias'],
+				text: [
+					'Local Group, The Crown, Nine Realms, Colliding Twins and Galaxy Cluster put several galaxies on one map. In the random galaxy, pick Several to always get more than one, or type multi count=5 in the command bar.',
+					'Grupo Local, A Coroa, Nove Reinos, Gêmeas em Colisão e Aglomerado de Galáxias colocam várias galáxias num mapa só. Na galáxia aleatória, escolha Várias pra sempre vir mais de uma, ou digite multi count=5 na barra de comandos.',
+				],
+			},
 		],
 		link: {
 			label: ['Roll a galaxy', 'Sortear uma galáxia'],
