@@ -105,7 +105,7 @@
 			<span class="grow">
 				<span class="block font-bold">Agriche Nexus</span>
 				<span class="block text-sm text-surface-500">
-					{t('More mods and tools by Agriche: WorldBox, RimWorld and more.')}
+					{t('More of my mods and tools: WorldBox, RimWorld and more.')}
 				</span>
 			</span>
 			<Icons.ArrowRight class="size-5 text-surface-500" />

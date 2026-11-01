@@ -740,8 +740,8 @@ export const pt: Record<string, string> = {
 	'Home page': 'Início',
 	'Map picture': 'Imagem do mapa',
 	'Mod opened': 'Mod aberto',
-	'More mods and tools by Agriche: WorldBox, RimWorld and more.':
-		'Mais mods e ferramentas da Agriche: WorldBox, RimWorld e mais.',
+	'More of my mods and tools: WorldBox, RimWorld and more.':
+		'Mais dos meus mods e ferramentas: WorldBox, RimWorld e mais.',
 	'Next version': 'Próxima versão',
 	'Open a mod you exported to change the map and release a new version.':
 		'Abra um mod que você exportou pra mudar o mapa e lançar uma versão nova.',
