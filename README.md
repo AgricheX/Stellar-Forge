@@ -73,6 +73,20 @@ It is an improved fork of [Paint a Galaxy](https://github.com/oatmealproblem/pai
     <td align="center"><sub>100% random galaxy</sub></td>
     <td align="center"><sub>Export: mod, map file and image</sub></td>
   </tr>
+  <tr>
+    <td><img src="docs/screenshots/home.png" alt="Home page"></td>
+    <td><img src="docs/screenshots/forum.png" alt="Forum"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Home page</sub></td>
+    <td align="center"><sub>Forum with guides and tutorials</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/screenshots/export_details.png" alt="Mod details on export"></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><sub>Mod name, version, description, tags and icon, ready for the next update</sub></td>
+  </tr>
 </table>
 
 ## 📥 Installing the map in Stellaris
