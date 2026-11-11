@@ -839,4 +839,8 @@ export const pt: Record<string, string> = {
 	optional: 'opcional',
 	'Stellaris Map Editor and Galaxy Generator':
 		'Editor de Mapas e Gerador de Galáxias para Stellaris',
+	'Paint with your finger, start from a template or let chance decide.':
+		'Pinte com o dedo, comece de um modelo ou deixe a sorte decidir.',
+	'Move the map': 'Mover o mapa',
+	'Use the tool': 'Usar a ferramenta',
 };

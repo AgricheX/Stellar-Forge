@@ -28,11 +28,27 @@
 {/snippet}
 
 <nav
-	class="flex flex-col items-center gap-1 w-14 shrink-0 py-3 border-e border-surface-200-800 bg-surface-50-950"
+	class="flex flex-row md:flex-col items-center gap-1 h-12 md:h-auto md:w-14 shrink-0 px-2 md:px-0 md:py-3 overflow-x-auto md:overflow-visible border-t md:border-t-0 md:border-e border-surface-200-800 bg-surface-50-950"
 	aria-label={t('Tools')}
 >
+	<button
+		class={[
+			'sf-icon-btn md:hidden! shrink-0',
+			ui.touch_pan && 'text-primary-500',
+		]}
+		aria-pressed={ui.touch_pan}
+		aria-label={ui.touch_pan ? t('Move the map') : t('Use the tool')}
+		onclick={() => (ui.touch_pan = !ui.touch_pan)}
+	>
+		{#if ui.touch_pan}
+			<Icons.Hand class="size-[1.1rem]" />
+		{:else}
+			<Icons.Pencil class="size-[1.1rem]" />
+		{/if}
+	</button>
+	<span class="md:hidden h-6 w-px shrink-0 bg-surface-200-800 mx-0.5"></span>
 	<span
-		class="mb-1 h-px w-6 bg-primary-500/60 shadow-[0_0_6px_rgba(229,50,45,0.8)]"
+		class="hidden md:block mb-1 h-px w-6 bg-primary-500/60 shadow-[0_0_6px_rgba(229,50,45,0.8)]"
 	></span>
 	{#each pairs as pair, i (pair.id)}
 		{@const Icon = Icons[pair.icon]}
@@ -42,7 +58,7 @@
 		{@const locked = ui.is_locked(get_tool_layer(pair.primary.id))}
 		<Tooltip positioning={{ placement: 'right' }} openDelay={150}>
 			<Tooltip.Trigger
-				class="sf-icon-btn relative sf-fade-in"
+				class="sf-icon-btn relative sf-fade-in shrink-0"
 				style="animation-delay: {i * 25}ms"
 				aria-pressed={active}
 				aria-label={t(pair.name)}
@@ -64,7 +80,7 @@
 	{#if editor().step === 'paint'}
 		<Tooltip positioning={{ placement: 'right' }} openDelay={150}>
 			<Tooltip.Trigger
-				class="sf-icon-btn"
+				class="sf-icon-btn shrink-0"
 				aria-label={t('Text & Emoji')}
 				onclick={() => {
 					const input = document.getElementById('sf-text-input');
@@ -80,7 +96,7 @@
 	{#if editor().step === 'generate'}
 		<Tooltip positioning={{ placement: 'right' }} openDelay={150}>
 			<Tooltip.Trigger
-				class="sf-icon-btn"
+				class="sf-icon-btn shrink-0"
 				aria-label={t('Generate All')}
 				onclick={async () => {
 					generating = true;
@@ -98,7 +114,7 @@
 	{/if}
 	<Tooltip positioning={{ placement: 'right' }} openDelay={150}>
 		<Tooltip.Trigger
-			class="sf-icon-btn"
+			class="sf-icon-btn shrink-0"
 			aria-label={t('Random Galaxy')}
 			onclick={() => ui.open('random')}
 		>
@@ -108,7 +124,7 @@
 	</Tooltip>
 	<Tooltip positioning={{ placement: 'right' }} openDelay={150}>
 		<Tooltip.Trigger
-			class="sf-icon-btn"
+			class="sf-icon-btn shrink-0"
 			aria-label={t('System Forge')}
 			onclick={() => ui.open('system')}
 		>
@@ -117,11 +133,11 @@
 		{@render tip(t('System Forge'), 'Alt S')}
 	</Tooltip>
 
-	<div class="grow"></div>
+	<div class="grow min-w-2"></div>
 
 	<Tooltip positioning={{ placement: 'right' }} openDelay={150}>
 		<Tooltip.Trigger
-			class="sf-icon-btn"
+			class="sf-icon-btn shrink-0"
 			aria-label={t('Undo')}
 			disabled={!editor().can_undo}
 			onclick={() => editor().undo()}
@@ -132,7 +148,7 @@
 	</Tooltip>
 	<Tooltip positioning={{ placement: 'right' }} openDelay={150}>
 		<Tooltip.Trigger
-			class="sf-icon-btn"
+			class="sf-icon-btn shrink-0"
 			aria-label={t('Redo')}
 			disabled={!editor().can_redo}
 			onclick={() => editor().redo()}
@@ -141,10 +157,10 @@
 		</Tooltip.Trigger>
 		{@render tip(t('Redo'), 'Ctrl Y')}
 	</Tooltip>
-	<div class="w-6 h-px bg-surface-200-800 my-1"></div>
+	<div class="hidden md:block w-6 h-px bg-surface-200-800 my-1"></div>
 	<Tooltip positioning={{ placement: 'right' }} openDelay={150}>
 		<Tooltip.Trigger
-			class="sf-icon-btn"
+			class="sf-icon-btn shrink-0"
 			aria-label={t('Layers')}
 			aria-pressed={ui.layers_open}
 			onclick={() => ui.toggle_layers_open()}
@@ -155,7 +171,7 @@
 	</Tooltip>
 	<Tooltip positioning={{ placement: 'right' }} openDelay={150}>
 		<Tooltip.Trigger
-			class="sf-icon-btn"
+			class="sf-icon-btn shrink-0 max-md:hidden!"
 			aria-label={t('Keyboard Shortcuts')}
 			onclick={() => ui.open('shortcuts')}
 		>

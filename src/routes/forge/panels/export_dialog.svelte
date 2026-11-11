@@ -190,8 +190,8 @@
 	width="xl"
 	on_close={() => ui.close()}
 >
-	<div class="grid md:grid-cols-[1fr_17rem] gap-6">
-		<div class="flex flex-col gap-4">
+	<div class="grid md:grid-cols-[1fr_17rem] gap-6 min-w-0">
+		<div class="flex flex-col gap-4 min-w-0">
 			{#if !has_systems}
 				<div
 					class="flex gap-3 rounded-md border border-warning-500/40 bg-warning-500/10 px-3 py-2 text-sm"
@@ -204,7 +204,7 @@
 					</span>
 				</div>
 			{/if}
-			<section class="sf-panel sf-accent-bar p-4 ps-5">
+			<section class="sf-panel sf-accent-bar p-3 ps-4 sm:p-4 sm:ps-5 min-w-0">
 				<div class="flex items-start justify-between gap-3">
 					<div>
 						<div class="sf-tag">{t('Recommended')}</div>
@@ -219,7 +219,9 @@
 						</p>
 					</div>
 				</div>
-				<div class="grid grid-cols-[6.5rem_1fr] gap-4 mt-4">
+				<div
+					class="grid grid-cols-[4.5rem_1fr] sm:grid-cols-[6.5rem_1fr] gap-3 sm:gap-4 mt-4 min-w-0"
+				>
 					<div class="flex flex-col gap-1.5">
 						<button
 							class="relative aspect-square rounded-md overflow-hidden border border-surface-200-800 bg-[#0d0d0f] group"
@@ -282,7 +284,7 @@
 						</label>
 					</div>
 					<div class="flex flex-col gap-3 min-w-0">
-						<div class="grid grid-cols-[1fr_7.5rem] gap-2">
+						<div class="grid grid-cols-1 sm:grid-cols-[1fr_7.5rem] gap-2">
 							<label class="flex flex-col gap-1">
 								<span class="label-text text-xs">{t('Mod name')}</span>
 								<input

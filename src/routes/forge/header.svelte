@@ -102,12 +102,13 @@
 {/snippet}
 
 <header
-	class="relative z-20 flex items-center gap-1 h-14 px-3 border-b border-surface-200-800 bg-surface-50-950/90 backdrop-blur"
+	class="relative z-20 flex items-center gap-0.5 md:gap-1 h-12 md:h-14 px-2 md:px-3 border-b border-surface-200-800 bg-surface-50-950/90 backdrop-blur"
 >
-	<a href={resolve('/')} class="me-2" title={t('Home page')}>
-		<Brand />
+	<a href={resolve('/')} class="me-1 md:me-2" title={t('Home page')}>
+		<span class="md:hidden"><Brand compact /></span>
+		<span class="hidden md:block"><Brand /></span>
 	</a>
-	<div class="h-6 w-px bg-surface-200-800 mx-1"></div>
+	<div class="hidden md:block h-6 w-px bg-surface-200-800 mx-1"></div>
 	<Menu
 		onSelect={async (details) => {
 			if (details.value === 'export_json') {
@@ -121,7 +122,7 @@
 		}}
 	>
 		<Menu.Trigger
-			class="btn btn-sm text-sm font-medium px-2.5 hover:preset-tonal"
+			class="btn btn-sm text-sm font-medium px-1.5 md:px-2.5 hover:preset-tonal"
 		>
 			{t('Project')}
 		</Menu.Trigger>
@@ -216,7 +217,7 @@
 	</Menu>
 	<Menu onSelect={on_edit_menu_select}>
 		<Menu.Trigger
-			class="btn btn-sm text-sm font-medium px-2.5 hover:preset-tonal"
+			class="btn btn-sm text-sm font-medium px-1.5 md:px-2.5 hover:preset-tonal"
 		>
 			{t('Edit')}
 		</Menu.Trigger>
@@ -311,7 +312,7 @@
 	</Menu>
 	<Menu>
 		<Menu.Trigger
-			class="btn btn-sm text-sm font-medium px-2.5 hover:preset-tonal"
+			class="btn btn-sm text-sm font-medium px-1.5 md:px-2.5 hover:preset-tonal"
 		>
 			{t('View')}
 		</Menu.Trigger>
@@ -568,7 +569,7 @@
 	</button>
 	<button
 		type="button"
-		class={['sf-icon-btn', ui.advanced && 'lg:hidden']}
+		class={['sf-icon-btn max-md:hidden!', ui.advanced && 'lg:hidden']}
 		title="{t('Command Bar')} (Ctrl K)"
 		onclick={() => ui.open('command')}
 	>
@@ -582,7 +583,7 @@
 		<Icons.Package class="size-4" />
 		<span class="hidden sm:inline">{t('Export')}</span>
 	</button>
-	<div class="h-6 w-px bg-surface-200-800 mx-1"></div>
+	<div class="hidden md:block h-6 w-px bg-surface-200-800 mx-1"></div>
 	<div
 		class="flex items-center rounded-md border border-surface-200-800 overflow-hidden text-xs font-mono"
 		role="group"
@@ -613,7 +614,7 @@
 			PT
 		</button>
 	</div>
-	<ModeToggle />
+	<span class="hidden md:contents"><ModeToggle /></span>
 	<Menu
 		onSelect={(details) => {
 			if (details.value === 'shortcuts') ui.open('shortcuts');

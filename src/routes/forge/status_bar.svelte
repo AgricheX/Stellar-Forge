@@ -15,7 +15,7 @@
 </script>
 
 <footer
-	class="flex items-center gap-4 h-7 px-3 text-[0.7rem] font-mono border-t border-surface-200-800 bg-surface-50-950 text-surface-600-400 select-none overflow-hidden whitespace-nowrap"
+	class="hidden md:flex items-center gap-4 h-7 px-3 text-[0.7rem] font-mono border-t border-surface-200-800 bg-surface-50-950 text-surface-600-400 select-none overflow-hidden whitespace-nowrap"
 >
 	<span class="flex items-center gap-1.5">
 		<span

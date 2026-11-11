@@ -496,9 +496,11 @@
 		ui.close();
 	}}
 >
-	<div class="grid grid-cols-[16.5rem_1fr_23rem] h-full min-h-0">
+	<div
+		class="grid grid-cols-1 md:grid-cols-[16.5rem_1fr_23rem] h-full min-h-0 max-md:overflow-y-auto"
+	>
 		<aside
-			class="flex flex-col min-h-0 border-e border-surface-200-800 bg-surface-100-900/40"
+			class="flex flex-col min-h-0 max-md:h-64 md:border-e max-md:border-b border-surface-200-800 bg-surface-100-900/40"
 		>
 			<div class="grid grid-cols-3 gap-1 p-2 border-b border-surface-200-800">
 				<button
@@ -586,7 +588,9 @@
 			</div>
 		</aside>
 
-		<section class="relative min-h-0 min-w-0 flex flex-col bg-[#08080a]">
+		<section
+			class="relative min-h-0 min-w-0 flex flex-col bg-[#08080a] max-md:h-[55dvh] max-md:shrink-0"
+		>
 			{#if current}
 				<div
 					class="absolute top-3 left-3 right-3 z-10 flex flex-wrap items-center gap-1.5"
@@ -865,7 +869,7 @@
 		</section>
 
 		<aside
-			class="min-h-0 overflow-auto border-s border-surface-200-800 p-4 flex flex-col gap-4"
+			class="min-h-0 md:overflow-auto md:border-s max-md:border-t border-surface-200-800 p-3 md:p-4 flex flex-col gap-4"
 		>
 			{#if current}
 				<section class="flex flex-col gap-2.5">

@@ -49,18 +49,45 @@
 </script>
 
 <aside
-	class="w-[23rem] shrink-0 flex flex-col border-s border-surface-200-800 bg-surface-50-950 min-h-0"
+	class={[
+		'md:w-[23rem] shrink-0 flex flex-col border-t md:border-t-0 md:border-s border-surface-200-800 bg-surface-50-950 min-h-0',
+		ui.sheet_open && 'max-md:h-[42dvh]',
+	]}
 >
-	<header class="px-5 pt-4 pb-3 border-b border-surface-200-800">
-		<div class="sf-tag">
+	<header
+		class="px-4 md:px-5 pt-2.5 md:pt-4 pb-2.5 md:pb-3 border-b border-surface-200-800"
+	>
+		<button
+			type="button"
+			class="md:hidden w-full flex items-center gap-3 text-left"
+			aria-expanded={ui.sheet_open}
+			onclick={() => (ui.sheet_open = !ui.sheet_open)}
+		>
+			<span class="sf-tag shrink-0">{index + 1} / {steps.length}</span>
+			<span class="font-bold grow truncate">{t(current.name)}</span>
+			<Icons.ChevronUp
+				class={[
+					'size-5 text-surface-500 transition-transform',
+					ui.sheet_open && 'rotate-180',
+				]}
+			/>
+		</button>
+		<div class="hidden md:block sf-tag">
 			{t('Step')}
 			{index + 1} / {steps.length}
 		</div>
 		{#key current.id}
-			<h1 class="text-xl font-bold tracking-tight mt-1 sf-fade-in">
+			<h1
+				class="hidden md:block text-xl font-bold tracking-tight mt-1 sf-fade-in"
+			>
 				{t(current.name)}
 			</h1>
-			<p class="text-sm text-surface-600-400 mt-1 leading-relaxed sf-fade-in">
+			<p
+				class={[
+					'text-sm text-surface-600-400 mt-1 leading-relaxed sf-fade-in',
+					!ui.sheet_open && 'max-md:hidden',
+				]}
+			>
 				{t(current.description)}
 			</p>
 		{/key}
@@ -79,7 +106,10 @@
 	</header>
 	<div
 		bind:this={scroller}
-		class="grow overflow-auto px-5 py-4 flex flex-col gap-4 min-h-0"
+		class={[
+			'grow overflow-auto px-4 md:px-5 py-4 flex flex-col gap-4 min-h-0',
+			!ui.sheet_open && 'max-md:hidden',
+		]}
 	>
 		{#key current.id}
 			<div class="flex flex-col gap-4 sf-rise">
@@ -88,7 +118,7 @@
 		{/key}
 	</div>
 	<footer
-		class="flex justify-between gap-2 px-5 py-3 border-t border-surface-200-800 bg-surface-100-900/40"
+		class="flex justify-between gap-2 px-4 md:px-5 py-2 md:py-3 border-t border-surface-200-800 bg-surface-100-900/40"
 	>
 		<button
 			class="btn preset-outlined-surface-500 ps-3"

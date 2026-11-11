@@ -46,7 +46,7 @@
 		transition:fade={{ duration: 200 }}
 	>
 		<div
-			class="relative sf-glass pointer-events-auto max-w-md mx-4 p-6 text-center sf-rise"
+			class="relative sf-glass pointer-events-auto max-w-md max-h-[calc(100%-1rem)] overflow-y-auto mx-3 md:mx-4 p-4 md:p-6 text-center sf-rise"
 		>
 			<button
 				class="sf-icon-btn absolute top-2 right-2 size-8!"
@@ -59,15 +59,22 @@
 			<img
 				src="logo.svg"
 				alt=""
-				class="size-16 mx-auto drop-shadow-[0_0_24px_rgba(229,50,45,0.5)]"
+				class="max-md:hidden size-16 mx-auto drop-shadow-[0_0_24px_rgba(229,50,45,0.5)]"
 			/>
-			<h2 class="text-xl font-bold mt-3">{t('Forge your galaxy')}</h2>
-			<p class="text-sm text-surface-600-400 mt-1">
+			<h2 class="text-lg md:text-xl font-bold md:mt-3">
+				{t('Forge your galaxy')}
+			</h2>
+			<p class="max-md:hidden text-sm text-surface-600-400 mt-1">
 				{t(
 					'Paint with the tools on the left, start from a template, type a command or let chance decide.',
 				)}
 			</p>
-			<div class="grid grid-cols-2 gap-2 mt-5">
+			<p class="md:hidden text-sm text-surface-600-400 mt-1">
+				{t(
+					'Paint with your finger, start from a template or let chance decide.',
+				)}
+			</p>
+			<div class="grid grid-cols-2 gap-2 mt-3 md:mt-5">
 				<button
 					class="btn preset-filled-primary-500 sf-btn-glow"
 					onclick={() =>
@@ -91,6 +98,7 @@
 				<button
 					class="btn preset-tonal"
 					onclick={() => {
+						ui.sheet_open = true;
 						const input = document.getElementById('sf-text-input');
 						input?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 						input?.focus();
@@ -101,13 +109,13 @@
 				</button>
 			</div>
 			<button
-				class="mt-4 text-sm text-surface-600-400 hover:text-primary-500 inline-flex items-center gap-1.5"
+				class="mt-3 md:mt-4 text-sm text-surface-600-400 hover:text-primary-500 inline-flex items-center gap-1.5"
 				onclick={() => ui.open('mod')}
 			>
 				<Icons.FolderOpen class="size-4" />
 				{t('Already made a mod? Open it to update')}
 			</button>
-			<p class="text-xs text-surface-500 mt-2">
+			<p class="max-md:hidden text-xs text-surface-500 mt-2">
 				{t('Tip: press ? to see every keyboard shortcut.')}
 			</p>
 		</div>
