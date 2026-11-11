@@ -9,9 +9,9 @@
 	import MapTabs from './map_tabs.svelte';
 </script>
 
-<div class="flex flex-row h-0 grow">
+<div class="flex flex-col md:flex-row h-0 grow">
 	<ToolRail />
-	<div class="relative flex flex-col grow min-w-0">
+	<div class="relative flex flex-col grow min-w-0 min-h-0 max-md:order-first">
 		<MapTabs />
 		<div class="relative grow min-h-0">
 			<Canvas />

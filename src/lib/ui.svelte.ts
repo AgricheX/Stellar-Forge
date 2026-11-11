@@ -118,6 +118,8 @@ class Ui {
 	system_assign = $state<number | null>(null);
 	zoom = $state(1);
 	space_held = $state(false);
+	touch_pan = $state(false);
+	sheet_open = $state(true);
 	camera: {
 		reset: () => void;
 		scale_by: (factor: number) => void;

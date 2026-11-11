@@ -246,6 +246,8 @@
 	let container_height = $state(0);
 
 	let svg = $state<SVGSVGElement>();
+	let touch_start: { x: number; y: number } | null = null;
+	let touch_moved_at = 0;
 	let transform = $state({ k: 1, x: 0, y: 0 });
 	const zoom_behavior = zoom<SVGSVGElement, unknown>()
 		.extent([
@@ -257,7 +259,13 @@
 			[-CANVAS_WIDTH, -CANVAS_HEIGHT],
 			[CANVAS_WIDTH * 2, CANVAS_HEIGHT * 2],
 		])
-		.filter((event: PointerEvent) => {
+		.filter((event: PointerEvent & TouchEvent) => {
+			if (
+				event.type === 'touchstart' &&
+				!ui.touch_pan &&
+				(event.touches?.length ?? 0) < 2
+			)
+				return false;
 			if (event.type === 'mousedown' && event.button === 0 && ui.space_held)
 				return true;
 			if (
@@ -479,8 +487,9 @@
 </script>
 
 <svelte:document
-	onmouseup={(e) => {
+	onpointerup={(e) => {
 		if (e.button !== 0) return;
+		if (e.pointerType === 'touch' && (ui.touch_pan || !e.isPrimary)) return;
 		if (placement_drag) {
 			placement_drag = null;
 			return;
@@ -581,7 +590,10 @@
 	id={ID.canvas}
 	bind:this={container}
 	bind:clientHeight={container_height}
-	class="canvas h-full w-full overflow-hidden"
+	class={[
+		'canvas h-full w-full overflow-hidden',
+		!ui.touch_pan && 'touch-none',
+	]}
 	style:cursor={ui.space_held ? 'grab'
 	: placement.active ?
 		(cursor_for_handle(
@@ -639,8 +651,19 @@
 			);
 		},
 	}}
-	onmousedown={(e) => {
+	oncontextmenucapture={(e) => {
+		if (performance.now() - touch_moved_at < 1000) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
+	}}
+	onpointerdowncapture={(e) => {
 		if (ui.space_held) return;
+		if (e.pointerType === 'touch') {
+			e.stopPropagation();
+			touch_start = { x: e.clientX, y: e.clientY };
+			if (ui.touch_pan || !e.isPrimary) return;
+		}
 		if (placement.active && e.button === 0) {
 			const point = get_mouse_coordinates(e, grid_points, grid_delaunay).canvas;
 			const handle = hit_test(placement.transform, point, transform.k);
@@ -705,7 +728,14 @@
 			);
 		}
 	}}
-	onmousemove={(e) => {
+	onpointermove={(e) => {
+		if (
+			e.pointerType === 'touch' &&
+			touch_start &&
+			Math.hypot(e.clientX - touch_start.x, e.clientY - touch_start.y) > 6
+		)
+			touch_moved_at = performance.now();
+		if (e.pointerType === 'touch' && (ui.touch_pan || !e.isPrimary)) return;
 		const coordinates = get_mouse_coordinates(e, grid_points, grid_delaunay);
 		mouse_coordinates = Option.some(coordinates);
 		ui.cursor = {
@@ -794,7 +824,7 @@
 			);
 		}
 	}}
-	onmouseleave={() => {
+	onpointerleave={() => {
 		mouse_coordinates = Option.none();
 		ui.cursor = null;
 		snapped_solar_system_id = Option.none();
